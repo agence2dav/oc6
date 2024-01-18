@@ -45,6 +45,7 @@ Temporary Items
 _bckp
 _sql
 _old
+_docs
 _notes
 _trash.php
 cnfg/oc5.test.php
@@ -56,6 +57,7 @@ vendor
 .vscode
 .env.*
 .php-cs-fixer.cache
+.gitignore
 installer.php
 *.7z
 *.zip
