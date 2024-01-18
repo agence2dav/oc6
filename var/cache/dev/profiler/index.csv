@@ -7,3 +7,7 @@ d16a6d,127.0.0.1,GET,http://localhost:8000/favicon.ico,1705576896,,404,request
 d10653,127.0.0.1,GET,http://localhost:8000/,1705577381,,404,request
 7c7eb6,127.0.0.1,GET,http://localhost:8000/,1705577806,,404,request
 20c177,127.0.0.1,GET,http://localhost:8000/,1705577809,,404,request
+631131,127.0.0.1,GET,http://localhost:8000/welcome,1705579238,66a991,404,request
+66a991,127.0.0.1,GET,http://localhost:8000/welcome,1705579238,,404,request
+92ea54,127.0.0.1,GET,http://localhost:8000/favicon.ico,1705579244,cf9fc3,404,request
+cf9fc3,127.0.0.1,GET,http://localhost:8000/favicon.ico,1705579244,,404,request
