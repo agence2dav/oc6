@@ -4,6 +4,12 @@
 
 ### 1 - install symfony
 
+- install composer
+- install scoop
+- install symfony-cli
+- install symfony project "surf"
+- test on symfony server: ok
+
 ### 2 - database
 
 ### 3 - contents
