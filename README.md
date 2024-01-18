@@ -14,7 +14,9 @@
 
 ### 1.2 firstpage
 
-- todo: install first page
+- install first page: lucky/number
+- install first page: home
+- navbar in base1.html.twig
 
 ### 2 - database
 
