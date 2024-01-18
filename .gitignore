@@ -59,4 +59,5 @@ vendor
 installer.php
 *.7z
 *.zip
+.git*
 
