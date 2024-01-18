@@ -20,6 +20,8 @@
 
 ### 2 - database
 
+- install doctrine
+
 ### 3 - contents
 
 ### 4 - posts
