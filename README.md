@@ -12,6 +12,12 @@
 - install debug-bundle
 - install profiler
 
+### 1.2 firstpage
+
+- install first page: lucky/number
+- install first page: home
+- navbar in base1.html.twig
+
 ### 2 - database
 
 ### 3 - contents
