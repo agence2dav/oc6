@@ -12,6 +12,10 @@
 - install debug-bundle
 - install profiler
 
+### 1.2 firstpage
+
+- todo: install first page
+
 ### 2 - database
 
 ### 3 - contents
