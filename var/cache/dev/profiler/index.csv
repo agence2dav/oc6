@@ -11,3 +11,4 @@ d10653,127.0.0.1,GET,http://localhost:8000/,1705577381,,404,request
 66a991,127.0.0.1,GET,http://localhost:8000/welcome,1705579238,,404,request
 92ea54,127.0.0.1,GET,http://localhost:8000/favicon.ico,1705579244,cf9fc3,404,request
 cf9fc3,127.0.0.1,GET,http://localhost:8000/favicon.ico,1705579244,,404,request
+aa5b84,127.0.0.1,GET,http://localhost:8000/,1705579380,,404,request
