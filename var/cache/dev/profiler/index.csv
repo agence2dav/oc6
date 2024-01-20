@@ -102,3 +102,4 @@ ea841b,127.0.0.1,GET,http://localhost:8000/home,1705756649,,200,request
 58a854,127.0.0.1,GET,http://localhost:8000/home?id=1,1705757268,,200,request
 dc7bec,127.0.0.1,GET,http://localhost:8000/post/1,1705757274,,200,request
 55659e,127.0.0.1,GET,http://localhost:8000/post/1,1705758217,,200,request
+13dc72,127.0.0.1,GET,http://localhost:8000/post/1,1705758362,,200,request
