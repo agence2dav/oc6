@@ -20,7 +20,13 @@
 
 ### 2 - database
 
+- install doctrine
+- flush fixtures
+
 ### 3 - contents
+
+- read articles
+- build routes
 
 ### 4 - posts
 
