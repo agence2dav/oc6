@@ -31,8 +31,13 @@
 ### 4 - forms
 
 - install forms
+- save new article
+- update article
+- use validators
 
 ### 5 - comments
+- todo: create table comment
+- todo: create form using cli
 
 ### 6 - login
 
