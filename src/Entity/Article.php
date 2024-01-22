@@ -6,6 +6,8 @@ use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[Broadcast]
@@ -17,9 +19,11 @@ class Article
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(["min"=>5,"max"=>255,"minMessage"=>"titre trop court"])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(["min"=>5,"minMessage"=>"texte trop court"])]
     private ?string $text = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -33,6 +37,23 @@ class Article
 
     #[ORM\Column]
     private ?int $userid = null;
+
+    
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addPropertyConstraint('title', new Assert\Length([
+            "min"=>5,
+            "max"=>255,
+            //"minMessage"=>"Titre trop court",
+        ]));
+        $metadata->addPropertyConstraint('text', new Assert\Length([
+            "min"=>5,
+            //minMessage"=>"Texte trop court",
+        ]));
+        $metadata->addPropertyConstraint('image', new Assert\Url([
+            //'minMessage' => "L'url '{{ value }}' n'est pas valide.",
+        ]));
+    }
 
     public function getId(): ?int
     {
