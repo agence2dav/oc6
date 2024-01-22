@@ -56,7 +56,10 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         <link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>\">
 \t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/favicon.ico\">
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">
-        <link rel=\"stylesheet\" href=\"https://bootswatch.com/5/cerulean/bootstrap.min.css\">
+        
+        <!-- <link rel=\"stylesheet\" href=\"https://bootswatch.com/5/cerulean/bootstrap.min.css\"> -->
+        <link rel=\"stylesheet\" href=\"https://bootswatch.com/5/darkly/bootstrap.min.css\">
+
         <link rel=\"stylesheet\" href=\"https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.min.css\">
         <link rel=\"stylesheet\" href=\"https://bootswatch.com/_vendor/prismjs/themes/prism-okaidia.css\">
         <!--
@@ -64,28 +67,29 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         -->
         
         <style>
+            body { background-color: inherit;}
             .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
             .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
         </style>
         
-        <!-- Global Site Tag (gtag.js) - Google Analytics -->
+        <!-- Global Site Tag (gtag.js) - Google Analytics
         <script async src=\"https://www.googletagmanager.com/gtag/js?id=G-KGDJBEFF3W\"></script>
         <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-KGDJBEFF3W');
-        </script>
+        </script> -->
 
         ";
-        // line 30
+        // line 34
         $this->displayBlock('stylesheets', $context, $blocks);
-        // line 32
+        // line 36
         echo "
         ";
-        // line 33
+        // line 37
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 36
+        // line 40
         echo "    </head>
     <body>
         <nav class=\"navbar navbar-expand-lg bg-primary\" data-bs-theme=\"dark\">
@@ -97,12 +101,24 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                 <div class=\"collapse navbar-collapse\" id=\"navbarColor01\">
                 <ul class=\"navbar-nav me-auto\">
                     <li class=\"nav-item\">
-                    <a class=\"nav-link active\" href=\"/home\">Home
+                    <a class=\"nav-link active\" href=\"";
+        // line 51
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_home");
+        echo "\">Home
                         <span class=\"visually-hidden\">(current)</span>
                     </a>
                     </li>
                     <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"/articles\">Articles</a>
+                    <a class=\"nav-link\" href=\"";
+        // line 56
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("articles");
+        echo "\">Articles</a>
+                    </li>
+                    <li class=\"nav-item\">
+                    <a class=\"nav-link\" href=\"";
+        // line 59
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("new_post");
+        echo "\">New Post</a>
                     </li>
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"/about\">About</a>
@@ -127,9 +143,9 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
     </nav>
 
         ";
-        // line 76
+        // line 83
         $this->displayBlock('body', $context, $blocks);
-        // line 77
+        // line 84
         echo "    </body>
     
     <script async src=\"https://cdn.carbonads.com/carbon.js?serve=CKYIE23N&placement=bootswatchcom\" id=\"_carbonads_js\"></script>
@@ -166,7 +182,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
 
     }
 
-    // line 30
+    // line 34
     public function block_stylesheets($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -176,29 +192,6 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
 
-        // line 31
-        echo "        ";
-        
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
-
-        
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
-
-    }
-
-    // line 33
-    public function block_javascripts($context, array $blocks = [])
-    {
-        $macros = $this->macros;
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
-
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
-
-        // line 34
-        echo "        ";
-        $this->displayBlock('importmap', $context, $blocks);
         // line 35
         echo "        ";
         
@@ -209,7 +202,30 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
 
     }
 
-    // line 34
+    // line 37
+    public function block_javascripts($context, array $blocks = [])
+    {
+        $macros = $this->macros;
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
+
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
+
+        // line 38
+        echo "            ";
+        $this->displayBlock('importmap', $context, $blocks);
+        // line 39
+        echo "        ";
+        
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
+
+        
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
+
+    }
+
+    // line 38
     public function block_importmap($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -228,7 +244,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
 
     }
 
-    // line 76
+    // line 83
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -257,9 +273,17 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
     /**
      * @codeCoverageIgnore
      */
+    public function isTraitable()
+    {
+        return false;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
     public function getDebugInfo()
     {
-        return array (  232 => 76,  213 => 34,  203 => 35,  200 => 34,  190 => 33,  180 => 31,  170 => 30,  151 => 5,  133 => 77,  131 => 76,  89 => 36,  87 => 33,  84 => 32,  82 => 30,  54 => 5,  48 => 1,);
+        return array (  248 => 83,  229 => 38,  219 => 39,  216 => 38,  206 => 37,  196 => 35,  186 => 34,  167 => 5,  149 => 84,  147 => 83,  120 => 59,  114 => 56,  106 => 51,  93 => 40,  91 => 37,  88 => 36,  86 => 34,  54 => 5,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -272,7 +296,10 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         <link rel=\"icon\" href=\"data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>\">
 \t\t<link rel=\"icon\" type=\"image/x-icon\" href=\"/favicon.ico\">
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">
-        <link rel=\"stylesheet\" href=\"https://bootswatch.com/5/cerulean/bootstrap.min.css\">
+        
+        <!-- <link rel=\"stylesheet\" href=\"https://bootswatch.com/5/cerulean/bootstrap.min.css\"> -->
+        <link rel=\"stylesheet\" href=\"https://bootswatch.com/5/darkly/bootstrap.min.css\">
+
         <link rel=\"stylesheet\" href=\"https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.min.css\">
         <link rel=\"stylesheet\" href=\"https://bootswatch.com/_vendor/prismjs/themes/prism-okaidia.css\">
         <!--
@@ -280,24 +307,25 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         -->
         
         <style>
+            body { background-color: inherit;}
             .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
             .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
         </style>
         
-        <!-- Global Site Tag (gtag.js) - Google Analytics -->
+        <!-- Global Site Tag (gtag.js) - Google Analytics
         <script async src=\"https://www.googletagmanager.com/gtag/js?id=G-KGDJBEFF3W\"></script>
         <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-KGDJBEFF3W');
-        </script>
+        </script> -->
 
         {% block stylesheets %}
         {% endblock %}
 
         {% block javascripts %}
-        {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>
@@ -310,12 +338,15 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                 <div class=\"collapse navbar-collapse\" id=\"navbarColor01\">
                 <ul class=\"navbar-nav me-auto\">
                     <li class=\"nav-item\">
-                    <a class=\"nav-link active\" href=\"/home\">Home
+                    <a class=\"nav-link active\" href=\"{{ path(\"app_home\") }}\">Home
                         <span class=\"visually-hidden\">(current)</span>
                     </a>
                     </li>
                     <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"/articles\">Articles</a>
+                    <a class=\"nav-link\" href=\"{{ path(\"articles\") }}\">Articles</a>
+                    </li>
+                    <li class=\"nav-item\">
+                    <a class=\"nav-link\" href=\"{{ path(\"new_post\") }}\">New Post</a>
                     </li>
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"/about\">About</a>

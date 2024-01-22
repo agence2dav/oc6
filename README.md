@@ -30,6 +30,8 @@
 
 ### 4 - forms
 
+- install forms
+
 ### 5 - comments
 
 ### 6 - login

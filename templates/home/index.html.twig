@@ -16,7 +16,7 @@
             {{ article.text | raw}}
         </div>
         <div class="btn btn-lg btn-primary"><a href="/post/{{ article.id }}">Lire la suite</a></div>
-        <div class="btn btn-lg btn-primary"><a href="{{ path("app_home", {id: article.id}) }}">Lire la suite</a></div>
+        <div class="btn btn-lg btn-primary"><a href="{{ path("show_post", {id: article.id}) }}">Lire la suite</a></div>
     </article>
     {% endfor %}
 

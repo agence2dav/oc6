@@ -120,7 +120,7 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
             echo "\">Lire la suite</a></div>
         <div class=\"btn btn-lg btn-primary\"><a href=\"";
             // line 19
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_home", ["id" => twig_get_attribute($this->env, $this->source, $context["article"], "id", [], "any", false, false, false, 19)]), "html", null, true);
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("show_post", ["id" => twig_get_attribute($this->env, $this->source, $context["article"], "id", [], "any", false, false, false, 19)]), "html", null, true);
             echo "\">Lire la suite</a></div>
     </article>
     ";
@@ -184,7 +184,7 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
             {{ article.text | raw}}
         </div>
         <div class=\"btn btn-lg btn-primary\"><a href=\"/post/{{ article.id }}\">Lire la suite</a></div>
-        <div class=\"btn btn-lg btn-primary\"><a href=\"{{ path(\"app_home\", {id: article.id}) }}\">Lire la suite</a></div>
+        <div class=\"btn btn-lg btn-primary\"><a href=\"{{ path(\"show_post\", {id: article.id}) }}\">Lire la suite</a></div>
     </article>
     {% endfor %}
 

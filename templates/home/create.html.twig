@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+{% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}New Post{% endblock %}
+
+{% block body %}
+
+    <h1>New Post</h1>
+
+    {{ form_start(formArticle) }}
+
+    {{ form_row(formArticle.title, {"attr":{"placeholder":"Titre"}}) }}
+    {{ form_row(formArticle.text, {"attr":{"placeholder":"Contenu"}}) }}
+    {{ form_row(formArticle.image, {"attr":{"placeholder":"Image (Url)"}}) }}
+
+    <button type="submit" class="btn btn-success">
+        {% if edit_mode == true %}
+        Modifier
+        {% else %}
+        Enregistrer
+        {% endif %}
+    </button>
+
+    {{ form_end(formArticle) }}
+
+{% endblock %}
