@@ -6,12 +6,18 @@
 
 <div class="example-wrapper">
 
-    <article>
-        <h1>{{ trick.title | raw}}</h1>
-        <div class="metadatea">{{ trick.createdAt | date("d/m/Y") }}</div>
-        <div class="content">
+    <article class="card border-light mb-3">
+        <div class="card-header">
+            <h1>{{ trick.title | raw}}</h1>
+            <div class="metadata">{{ trick.createdAt | date("d/m/Y") }}</div>
+        </div>
+        <div class="card-boby">
+        <div class="image">
             <img src="{{ trick.image | raw}}"/>
-            {{ trick.content | raw}}
+        </div>
+        <div class="content">
+            <div class="text-body-primary">{{ trick.content | raw}}<div>
+        </div>
         </div>
     </article>
 

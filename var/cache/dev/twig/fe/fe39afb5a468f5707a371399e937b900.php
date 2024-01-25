@@ -95,36 +95,43 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
         $context['_seq'] = twig_ensure_traversable((isset($context["tricks"]) || array_key_exists("tricks", $context) ? $context["tricks"] : (function () { throw new RuntimeError('Variable "tricks" does not exist.', 10, $this->source); })()));
         foreach ($context['_seq'] as $context["_key"] => $context["trick"]) {
             // line 11
-            echo "    <article>
-        <h2>";
-            // line 12
-            echo twig_get_attribute($this->env, $this->source, $context["trick"], "title", [], "any", false, false, false, 12);
-            echo "</h2>
-        <div class=\"metadatea\">";
-            // line 13
-            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, twig_get_attribute($this->env, $this->source, $context["trick"], "createdAt", [], "any", false, false, false, 13), "d/m/Y"), "html", null, true);
-            echo "</div>
-        <div class=\"content\">
-            <img src=\"";
+            echo "    
+    <article class=\"card border-light mb-3\">
+        <div class=\"card-header\">
+            <h1>";
+            // line 14
+            echo twig_get_attribute($this->env, $this->source, $context["trick"], "title", [], "any", false, false, false, 14);
+            echo "</h1>
+            <div class=\"metadata\">";
             // line 15
-            echo twig_get_attribute($this->env, $this->source, $context["trick"], "image", [], "any", false, false, false, 15);
-            echo "\"/>
-            ";
-            // line 16
-            echo twig_get_attribute($this->env, $this->source, $context["trick"], "content", [], "any", false, false, false, 16);
-            echo "
+            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, twig_get_attribute($this->env, $this->source, $context["trick"], "createdAt", [], "any", false, false, false, 15), "d/m/Y"), "html", null, true);
+            echo "</div>
         </div>
+        <div class=\"card-boby\">
+        <div class=\"image\">
+            <img src=\"";
+            // line 19
+            echo twig_get_attribute($this->env, $this->source, $context["trick"], "image", [], "any", false, false, false, 19);
+            echo "\"/>
+        </div>
+            <div class=\"content\">
+                <div class=\"text-body-primary\">";
+            // line 22
+            echo twig_get_attribute($this->env, $this->source, $context["trick"], "content", [], "any", false, false, false, 22);
+            echo "<div>
+            </div>
         <div class=\"btn btn-lg btn-primary\"><a href=\"";
-            // line 18
-            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("show_trick", ["id" => twig_get_attribute($this->env, $this->source, $context["trick"], "id", [], "any", false, false, false, 18)]), "html", null, true);
+            // line 24
+            echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("show_trick", ["id" => twig_get_attribute($this->env, $this->source, $context["trick"], "id", [], "any", false, false, false, 24)]), "html", null, true);
             echo "\">Lire la suite</a></div>
     </article>
+
     ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['trick'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 21
+        // line 28
         echo "
 </div>
 ";
@@ -157,7 +164,7 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
      */
     public function getDebugInfo()
     {
-        return array (  128 => 21,  119 => 18,  114 => 16,  110 => 15,  105 => 13,  101 => 12,  98 => 11,  94 => 10,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  135 => 28,  125 => 24,  120 => 22,  114 => 19,  107 => 15,  103 => 14,  98 => 11,  94 => 10,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -172,15 +179,22 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
     <h1>Articles</h1>
 
     {% for trick in tricks %}
-    <article>
-        <h2>{{ trick.title | raw}}</h2>
-        <div class=\"metadatea\">{{ trick.createdAt | date(\"d/m/Y\") }}</div>
-        <div class=\"content\">
-            <img src=\"{{ trick.image | raw}}\"/>
-            {{ trick.content | raw}}
+    
+    <article class=\"card border-light mb-3\">
+        <div class=\"card-header\">
+            <h1>{{ trick.title | raw}}</h1>
+            <div class=\"metadata\">{{ trick.createdAt | date(\"d/m/Y\") }}</div>
         </div>
+        <div class=\"card-boby\">
+        <div class=\"image\">
+            <img src=\"{{ trick.image | raw}}\"/>
+        </div>
+            <div class=\"content\">
+                <div class=\"text-body-primary\">{{ trick.content | raw}}<div>
+            </div>
         <div class=\"btn btn-lg btn-primary\"><a href=\"{{ path(\"show_trick\", {id: trick.id}) }}\">Lire la suite</a></div>
     </article>
+
     {% endfor %}
 
 </div>

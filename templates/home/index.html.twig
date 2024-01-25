@@ -8,15 +8,22 @@
     <h1>Articles</h1>
 
     {% for trick in tricks %}
-    <article>
-        <h2>{{ trick.title | raw}}</h2>
-        <div class="metadatea">{{ trick.createdAt | date("d/m/Y") }}</div>
-        <div class="content">
-            <img src="{{ trick.image | raw}}"/>
-            {{ trick.content | raw}}
+    
+    <article class="card border-light mb-3">
+        <div class="card-header">
+            <h1>{{ trick.title | raw}}</h1>
+            <div class="metadata">{{ trick.createdAt | date("d/m/Y") }}</div>
         </div>
+        <div class="card-boby">
+        <div class="image">
+            <img src="{{ trick.image | raw}}"/>
+        </div>
+            <div class="content">
+                <div class="text-body-primary">{{ trick.content | raw}}<div>
+            </div>
         <div class="btn btn-lg btn-primary"><a href="{{ path("show_trick", {id: trick.id}) }}">Lire la suite</a></div>
     </article>
+
     {% endfor %}
 
 </div>

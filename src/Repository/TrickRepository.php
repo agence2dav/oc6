@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<Trick>
@@ -16,10 +19,24 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TrickRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    private static $instance;
+    //private static $registry;
+
+    public function __construct(
+        ManagerRegistry $registry
+    ) {
+        //$registry=new ManagerRegistry();//Cannot instantiate interface Doctrine\Persistence\ManagerRegistry
         parent::__construct($registry, Trick::class);
     }
+    
+    /**/public static function getInstance(): self
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self();//Too few arguments to function App\Repository\TrickRepository::__construct(), 
+        }
+        return self::$instance;
+    }
+
 
 //    /**
 //     * @return Trick[] Returns an array of Trick objects

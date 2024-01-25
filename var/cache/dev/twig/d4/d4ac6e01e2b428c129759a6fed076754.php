@@ -89,24 +89,30 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
         echo "
 <div class=\"example-wrapper\">
 
-    <article>
-        <h1>";
-        // line 10
-        echo twig_get_attribute($this->env, $this->source, (isset($context["trick"]) || array_key_exists("trick", $context) ? $context["trick"] : (function () { throw new RuntimeError('Variable "trick" does not exist.', 10, $this->source); })()), "title", [], "any", false, false, false, 10);
-        echo "</h1>
-        <div class=\"metadatea\">";
+    <article class=\"card border-light mb-3\">
+        <div class=\"card-header\">
+            <h1>";
         // line 11
-        echo twig_escape_filter($this->env, twig_date_format_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["trick"]) || array_key_exists("trick", $context) ? $context["trick"] : (function () { throw new RuntimeError('Variable "trick" does not exist.', 11, $this->source); })()), "createdAt", [], "any", false, false, false, 11), "d/m/Y"), "html", null, true);
+        echo twig_get_attribute($this->env, $this->source, (isset($context["trick"]) || array_key_exists("trick", $context) ? $context["trick"] : (function () { throw new RuntimeError('Variable "trick" does not exist.', 11, $this->source); })()), "title", [], "any", false, false, false, 11);
+        echo "</h1>
+            <div class=\"metadata\">";
+        // line 12
+        echo twig_escape_filter($this->env, twig_date_format_filter($this->env, twig_get_attribute($this->env, $this->source, (isset($context["trick"]) || array_key_exists("trick", $context) ? $context["trick"] : (function () { throw new RuntimeError('Variable "trick" does not exist.', 12, $this->source); })()), "createdAt", [], "any", false, false, false, 12), "d/m/Y"), "html", null, true);
         echo "</div>
-        <div class=\"content\">
+        </div>
+        <div class=\"card-boby\">
+        <div class=\"image\">
             <img src=\"";
-        // line 13
-        echo twig_get_attribute($this->env, $this->source, (isset($context["trick"]) || array_key_exists("trick", $context) ? $context["trick"] : (function () { throw new RuntimeError('Variable "trick" does not exist.', 13, $this->source); })()), "image", [], "any", false, false, false, 13);
+        // line 16
+        echo twig_get_attribute($this->env, $this->source, (isset($context["trick"]) || array_key_exists("trick", $context) ? $context["trick"] : (function () { throw new RuntimeError('Variable "trick" does not exist.', 16, $this->source); })()), "image", [], "any", false, false, false, 16);
         echo "\"/>
-            ";
-        // line 14
-        echo twig_get_attribute($this->env, $this->source, (isset($context["trick"]) || array_key_exists("trick", $context) ? $context["trick"] : (function () { throw new RuntimeError('Variable "trick" does not exist.', 14, $this->source); })()), "content", [], "any", false, false, false, 14);
-        echo "
+        </div>
+        <div class=\"content\">
+            <div class=\"text-body-primary\">";
+        // line 19
+        echo twig_get_attribute($this->env, $this->source, (isset($context["trick"]) || array_key_exists("trick", $context) ? $context["trick"] : (function () { throw new RuntimeError('Variable "trick" does not exist.', 19, $this->source); })()), "content", [], "any", false, false, false, 19);
+        echo "<div>
+        </div>
         </div>
     </article>
 
@@ -141,7 +147,7 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  108 => 14,  104 => 13,  99 => 11,  95 => 10,  89 => 6,  79 => 5,  59 => 3,  36 => 1,);
+        return array (  113 => 19,  107 => 16,  100 => 12,  96 => 11,  89 => 6,  79 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -154,12 +160,18 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
 
 <div class=\"example-wrapper\">
 
-    <article>
-        <h1>{{ trick.title | raw}}</h1>
-        <div class=\"metadatea\">{{ trick.createdAt | date(\"d/m/Y\") }}</div>
-        <div class=\"content\">
+    <article class=\"card border-light mb-3\">
+        <div class=\"card-header\">
+            <h1>{{ trick.title | raw}}</h1>
+            <div class=\"metadata\">{{ trick.createdAt | date(\"d/m/Y\") }}</div>
+        </div>
+        <div class=\"card-boby\">
+        <div class=\"image\">
             <img src=\"{{ trick.image | raw}}\"/>
-            {{ trick.content | raw}}
+        </div>
+        <div class=\"content\">
+            <div class=\"text-body-primary\">{{ trick.content | raw}}<div>
+        </div>
         </div>
     </article>
 
