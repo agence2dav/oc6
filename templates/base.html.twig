@@ -7,7 +7,11 @@
 		<link rel="icon" type="image/x-icon" href="/favicon.ico">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         
-        <!-- <link rel="stylesheet" href="https://bootswatch.com/5/cerulean/bootstrap.min.css"> -->
+        <!-- 
+        <link rel="stylesheet" href="https://bootswatch.com/5/cerulean/bootstrap.min.css"> 
+        -->
+        <!--
+        -->
         <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
 
         <link rel="stylesheet" href="https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.min.css">
@@ -17,7 +21,12 @@
         -->
         
         <style>
-            body { background-color: inherit;}
+            body {
+                background-image: linear-gradient(to top,#6f93ca,#0567ff8c);
+                background-size: cover;
+                background-repeat:no-repeat;
+                background-attachment:fixed;}
+            content{ display:block; width:80%; margin:0 auto;}
             .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
             .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
         </style>
@@ -53,16 +62,16 @@
                     </a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ path("articles") }}">Articles</a>
+                    <a class="nav-link" href="{{ path("tricks") }}">Tricks</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ path("new_post") }}">New Post</a>
+                    <a class="nav-link" href="{{ path("new_trick") }}">New trick</a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
                     </li>
                     <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                    <a class="nav-link dropdown-toggle show" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
@@ -79,8 +88,9 @@
                 </div>
             </div>
     </nav>
-
+    <content>
         {% block body %}{% endblock %}
+    </content>
     </body>
     
     <script async src="https://cdn.carbonads.com/carbon.js?serve=CKYIE23N&placement=bootswatchcom" id="_carbonads_js"></script>

@@ -1,22 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Articles!{% endblock %}
+{% block title %}Tricks!{% endblock %}
 
 {% block body %}
 
 <div class="example-wrapper">
     <h1>Articles</h1>
 
-    {% for article in articles %}
+    {% for trick in tricks %}
     <article>
-        <h2>{{ article.title | raw}}</h2>
-        <div class="metadatea">{{ article.date | date("d/m/Y") }}</div>
+        <h2>{{ trick.title | raw}}</h2>
+        <div class="metadatea">{{ trick.createdAt | date("d/m/Y") }}</div>
         <div class="content">
-            <img src="{{ article.image | raw}}"/>
-            {{ article.text | raw}}
+            <img src="{{ trick.image | raw}}"/>
+            {{ trick.content | raw}}
         </div>
-        <div class="btn btn-lg btn-primary"><a href="/post/{{ article.id }}">Lire la suite</a></div>
-        <div class="btn btn-lg btn-primary"><a href="{{ path("show_post", {id: article.id}) }}">Lire la suite</a></div>
+        <div class="btn btn-lg btn-primary"><a href="{{ path("show_trick", {id: trick.id}) }}">Lire la suite</a></div>
     </article>
     {% endfor %}
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,8 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 //use Doctrine\Persistence\ManagerRegistry;//old2c
 //use Doctrine\Persistence\ObjectManager; //alias to: doctrine.orm.default_entity_manager//old3
 use Doctrine\ORM\EntityManagerInterface;//now
-use App\Repository\ArticleRepository;
-use App\Entity\Article;
+use App\Repository\TrickRepository;
+use App\Entity\Trick;
 //use Symfony\Component\Form\Extension\Core\Type\TextType;
 //use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -24,89 +26,89 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     //public function index(): Response //old 1
     //public function index(EntityManagerInterface $em): Response //old2
-    public function index(ArticleRepository $repo): Response
+    public function index(TrickRepository $repo): Response
     {
-        //$repo=$this->getDoctrine()->getRepository(Article::class);//old1
-        //$repo=$em()->getRepository(Article::class);//old2
+        //$repo=$this->getDoctrine()->getRepository(Trick::class);//old1
+        //$repo=$em()->getRepository(Trick::class);//old2
         
-        //$article=$repo->find(12);
-        //$article=$repo->findOneByTitle('Title 2');
-        //$article=$repo->findByTitle('Title');
-        $article=$repo->findAll();
+        //$trick=$repo->find(12);
+        //$trick=$repo->findOneByTitle('Title 2');
+        //$trick=$repo->findByTitle('Title');
+        $trick=$repo->findAll();
         
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
-            'articles'=>$article,
+            'tricks'=>$trick,
         ]);
     }
     
-    #[Route('/articles', name: 'articles')]
-    public function articles(ArticleRepository $repo): Response
+    #[Route('/tricks', name: 'tricks')]
+    public function tricks(TrickRepository $repo): Response
     {   
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
-            'articles'=>$repo->findAll(),
+            'tricks'=>$repo->findAll(),
         ]);
     }
     
     
-    #[Route('/post/new', name: 'new_post')]
-    #[Route('/post/{id}/edit', name: 'edit_post')]
-    //public function show(ArticleRepository $repo, int $id): Response
-    public function  form(Article $article = null, Request $request, EntityManagerInterface $manager): Response
+    #[Route('/trick/new', name: 'new_trick')]
+    #[Route('/trick/{id}/edit', name: 'edit_trick')]
+    //public function show(TrickRepository $repo, int $id): Response
+    public function  form(Trick $trick = null, Request $request, EntityManagerInterface $manager): Response
     {
-        if(!$article){
-            $article=new Article();
+        if(!$trick){
+            $trick=new Trick();
         }
 
-        $form=$this->createFormBuilder($article)
+        $form=$this->createFormBuilder($trick)
             /*->add('title',TextType::class,[
                 'attr'=>[
-                    'placeholder'=>"Titre de l'article",
+                    'placeholder'=>"Titre de l'trick",
                 ]
             ])
             ->add('save',SubmitType::class,[
                 'label'=>'Enregistrer',
             ])*/
             ->add('title')
-            ->add('text')
+            ->add('content')
             ->add('image')
             ->getForm();
         
         //or simply use:
-        //$form->createForm(ArticleType::class, $article);
+        //$form->createForm(TrickType::class, $trick);
         
         $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid()){
-            /*$article->setTitle($request->request->get('title'))
-                ->setText($request->request->get('text'))
+            /*$trick->setTitle($request->request->get('title'))
+                ->setContent($request->request->get('content'))
                 ->setImage($request->request->get('image'));*/
-            if(!$article->getId()){
-                $article->setDate(new \DateTime());
-                $article->setStatus(0);
-                $article->setUserid(1);
+            if(!$trick->getId()){
+                $trick->setCreatedAt(new \DateTime());
+                $trick->setStatus(0);
+                $trick->setUserid(1);
             }
-            $manager->persist($article);
-            $manager->flush();
-            return $this->redirectToRoute('show_post',['id'=>$article->getId()]);
+            $manager->persist($trick);//service
+            $manager->flush();//repo
+            return $this->redirectToRoute('show_trick',['id'=>$trick->getId()]);
         }
 
 
         return $this->render('home/create.html.twig', [
-            'formArticle'=>$form->createView(),
-            'edit_mode'=>$article->getId() ? true : false
+            'formTrick'=>$form->createView(),
+            'edit_mode'=>$trick->getId() ? true : false
         ]);
     }
     
-    #[Route('/post/{id}', name: 'show_post')]
-    //public function show(ArticleRepository $repo, int $id): Response
-    public function show(Article $article): Response
+    #[Route('/trick/{id}', name: 'show_trick')]
+    //public function show(TrickRepository $repo, int $id): Response
+    public function show(Trick $trick): Response
     {
-        //$article=$repo->find($id);
-        return $this->render('home/post.html.twig', [
+        //$trick=$repo->find($id);
+        return $this->render('home/trick.html.twig', [
             'controller_name' => 'HomeController',
-            'article'=>$article,
+            'trick'=>$trick,
         ]);
     }
     

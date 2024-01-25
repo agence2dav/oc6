@@ -46,7 +46,7 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "template", "home/create.html.twig"));
 
         // line 2
-        $this->env->getRuntime("Symfony\\Component\\Form\\FormRenderer")->setTheme((isset($context["formArticle"]) || array_key_exists("formArticle", $context) ? $context["formArticle"] : (function () { throw new RuntimeError('Variable "formArticle" does not exist.', 2, $this->source); })()), ["bootstrap_4_layout.html.twig"], true);
+        $this->env->getRuntime("Symfony\\Component\\Form\\FormRenderer")->setTheme((isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 2, $this->source); })()), ["bootstrap_4_layout.html.twig"], true);
         // line 1
         $this->parent = $this->loadTemplate("base.html.twig", "home/create.html.twig", 1);
         $this->parent->display($context, array_merge($this->blocks, $blocks));
@@ -93,20 +93,20 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
 
     ";
         // line 10
-        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formArticle"]) || array_key_exists("formArticle", $context) ? $context["formArticle"] : (function () { throw new RuntimeError('Variable "formArticle" does not exist.', 10, $this->source); })()), 'form_start');
+        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 10, $this->source); })()), 'form_start');
         echo "
 
     ";
         // line 12
-        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formArticle"]) || array_key_exists("formArticle", $context) ? $context["formArticle"] : (function () { throw new RuntimeError('Variable "formArticle" does not exist.', 12, $this->source); })()), "title", [], "any", false, false, false, 12), 'row', ["attr" => ["placeholder" => "Titre"]]);
+        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 12, $this->source); })()), "title", [], "any", false, false, false, 12), 'row', ["attr" => ["placeholder" => "Titre"]]);
         echo "
     ";
         // line 13
-        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formArticle"]) || array_key_exists("formArticle", $context) ? $context["formArticle"] : (function () { throw new RuntimeError('Variable "formArticle" does not exist.', 13, $this->source); })()), "text", [], "any", false, false, false, 13), 'row', ["attr" => ["placeholder" => "Contenu"]]);
+        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 13, $this->source); })()), "content", [], "any", false, false, false, 13), 'row', ["attr" => ["placeholder" => "Contenu"]]);
         echo "
     ";
         // line 14
-        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formArticle"]) || array_key_exists("formArticle", $context) ? $context["formArticle"] : (function () { throw new RuntimeError('Variable "formArticle" does not exist.', 14, $this->source); })()), "image", [], "any", false, false, false, 14), 'row', ["attr" => ["placeholder" => "Image (Url)"]]);
+        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 14, $this->source); })()), "image", [], "any", false, false, false, 14), 'row', ["attr" => ["placeholder" => "Image (Url)"]]);
         echo "
 
     <button type=\"submit\" class=\"btn btn-success\">
@@ -126,7 +126,7 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
 
     ";
         // line 24
-        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formArticle"]) || array_key_exists("formArticle", $context) ? $context["formArticle"] : (function () { throw new RuntimeError('Variable "formArticle" does not exist.', 24, $this->source); })()), 'form_end');
+        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 24, $this->source); })()), 'form_end');
         echo "
 
 ";
@@ -165,7 +165,7 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
     public function getSourceContext()
     {
         return new Source("{% extends 'base.html.twig' %}
-{% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
+{% form_theme formTrick 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}New Post{% endblock %}
 
@@ -173,11 +173,11 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
 
     <h1>New Post</h1>
 
-    {{ form_start(formArticle) }}
+    {{ form_start(formTrick) }}
 
-    {{ form_row(formArticle.title, {\"attr\":{\"placeholder\":\"Titre\"}}) }}
-    {{ form_row(formArticle.text, {\"attr\":{\"placeholder\":\"Contenu\"}}) }}
-    {{ form_row(formArticle.image, {\"attr\":{\"placeholder\":\"Image (Url)\"}}) }}
+    {{ form_row(formTrick.title, {\"attr\":{\"placeholder\":\"Titre\"}}) }}
+    {{ form_row(formTrick.content, {\"attr\":{\"placeholder\":\"Contenu\"}}) }}
+    {{ form_row(formTrick.image, {\"attr\":{\"placeholder\":\"Image (Url)\"}}) }}
 
     <button type=\"submit\" class=\"btn btn-success\">
         {% if edit_mode == true %}
@@ -187,7 +187,7 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
         {% endif %}
     </button>
 
-    {{ form_end(formArticle) }}
+    {{ form_end(formTrick) }}
 
 {% endblock %}
 ", "home/create.html.twig", "C:\\Users\\dav\\Documents\\srv\\gits\\oc6\\templates\\home\\create.html.twig");
