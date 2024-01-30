@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ trick.title | raw}}{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+
+    <article class="card border-light mb-3">
+        <div class="card-header">
+            <h1>{{ trick.title | raw}}</h1>
+            <div class="metadata">{{ trick.createdAt | date("d/m/Y") }}</div>
+        </div>
+        <div class="card-boby">
+        <div class="image">
+            <img src="{{ trick.image | raw}}"/>
+        </div>
+        <div class="content">
+            <div class="text-body-primary">{{ trick.content | raw}}</div>
+        </div>
+    </article>
+
+    <h3>Commentaires</h3>
+
+    {% for comment in comments %}
+    <comments class="card text-white bg-secondary mb-3">
+        <div class="card-header">
+            <strong>{{ comment.name | raw}}</strong>
+            <div class="metadata">{{ comment.date | date("d/m/Y") }}</div>
+        </div>
+        <div class="card-boby">
+            <div class="content">
+                <div class="text-body-primary">{{ comment.content | raw}}<div>
+            </div>
+        </div>
+    </comments>
+    {% endfor %}
+
+</div>
+{% endblock %}

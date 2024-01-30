@@ -6,23 +6,23 @@
 
     <h1>New Post</h1>
 
-    {{ form_start(formArticle) }}
+    {{ form_start(formTrick) }}
 
     <div class="form-group">
         <label for="">Titre</label>
-        {{ form_widget(formArticle.title) }}
+        {{ form_widget(formTrick.title) }}
     </div>
 
     <div class="form-group">
         <label for="">Contenu</label>
-        {{ form_widget(formArticle.text) }}
+        {{ form_widget(formTrick.text) }}
     </div>
     
     <div class="form-group">
         <label for="">Image</label>
-        {{ form_widget(formArticle.image) }}
+        {{ form_widget(formTrick.image) }}
     </div>
  
-    {{ form_end(formArticle) }}
+    {{ form_end(formTrick) }}
 
 {% endblock %}
