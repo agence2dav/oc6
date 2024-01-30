@@ -66,7 +66,6 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
 
         echo twig_get_attribute($this->env, $this->source, (isset($context["trick"]) || array_key_exists("trick", $context) ? $context["trick"] : (function () { throw new RuntimeError('Variable "trick" does not exist.', 3, $this->source); })()), "title", [], "any", false, false, false, 3);
-        echo "!";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -111,11 +110,45 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
             <div class=\"text-body-primary\">";
         // line 19
         echo twig_get_attribute($this->env, $this->source, (isset($context["trick"]) || array_key_exists("trick", $context) ? $context["trick"] : (function () { throw new RuntimeError('Variable "trick" does not exist.', 19, $this->source); })()), "content", [], "any", false, false, false, 19);
-        echo "<div>
-        </div>
+        echo "</div>
         </div>
     </article>
 
+    <h3>Commentaires</h3>
+
+    ";
+        // line 25
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable((isset($context["comments"]) || array_key_exists("comments", $context) ? $context["comments"] : (function () { throw new RuntimeError('Variable "comments" does not exist.', 25, $this->source); })()));
+        foreach ($context['_seq'] as $context["_key"] => $context["comment"]) {
+            // line 26
+            echo "    <comments class=\"card text-white bg-secondary mb-3\">
+        <div class=\"card-header\">
+            <strong>";
+            // line 28
+            echo twig_get_attribute($this->env, $this->source, $context["comment"], "name", [], "any", false, false, false, 28);
+            echo "</strong>
+            <div class=\"metadata\">";
+            // line 29
+            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, twig_get_attribute($this->env, $this->source, $context["comment"], "date", [], "any", false, false, false, 29), "d/m/Y"), "html", null, true);
+            echo "</div>
+        </div>
+        <div class=\"card-boby\">
+            <div class=\"content\">
+                <div class=\"text-body-primary\">";
+            // line 33
+            echo twig_get_attribute($this->env, $this->source, $context["comment"], "content", [], "any", false, false, false, 33);
+            echo "<div>
+            </div>
+        </div>
+    </comments>
+    ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['comment'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 38
+        echo "
 </div>
 ";
         
@@ -147,14 +180,14 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  113 => 19,  107 => 16,  100 => 12,  96 => 11,  89 => 6,  79 => 5,  59 => 3,  36 => 1,);
+        return array (  151 => 38,  140 => 33,  133 => 29,  129 => 28,  125 => 26,  121 => 25,  112 => 19,  106 => 16,  99 => 12,  95 => 11,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
     {
         return new Source("{% extends 'base.html.twig' %}
 
-{% block title %}{{ trick.title | raw}}!{% endblock %}
+{% block title %}{{ trick.title | raw}}{% endblock %}
 
 {% block body %}
 
@@ -170,10 +203,25 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
             <img src=\"{{ trick.image | raw}}\"/>
         </div>
         <div class=\"content\">
-            <div class=\"text-body-primary\">{{ trick.content | raw}}<div>
-        </div>
+            <div class=\"text-body-primary\">{{ trick.content | raw}}</div>
         </div>
     </article>
+
+    <h3>Commentaires</h3>
+
+    {% for comment in comments %}
+    <comments class=\"card text-white bg-secondary mb-3\">
+        <div class=\"card-header\">
+            <strong>{{ comment.name | raw}}</strong>
+            <div class=\"metadata\">{{ comment.date | date(\"d/m/Y\") }}</div>
+        </div>
+        <div class=\"card-boby\">
+            <div class=\"content\">
+                <div class=\"text-body-primary\">{{ comment.content | raw}}<div>
+            </div>
+        </div>
+    </comments>
+    {% endfor %}
 
 </div>
 {% endblock %}

@@ -26,8 +26,10 @@
                 background-size: cover;
                 background-repeat:no-repeat;
                 background-attachment:fixed;}
-            content{ display:block; width:80%; margin:0 auto;}
-            .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+            content{ display:block;}
+            article{ display:block; margin:20px;}
+            comments{ display:block; margin:20px;}
+            .example-wrapper { margin: 1em auto; width: 95%; font: 18px/1.5 sans-serif; }
             .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
             .image{margin-bottom:20px;}
             .content{padding:20px;}
@@ -64,7 +66,7 @@
                     </a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ path("tricks") }}">Tricks</a>
+                    <a class="nav-link" href="{{ path("app_home") }}">Tricks</a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="{{ path("new_trick") }}">New trick</a>

@@ -6,6 +6,7 @@ use App\Repository\TrickRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[Broadcast]
@@ -15,6 +16,11 @@ class Trick
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column]
+    //doit s'appeler userid_id
+    //#[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'trick')]
+    private ?int $userid = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -31,12 +37,24 @@ class Trick
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\Column]
-    private ?int $userid = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $updatedAt = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUserid(): ?int
+    {
+        return $this->userid;
+    }
+
+    public function setUserid(int $userid): static
+    {
+        $this->userid = $userid;
+
+        return $this;
     }
 
     public function getTitle(): ?string
@@ -99,15 +117,16 @@ class Trick
         return $this;
     }
 
-    public function getUserid(): ?int
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->userid;
+        return $this->updatedAt;
     }
 
-    public function setUserid(int $userid): static
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): static
     {
-        $this->userid = $userid;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
+
 }

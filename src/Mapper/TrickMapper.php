@@ -11,33 +11,31 @@ class TrickMapper
 {
     private static $instance;
 
-    private function __construct()
+    public function __construct(
+        private TrickModel $trickModel
+    )
     {
+
     }
 
-    public static function getInstance(): self
+    public function fromFetch(
+        Trick $entity
+    ): TrickModel|bool
     {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-
-    public function fromFetch(Trick $entity): TrickModel|bool
-    {
-        $trickModel = new TrickModel();
+        //$trickModel = new TrickModel();
+        $trickModel = $this->trickModel;
         $trickModel->id = $entity->id;
         $trickModel->title = $entity->title;
-        $trickModel->content = $entity->content ?? '';
-        $trickModel->category = $entity->category;
-        $trickModel->name = $entity->name;
-        $trickModel->date = $entity->createdAt;
+        $trickModel->content = $entity->content;
+        $trickModel->createdAt = $entity->createdAt;
         $trickModel->status = $entity->status;
-        $trickModel->uid = $entity->userid ?? null;
+        $trickModel->userid = $entity->userid;
         return $trickModel;
     }
 
-    public static function fromFetchAll(array $entities): array
+    public static function fromFetchAll(
+        array $entities
+    ): array
     {
         $trickModels = array_map(
             function ($entity) {
@@ -52,11 +50,12 @@ class TrickMapper
     {
         $trickModels = array_map(
             function ($entity) {
-                $trickModel = new TrickModel;
+                //$trickModel = new TrickModel;
+                $trickModel = $this->trickModel;
                 $trickModel->id = $entity->id;
                 $trickModel->title = $entity->title;
-                $trickModel->name = $entity->name;
-                $trickModel->createdAt = $entity->date;
+                $trickModel->content = $entity->content;
+                $trickModel->createdAt = $entity->createdAt;
                 $trickModel->status = $entity->status;
                 return $trickModel;
             },

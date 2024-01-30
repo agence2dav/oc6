@@ -76,8 +76,10 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                 background-size: cover;
                 background-repeat:no-repeat;
                 background-attachment:fixed;}
-            content{ display:block; width:80%; margin:0 auto;}
-            .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+            content{ display:block;}
+            article{ display:block; margin:20px;}
+            comments{ display:block; margin:20px;}
+            .example-wrapper { margin: 1em auto; width: 95%; font: 18px/1.5 sans-serif; }
             .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
             .image{margin-bottom:20px;}
             .content{padding:20px;}
@@ -93,14 +95,14 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         </script> -->
 
         ";
-        // line 45
-        $this->displayBlock('stylesheets', $context, $blocks);
         // line 47
+        $this->displayBlock('stylesheets', $context, $blocks);
+        // line 49
         echo "
         ";
-        // line 48
+        // line 50
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 51
+        // line 53
         echo "    </head>
     <body>
         <nav class=\"navbar navbar-expand-lg bg-primary\" data-bs-theme=\"dark\">
@@ -113,7 +115,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                 <ul class=\"navbar-nav me-auto\">
                     <li class=\"nav-item\">
                     <a class=\"nav-link active\" href=\"";
-        // line 62
+        // line 64
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_home");
         echo "\">Home
                         <span class=\"visually-hidden\">(current)</span>
@@ -121,13 +123,13 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                     </li>
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"";
-        // line 67
-        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("tricks");
+        // line 69
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_home");
         echo "\">Tricks</a>
                     </li>
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"";
-        // line 70
+        // line 72
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("new_trick");
         echo "\">New trick</a>
                     </li>
@@ -154,9 +156,9 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
     </nav>
     <content>
         ";
-        // line 94
+        // line 96
         $this->displayBlock('body', $context, $blocks);
-        // line 95
+        // line 97
         echo "    </content>
     </body>
     
@@ -194,7 +196,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
 
     }
 
-    // line 45
+    // line 47
     public function block_stylesheets($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -204,7 +206,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
 
-        // line 46
+        // line 48
         echo "        ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -214,7 +216,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
 
     }
 
-    // line 48
+    // line 50
     public function block_javascripts($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -224,10 +226,10 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 49
+        // line 51
         echo "            ";
         $this->displayBlock('importmap', $context, $blocks);
-        // line 50
+        // line 52
         echo "        ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -237,7 +239,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
 
     }
 
-    // line 49
+    // line 51
     public function block_importmap($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -256,7 +258,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
 
     }
 
-    // line 94
+    // line 96
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -295,7 +297,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  260 => 94,  241 => 49,  231 => 50,  228 => 49,  218 => 48,  208 => 46,  198 => 45,  179 => 5,  160 => 95,  158 => 94,  131 => 70,  125 => 67,  117 => 62,  104 => 51,  102 => 48,  99 => 47,  97 => 45,  54 => 5,  48 => 1,);
+        return array (  262 => 96,  243 => 51,  233 => 52,  230 => 51,  220 => 50,  210 => 48,  200 => 47,  181 => 5,  162 => 97,  160 => 96,  133 => 72,  127 => 69,  119 => 64,  106 => 53,  104 => 50,  101 => 49,  99 => 47,  54 => 5,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -328,8 +330,10 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                 background-size: cover;
                 background-repeat:no-repeat;
                 background-attachment:fixed;}
-            content{ display:block; width:80%; margin:0 auto;}
-            .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+            content{ display:block;}
+            article{ display:block; margin:20px;}
+            comments{ display:block; margin:20px;}
+            .example-wrapper { margin: 1em auto; width: 95%; font: 18px/1.5 sans-serif; }
             .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
             .image{margin-bottom:20px;}
             .content{padding:20px;}
@@ -366,7 +370,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                     </a>
                     </li>
                     <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"{{ path(\"tricks\") }}\">Tricks</a>
+                    <a class=\"nav-link\" href=\"{{ path(\"app_home\") }}\">Tricks</a>
                     </li>
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"{{ path(\"new_trick\") }}\">New trick</a>

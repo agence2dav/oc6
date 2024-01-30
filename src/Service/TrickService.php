@@ -4,48 +4,80 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Repository\TrickRepository;
-use App\Model\TrickModel;
-use App\Mapper\TrickMapper;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\Form\Extension\Core\Type\TextType;
+//use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+//use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Repository\TrickRepository;
+use App\Mapper\TrickMapper;
+use App\Model\TrickModel;
+use App\Entity\Comment;
+use App\Entity\CommentService;
+use App\Entity\CommentRepository;
+use App\Entity\Trick;
 
 class TrickService
 {
-    private static $instance;
-    //private TrickRepository $trickRepository;
-    //private TrickMapper $trickMapper;
 
-    private function __construct(
+    public function __construct(
         //private readonly EntityManagerInterface $entityManager,
-        private TrickRepository $trickRepository
+        private TrickRepository $repo,
+        //private TrickModel $model,
+        //private TrickMapper $mapper,
+        private EntityManagerInterface $manager
     )
     {
-        //$this->trickRepository = TrickRepository::getInstance();
-        //$this->trickMapper = TrickMapper::getInstance();
+
     }
 
-    /**/public static function getInstance(): self
+        //$repo=$this->getDoctrine()->getRepository(Trick::class);//old1
+        //$repo=$em()->getRepository(Trick::class);//old2
+
+    public function getAll(): Trick|array
     {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();//Too few arguments to function App\Service\TrickService::__construct()
-        }
-        return self::$instance;
+        return $this->repo->findAll();
     }
 
-
-    public function getPost(int $id): TrickModel
+    public function getAllPublic(): TrickModel|array
     {
-        $trickEntity = $this->trickRepository->getById($id);
-        return $this->trickMapper->fromFetch($trickEntity);
+        return $this->repo->findByStatus(1);
+    }
+
+    public function getById(int $id): Trick|array
+    {
+        //return $this->repo->findById($id);
+        return $this->repo->find($id);
+    }
+
+    public function getByTitleOne(string $title): Trick|array
+    {
+        return $this->repo->findOneByTitle($title);
+    }
+
+    public function getByTitle(string $title): Trick|array
+    {
+        return $this->repo->findByTitle($title);
+    }
+
+    public function getSlug(int $id): string
+    {
+        return $this->repo->findSlug($id);
     }
     
-
-    public function savePost(int $catid, string $title, string $excerpt, string $content): string
+    public function saveTrick(Trick $trick): void
     {
-        return $this->trickRepository->postSave($catid, $title, $excerpt, $content);
+        $this->repo->saveTrick($trick);
     }
 
-
-
+    public function deleteTrick(Trick $trick): bool
+    {
+        if ($this->repo->findOneById($trick->getId()) === null) {
+            return false;
+        }
+        $this->repo->delete($trick);
+        return true;
+    }
 
 }
