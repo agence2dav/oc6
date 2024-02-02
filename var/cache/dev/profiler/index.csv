@@ -1090,3 +1090,15 @@ a6f1e4,127.0.0.1,GET,http://localhost:8000/trick/11,1706870196,1f24f9,500,reques
 90419a,127.0.0.1,GET,"http://localhost:8000/trick/11/lk,klm",1706870232,,500,request
 85168f,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1706870233,c2b43e,404,request
 c2b43e,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1706870233,,404,request
+d63ed5,127.0.0.1,GET,http://localhost:8000/trick/11/55,1706873513,,200,request
+518dad,127.0.0.1,GET,"http://localhost:8000/trick/11/lk,klm",1706873514,3ce12a,500,request
+3ce12a,127.0.0.1,GET,"http://localhost:8000/trick/11/lk,klm",1706873514,,500,request
+7c44ae,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1706873514,c47003,404,request
+c47003,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1706873514,,404,request
+047f68,127.0.0.1,GET,http://localhost:8000/trick/11/55,1706887530,49dfa7,404,request
+49dfa7,127.0.0.1,GET,http://localhost:8000/trick/11/55,1706887530,,404,request
+dae280,127.0.0.1,GET,http://localhost:8000/trick,1706887537,eaa768,404,request
+eaa768,127.0.0.1,GET,http://localhost:8000/trick,1706887537,,404,request
+016312,127.0.0.1,GET,http://localhost:8000/,1706887545,,200,request
+3b0806,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1706887546,12318a,404,request
+12318a,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1706887546,,404,request

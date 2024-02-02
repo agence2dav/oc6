@@ -11,12 +11,19 @@ use Symfony\UX\Turbo\Attribute\Broadcast;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
+use App\Entity\TrickDesignations;
+use App\Entity\Comment;
 use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[Broadcast]
 class Trick
 {
+
+    public function __construct()
+    {
+        //this->notes = new ArrayCollection();
+    }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
@@ -38,9 +45,9 @@ class Trick
     private ?int $id = null;
 
     #[ORM\Column]
-    //doit s'appeler userid_id
-    //#[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'trick')]
-    private ?int $userid = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'trick')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?int $user = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -60,20 +67,25 @@ class Trick
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $updatedAt = null;
 
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'trick')]
+    private ?int $comment = null;
+
+    #[ORM\OneToMany(targetEntity: TrickDesignations::class, mappedBy: 'trick')]
+    private ?int $designation = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUserid(): ?int
+    public function getUser(): ?string
     {
-        return $this->userid;
+        return $this->user;
     }
 
-    public function setUserid(int $userid): static
+    public function setUser($user): static
     {
-        $this->userid = $userid;
-
+        $this->user = $user;
         return $this;
     }
 
@@ -85,7 +97,6 @@ class Trick
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -97,7 +108,6 @@ class Trick
     public function setContent(string $content): static
     {
         $this->content = $content;
-
         return $this;
     }
 
@@ -109,7 +119,6 @@ class Trick
     public function setImage(string $image): static
     {
         $this->image = $image;
-
         return $this;
     }
 
@@ -121,7 +130,6 @@ class Trick
     public function setStatus(int $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -133,7 +141,6 @@ class Trick
     public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -145,7 +152,28 @@ class Trick
     public function setUpdatedAt(\DateTimeInterface $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
 
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment($comment): static
+    {
+        $this->comment = $comment;
+        return $this;
+    }
+
+    public function getDesignation(): ?string
+    {
+        return $this->designation;
+    }
+
+    public function setDesignation($designation): static
+    {
+        $this->designation = $designation;
         return $this;
     }
 

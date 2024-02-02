@@ -19,10 +19,8 @@ return [
     '_profiler_exception_css' => [['token'], ['_controller' => 'web_profiler.controller.exception_panel::stylesheet'], [], [['text', '/exception.css'], ['variable', '/', '[^/]++', 'token', true], ['text', '/_profiler']], [], [], []],
     'app_empty' => [[], ['_controller' => 'App\\Controller\\HomeController::index'], [], [['text', '/']], [], [], []],
     'app_home' => [[], ['_controller' => 'App\\Controller\\HomeController::index'], [], [['text', '/home']], [], [], []],
-    'app_lucky_number' => [[], ['_controller' => 'App\\Controller\\LuckyController::number'], [], [['text', '/lucky/number']], [], [], []],
     'new_trick' => [[], ['_controller' => 'App\\Controller\\TrickController::form'], [], [['text', '/trick/new']], [], [], []],
     'edit_trick' => [['id'], ['_controller' => 'App\\Controller\\TrickController::form'], [], [['text', '/edit'], ['variable', '/', '[^/]++', 'id', true], ['text', '/trick']], [], [], []],
     'show_trick' => [['id'], ['_controller' => 'App\\Controller\\TrickController::show'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/trick']], [], [], []],
     'show_trick2' => [['id', 'commentId'], ['_controller' => 'App\\Controller\\TrickController::show'], [], [['variable', '/', '[^/]++', 'commentId', true], ['variable', '/', '[^/]++', 'id', true], ['text', '/trick']], [], [], []],
-    'App\Controller\LuckyController::number' => [[], ['_controller' => 'App\\Controller\\LuckyController::number'], [], [['text', '/lucky/number']], [], [], []],
 ];

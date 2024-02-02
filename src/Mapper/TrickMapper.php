@@ -13,15 +13,13 @@ class TrickMapper
 
     public function __construct(
         private TrickModel $trickModel
-    )
-    {
+    ) {
 
     }
 
     public function fromFetch(
         Trick $entity
-    ): TrickModel|bool
-    {
+    ): TrickModel|bool {
         //$trickModel = new TrickModel();
         $trickModel = $this->trickModel;
         $trickModel->id = $entity->id;
@@ -29,14 +27,13 @@ class TrickMapper
         $trickModel->content = $entity->content;
         $trickModel->createdAt = $entity->createdAt;
         $trickModel->status = $entity->status;
-        $trickModel->userid = $entity->userid;
+        $trickModel->userId = $entity->userId;
         return $trickModel;
     }
 
     public static function fromFetchAll(
         array $entities
-    ): array
-    {
+    ): array {
         $trickModels = array_map(
             function ($entity) {
                 return self::fromFetch($entity);

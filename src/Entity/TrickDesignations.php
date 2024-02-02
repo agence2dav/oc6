@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\TrickDesignationsRepository;
@@ -17,40 +19,40 @@ class TrickDesignations
     #[ORM\Column]
     private ?int $id = null;
 
-    //#[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'trick_designations')]
-    private ?int $trickId = null;
+    #[ORM\Column]
+    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'trickDesignations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?int $trick = null;
 
-    //#[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: Designation::class, inversedBy: 'trick_designations')]
-    private ?int $designationId = null;
+    #[ORM\Column]
+    #[ORM\OneToOne(targetEntity: Designation::class, mappedBy: 'trickDesignations')]
+    private ?int $designation = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTrickId(): ?int
+    public function getTrick(): ?int
     {
-        return $this->trickId;
+        return $this->trick;
     }
 
-    public function setTrickId(int $trickId): static
+    public function setTrick($trick): static
     {
-        $this->trickId = $trickId;
-
+        $this->trick = $trick;
         return $this;
     }
 
-    public function getDesignationId(): ?int
+    public function getDesignation(): ?string
     {
-        return $this->designationId;
+        return $this->designation;
     }
 
-    public function setDesignationId(int $designationId): static
+    public function setDesignation($designation): static
     {
-        $this->designationId = $designationId;
-
+        $this->designation = $designation;
         return $this;
     }
+
 }

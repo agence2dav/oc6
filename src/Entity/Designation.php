@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\DesignationRepository;
@@ -20,6 +22,10 @@ class Designation
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[ORM\OneToOne(targetEntity: TrickDesignations::class, inversedBy: 'designation')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?string $trickDesignations = null;
 
     public function getId(): ?int
     {
@@ -47,6 +53,17 @@ class Designation
     {
         $this->name = $name;
 
+        return $this;
+    }
+
+    public function gettrickDesignation(): ?string
+    {
+        return $this->trickDesignations;
+    }
+
+    public function setTrickDesignation($trickDesignations): static
+    {
+        $this->trickDesignations = $trickDesignations;
         return $this;
     }
 }

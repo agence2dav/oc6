@@ -1,15 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use App\Entity\Comment;
+use App\Entity\Trick;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[Broadcast]
 class User
 {
+
+    public function __construct()
+    {
+        //$this->notes = new ArrayCollection();
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,6 +37,12 @@ class User
     #[ORM\Column]
     private ?int $role = null;
 
+    #[ORM\OneToMany(targetEntity: Trick::class, mappedBy: 'user')]
+    private ?int $trick = null;
+
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
+    private ?int $comment = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -40,7 +56,6 @@ class User
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -52,7 +67,6 @@ class User
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -64,7 +78,6 @@ class User
     public function setPassword(string $password): static
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -76,7 +89,28 @@ class User
     public function setRole(int $role): static
     {
         $this->role = $role;
+        return $this;
+    }
 
+    public function getTrick(): ?int
+    {
+        return $this->trick;
+    }
+
+    public function setTrick(int $trick): static
+    {
+        $this->role = $trick;
+        return $this;
+    }
+
+    public function getComment(): ?int
+    {
+        return $this->comment;
+    }
+
+    public function setComment(int $comment): static
+    {
+        $this->role = $comment;
         return $this;
     }
 }
