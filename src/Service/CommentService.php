@@ -12,35 +12,42 @@ use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
+use App\Repository\TrickRepository;
+use App\Mapper\CommentMapper;
 
 class CommentService
 {
 
     public function __construct(
         //private readonly EntityManagerInterface $entityManager,
-        private CommentRepository $repo,
-        private EntityManagerInterface $manager
-    )
-    {
+        private CommentRepository $commentRepository,
+        private EntityManagerInterface $manager,
+        private CommentMapper $commentMapper,
+        private TrickRepository $trickRepository,
+    ) {
     }
 
-    public function getByTrick(int $trickId): Comment|array
+    public function getByTrick(int $trickId): array
     {
-        //return $this->repo->findById($trickId);
-        return $this->repo->findByTrick($trickId);
+        //return $this->commentRepository->findById($trickId);
+        return $this->commentRepository->findByTrick($trickId);
+        //$trick = $this->trickRepository->findOneById($trickId); //
+        //$entities = $this->commentRepository->findByTrick($trickId);
+        //$commentsEntities = $trick->getComments();
+        //return $this->commentMapper->EntitiesToModels($commentsEntities);
     }
-    
+
     public function saveComment(Comment $comment): void
     {
-        $this->repo->saveComment($comment);
+        $this->commentRepository->saveComment($comment);
     }
-    
+
     public function deleteComment(Comment $comment): bool
     {
-        if ($this->repo->findOneById($comment->getId()) === null) {
+        if ($this->commentRepository->findOneById($comment->getId()) === null) {
             return false;
         }
-        $this->repo->delete($comment);
+        $this->commentRepository->delete($comment);
         return true;
     }
 

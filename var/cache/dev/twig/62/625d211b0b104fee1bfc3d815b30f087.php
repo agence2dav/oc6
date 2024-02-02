@@ -89,7 +89,7 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
 
         // line 7
         echo "
-    <h1>New Post</h1>
+    <h1> kjhk </h1>
 
     ";
         // line 10
@@ -171,7 +171,7 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
 
 {% block body %}
 
-    <h1>New Post</h1>
+    <h1> kjhk </h1>
 
     {{ form_start(formTrick) }}
 

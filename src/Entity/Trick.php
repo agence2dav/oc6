@@ -1,17 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\TrickRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Type;
 use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[Broadcast]
 class Trick
 {
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addPropertyConstraint('title', new NotBlank());
+        $metadata->addPropertyConstraint('content', new NotBlank());
+        $metadata->addPropertyConstraint('image', new NotBlank());
+        /*
+        $metadata->addPropertyConstraint('createdAt', new NotBlank());
+        $metadata->addPropertyConstraint(
+            'createdAt',
+            new Type(\DateTimeInterface::class)
+        );*/
+    }
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

@@ -18,7 +18,7 @@ class TrickModel
     private readonly int $userid;
     private readonly int $designation;
     private readonly array $results;
-    
+
     public function getId(): int
     {
         return $this->id;

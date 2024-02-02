@@ -27,7 +27,7 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    
+
     /*public function findAll(): array
     {
         $query = $this->getEntityManager()->createQueryBuilder()
@@ -36,7 +36,7 @@ class TrickRepository extends ServiceEntityRepository
             ->orderBy('trick.id', 'DESC');
     }*/
 
-    
+
     public function findByStatus(): array
     {
         return $this->createQueryBuilder('t')
@@ -58,10 +58,10 @@ class TrickRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-        $title=$entity->title;
-        return str_replace(['"',"'",' ','&'],'-',strtolower($title));
+        $title = $entity->title;
+        return str_replace(['"', "'", ' ', '&'], '-', strtolower($title));
     }
-    
+
     public function saveTrick(Trick $trick): void
     {
         $this->getEntityManager()->persist($trick);
@@ -75,7 +75,7 @@ class TrickRepository extends ServiceEntityRepository
     }
 
 
-//    /**
+    //    /**
 //     * @return Trick[] Returns an array of Trick objects
 //     */
 //    public function findByExampleField($value): array
@@ -90,7 +90,7 @@ class TrickRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Trick
+    //    public function findOneBySomeField($value): ?Trick
 //    {
 //        return $this->createQueryBuilder('t')
 //            ->andWhere('t.exampleField = :val')

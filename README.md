@@ -50,7 +50,9 @@
 
 - todo: forms of comments
 - separate tasks in Service and Form
-- redrax form of tricks
+- propose form of tricks
+- save comment
+- redicrect correctly to the same page with 2 parameters
 
 ### 6 - login
 

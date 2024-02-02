@@ -27,13 +27,12 @@ class TrickService
         //private TrickModel $model,
         //private TrickMapper $mapper,
         private EntityManagerInterface $manager
-    )
-    {
+    ) {
 
     }
 
-        //$repo=$this->getDoctrine()->getRepository(Trick::class);//old1
-        //$repo=$em()->getRepository(Trick::class);//old2
+    //$repo=$this->getDoctrine()->getRepository(Trick::class);//old1
+    //$repo=$em()->getRepository(Trick::class);//old2
 
     public function getAll(): Trick|array
     {
@@ -45,10 +44,11 @@ class TrickService
         return $this->repo->findByStatus(1);
     }
 
-    public function getById(int $id): Trick|array
+    public function getById(int $id): Trick
     {
-        //return $this->repo->findById($id);
-        return $this->repo->find($id);
+
+        //return $this->repo->find($id);
+        return $this->repo->findOneById($id);
     }
 
     public function getByTitleOne(string $title): Trick|array
@@ -65,7 +65,7 @@ class TrickService
     {
         return $this->repo->findSlug($id);
     }
-    
+
     public function saveTrick(Trick $trick): void
     {
         $this->repo->saveTrick($trick);
