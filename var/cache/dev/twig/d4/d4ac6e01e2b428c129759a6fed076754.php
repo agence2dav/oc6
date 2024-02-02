@@ -118,36 +118,60 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
 
     ";
         // line 25
-        $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["comments"]) || array_key_exists("comments", $context) ? $context["comments"] : (function () { throw new RuntimeError('Variable "comments" does not exist.', 25, $this->source); })()));
-        foreach ($context['_seq'] as $context["_key"] => $context["comment"]) {
+        if (((isset($context["justCommented"]) || array_key_exists("justCommented", $context) ? $context["justCommented"] : (function () { throw new RuntimeError('Variable "justCommented" does not exist.', 25, $this->source); })()) == true)) {
             // line 26
-            echo "    <comments class=\"card text-white bg-secondary mb-3\">
+            echo "    <div class=\"alert alert-primary\">Merci pour votre commentaire. Il sera publié après validation.</div>
+    ";
+        } else {
+            // line 28
+            echo "        ";
+            echo             $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formComment"]) || array_key_exists("formComment", $context) ? $context["formComment"] : (function () { throw new RuntimeError('Variable "formComment" does not exist.', 28, $this->source); })()), 'form_start');
+            echo "
+        ";
+            // line 29
+            echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formComment"]) || array_key_exists("formComment", $context) ? $context["formComment"] : (function () { throw new RuntimeError('Variable "formComment" does not exist.', 29, $this->source); })()), "content", [], "any", false, false, false, 29), 'row', ["attr" => ["placeholder" => "Contenu"]]);
+            echo "
+        <button type=\"submit\" class=\"btn btn-success\">Envoyer</button>
+        ";
+            // line 31
+            echo             $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formComment"]) || array_key_exists("formComment", $context) ? $context["formComment"] : (function () { throw new RuntimeError('Variable "formComment" does not exist.', 31, $this->source); })()), 'form_end');
+            echo "
+    ";
+        }
+        // line 33
+        echo "
+    ";
+        // line 34
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable((isset($context["comments"]) || array_key_exists("comments", $context) ? $context["comments"] : (function () { throw new RuntimeError('Variable "comments" does not exist.', 34, $this->source); })()));
+        foreach ($context['_seq'] as $context["_key"] => $context["comment"]) {
+            // line 35
+            echo "    <section class=\"card text-white bg-secondary mb-3\">
         <div class=\"card-header\">
             <strong>";
-            // line 28
-            echo twig_get_attribute($this->env, $this->source, $context["comment"], "name", [], "any", false, false, false, 28);
+            // line 37
+            echo twig_get_attribute($this->env, $this->source, $context["comment"], "name", [], "any", false, false, false, 37);
             echo "</strong>
             <div class=\"metadata\">";
-            // line 29
-            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, twig_get_attribute($this->env, $this->source, $context["comment"], "date", [], "any", false, false, false, 29), "d/m/Y"), "html", null, true);
+            // line 38
+            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, twig_get_attribute($this->env, $this->source, $context["comment"], "date", [], "any", false, false, false, 38), "d/m/Y"), "html", null, true);
             echo "</div>
         </div>
         <div class=\"card-boby\">
             <div class=\"content\">
                 <div class=\"text-body-primary\">";
-            // line 33
-            echo twig_get_attribute($this->env, $this->source, $context["comment"], "content", [], "any", false, false, false, 33);
-            echo "<div>
+            // line 42
+            echo twig_get_attribute($this->env, $this->source, $context["comment"], "content", [], "any", false, false, false, 42);
+            echo "</div>
             </div>
         </div>
-    </comments>
+    </section>
     ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['comment'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 38
+        // line 47
         echo "
 </div>
 ";
@@ -180,7 +204,7 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  151 => 38,  140 => 33,  133 => 29,  129 => 28,  125 => 26,  121 => 25,  112 => 19,  106 => 16,  99 => 12,  95 => 11,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  175 => 47,  164 => 42,  157 => 38,  153 => 37,  149 => 35,  145 => 34,  142 => 33,  137 => 31,  132 => 29,  127 => 28,  123 => 26,  121 => 25,  112 => 19,  106 => 16,  99 => 12,  95 => 11,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -209,18 +233,27 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
 
     <h3>Commentaires</h3>
 
+    {% if justCommented == true %}
+    <div class=\"alert alert-primary\">Merci pour votre commentaire. Il sera publié après validation.</div>
+    {% else %}
+        {{ form_start(formComment) }}
+        {{ form_row(formComment.content, {\"attr\":{\"placeholder\":\"Contenu\"}}) }}
+        <button type=\"submit\" class=\"btn btn-success\">Envoyer</button>
+        {{ form_end(formComment) }}
+    {% endif %}
+
     {% for comment in comments %}
-    <comments class=\"card text-white bg-secondary mb-3\">
+    <section class=\"card text-white bg-secondary mb-3\">
         <div class=\"card-header\">
             <strong>{{ comment.name | raw}}</strong>
             <div class=\"metadata\">{{ comment.date | date(\"d/m/Y\") }}</div>
         </div>
         <div class=\"card-boby\">
             <div class=\"content\">
-                <div class=\"text-body-primary\">{{ comment.content | raw}}<div>
+                <div class=\"text-body-primary\">{{ comment.content | raw}}</div>
             </div>
         </div>
-    </comments>
+    </section>
     {% endfor %}
 
 </div>

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
@@ -17,7 +19,7 @@ class Comment
     private ?int $id = null;
 
     #[ORM\Column]
-    //#[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'comment')]
+    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'comment')]
     //#[ORM\JoinColumn(nullable: false)]
     private ?int $trickid = null;
 

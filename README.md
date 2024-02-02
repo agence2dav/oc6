@@ -12,7 +12,7 @@
 - install debug-bundle
 - install profiler
 
-### 1.2 firstpage
+### 1.2 firstpage #10
 
 - install first page: lucky/number
 - install first page: home
@@ -36,8 +36,23 @@
 - use validators
 
 ### 5 - comments
-- todo: create table comment
-- todo: create form using cli
+- rename articles by tricks
+- create table comment
+- create form using cli
+- create table designation and trick_designations
+- create table users
+- create mysql request
+- learn how works the orm to update tables
+- separation of tasks in services an repository
+- display article with related validated comments
+
+### 5.2 - forms2 #15
+
+- todo: forms of comments
+- separate tasks in Service and Form
+- propose form of tricks
+- save comment
+- redicrect correctly to the same page with 2 parameters
 
 ### 6 - login
 

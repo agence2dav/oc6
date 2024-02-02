@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -21,11 +23,10 @@ class CommentRepository extends ServiceEntityRepository
     public function __construct(
         ManagerRegistry $registry,
         private EntityManagerInterface $manager
-    )
-    {
+    ) {
         parent::__construct($registry, Comment::class);
     }
-    
+
     /* */
 
 
@@ -42,10 +43,10 @@ class CommentRepository extends ServiceEntityRepository
             AND c.status = 1
             ORDER BY c.id ASC
             '
-            )
+        )
             ->setParameter('id', $trickid);
 
-        return $query->getResult();//getOneOrNullResult();
+        return $query->getResult(); //getOneOrNullResult();
     }
 
     public function findByTrick1(int $trickid): Comment|array
@@ -79,10 +80,10 @@ class CommentRepository extends ServiceEntityRepository
             ->andWhere('c.status = 1')
             ->orderBy('c.id', 'ASC');
 
-        return $queryBuilder->getQuery()->getResult();//toIterable();
+        return $queryBuilder->getQuery()->getResult(); //toIterable();
     }
 
-//    /**
+    //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */
 //    public function findByExampleField($value): array
@@ -97,7 +98,7 @@ class CommentRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Comment
+    //    public function findOneBySomeField($value): ?Comment
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

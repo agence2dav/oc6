@@ -76,9 +76,9 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                 background-size: cover;
                 background-repeat:no-repeat;
                 background-attachment:fixed;}
-            content{ display:block;}
-            article{ display:block; margin:20px;}
-            comments{ display:block; margin:20px;}
+            content{ display:block; margin:40px;}
+            article{ display:block; margin:0px;}
+            section{ display:block; margin:0px;}
             .example-wrapper { margin: 1em auto; width: 95%; font: 18px/1.5 sans-serif; }
             .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
             .image{margin-bottom:20px;}
@@ -330,9 +330,9 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                 background-size: cover;
                 background-repeat:no-repeat;
                 background-attachment:fixed;}
-            content{ display:block;}
-            article{ display:block; margin:20px;}
-            comments{ display:block; margin:20px;}
+            content{ display:block; margin:40px;}
+            article{ display:block; margin:0px;}
+            section{ display:block; margin:0px;}
             .example-wrapper { margin: 1em auto; width: 95%; font: 18px/1.5 sans-serif; }
             .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
             .image{margin-bottom:20px;}

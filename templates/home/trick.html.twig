@@ -22,18 +22,27 @@
 
     <h3>Commentaires</h3>
 
+    {% if justCommented == true %}
+    <div class="alert alert-primary">Merci pour votre commentaire. Il sera publié après validation.</div>
+    {% else %}
+        {{ form_start(formComment) }}
+        {{ form_row(formComment.content, {"attr":{"placeholder":"Contenu"}}) }}
+        <button type="submit" class="btn btn-success">Envoyer</button>
+        {{ form_end(formComment) }}
+    {% endif %}
+
     {% for comment in comments %}
-    <comments class="card text-white bg-secondary mb-3">
+    <section class="card text-white bg-secondary mb-3">
         <div class="card-header">
             <strong>{{ comment.name | raw}}</strong>
             <div class="metadata">{{ comment.date | date("d/m/Y") }}</div>
         </div>
         <div class="card-boby">
             <div class="content">
-                <div class="text-body-primary">{{ comment.content | raw}}<div>
+                <div class="text-body-primary">{{ comment.content | raw}}</div>
             </div>
         </div>
-    </comments>
+    </section>
     {% endfor %}
 
 </div>
