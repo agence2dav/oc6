@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\TrickRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Type;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use App\Entity\TrickDesignations;
 use App\Entity\Comment;
 use App\Entity\User;
@@ -50,6 +53,13 @@ class Trick
     private ?int $user = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le titre doit être spécifié')]
+    #[Assert\Length(
+        min: 5,
+        minMessage: 'Le titre doit faire plus de {{ limit }} caractères',
+        max: 50,
+        maxMessage: 'Longueur max : limit }} caractères'
+    )]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -67,11 +77,18 @@ class Trick
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $updatedAt = null;
 
+    //relations
+
+    //#[ORM\ManyToMany(targetEntity: Media::class, inversedBy: 'tricks', cascade:['persist'], fetch: 'EAGER')]
+    //#[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
+
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'trick')]
-    private ?int $comment = null;
+    private ?Collection $comment = null;
 
     #[ORM\OneToMany(targetEntity: TrickDesignations::class, mappedBy: 'trick')]
-    private ?int $designation = null;
+    private ?Collection $designation = null;
+
+    //get-set
 
     public function getId(): ?int
     {
@@ -83,7 +100,7 @@ class Trick
         return $this->user;
     }
 
-    public function setUser($user): static
+    public function setUser(int $user): static
     {
         $this->user = $user;
         return $this;
@@ -160,7 +177,7 @@ class Trick
         return $this->comment;
     }
 
-    public function setComment($comment): static
+    public function setComment(Collection $comment): static
     {
         $this->comment = $comment;
         return $this;
@@ -171,7 +188,7 @@ class Trick
         return $this->designation;
     }
 
-    public function setDesignation($designation): static
+    public function setDesignation(Collection $designation): static
     {
         $this->designation = $designation;
         return $this;

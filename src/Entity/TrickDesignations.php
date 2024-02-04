@@ -25,7 +25,8 @@ class TrickDesignations
     private ?int $trick = null;
 
     #[ORM\Column]
-    #[ORM\OneToOne(targetEntity: Designation::class, mappedBy: 'trickDesignations')]
+    #[ORM\ManyToOne(targetEntity: Designation::class, inversedBy: 'trickDesignations')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?int $designation = null;
 
     public function getId(): ?int

@@ -6,6 +6,7 @@ namespace App\Controller;
 
 //use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,6 +83,8 @@ class TrickController extends AbstractController
         }
         //echo $commentId;
 
+        $slugger = new AsciiSlugger();
+        $slug = $slugger->slug($trick->getTitle());
         return $this->render(
             'home/trick.html.twig',
             [

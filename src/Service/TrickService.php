@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Form\Extension\Core\Type\TextType;
 //use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use App\Repository\TrickRepository;
 use App\Mapper\TrickMapper;
 use App\Model\TrickModel;

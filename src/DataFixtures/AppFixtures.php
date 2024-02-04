@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -99,7 +101,6 @@ class AppFixtures extends Fixture
 
     public function trick_designations(ObjectManager $manager): void
     {
-
         $designationsRandom = array_rand($this->designations, 4);
         for ($i = 1; $i < $this->numberOfArticles; $i++) {
             for ($j = 0; $j < 4; $j++) {
@@ -115,7 +116,6 @@ class AppFixtures extends Fixture
 
     public function users(ObjectManager $manager): void
     {
-
         for ($i = 0; $i < $this->numberOfArticles; $i++) {
             $user = new User();
             $user
@@ -130,10 +130,12 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        /* 
         $this->users($manager);
         $this->tricks($manager);
         $this->comments($manager);
         $this->designations($manager);
         $this->trick_designations($manager);
+        */
     }
 }

@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Repository\DesignationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: DesignationRepository::class)]
 #[Broadcast]
@@ -23,9 +24,8 @@ class Designation
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToOne(targetEntity: TrickDesignations::class, inversedBy: 'designation')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?string $trickDesignations = null;
+    #[ORM\OneToMany(targetEntity: TrickDesignations::class, mappedBy: 'designation')]
+    private ?Collection $trickDesignations = null;
 
     public function getId(): ?int
     {
@@ -61,7 +61,7 @@ class Designation
         return $this->trickDesignations;
     }
 
-    public function setTrickDesignation($trickDesignations): static
+    public function setTrickDesignation(Collection $trickDesignations): static
     {
         $this->trickDesignations = $trickDesignations;
         return $this;
