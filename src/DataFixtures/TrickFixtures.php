@@ -31,7 +31,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
+        for ($i = 1; $i < $this->fixturesService->numberOfTricks(); $i++) {
             $trick = new Trick();
 
             $trick->setTitle('titre ' . $i)

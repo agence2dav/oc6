@@ -48,18 +48,15 @@ class TrickRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findSlug(int $id): string
+    public function findBySlug(string $slug): string
     {
-        $entity = $this->createQueryBuilder('t')
-            ->andWhere('t.id = :id')
-            ->setParameter('id', $id)
-            ->orderBy('t.id', 'DESC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.title = :slug')
+            ->setParameter('slug', $slug)
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult()
         ;
-        $title = $entity->title;
-        return str_replace(['"', "'", ' ', '&'], '-', strtolower($title));
     }
 
     public function saveTrick(Trick $trick): void

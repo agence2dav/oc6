@@ -27,12 +27,12 @@ class CommentService
     ) {
     }
 
-    public function getByTrick(int $trickId): array
+    public function getByTrick(int $id): array
     {
-        //return $this->commentRepository->findById($trickId);
-        return $this->commentRepository->findByTrick($trickId);
-        //$trick = $this->trickRepository->findOneById($trickId); //
-        //$entities = $this->commentRepository->findByTrick($trickId);
+        //return $this->commentRepository->findById($id);
+        return $this->commentRepository->findByTrick($id);
+        //$trick = $this->trickRepository->findOneById($id); //
+        //$entities = $this->commentRepository->findByTrick($id);
         //$commentsEntities = $trick->getComments();
         //return $this->commentMapper->EntitiesToModels($commentsEntities);
     }

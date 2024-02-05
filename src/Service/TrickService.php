@@ -47,7 +47,6 @@ class TrickService
 
     public function getById(int $id): Trick
     {
-
         //return $this->repo->find($id);
         return $this->repo->findOneById($id);
     }
@@ -62,9 +61,9 @@ class TrickService
         return $this->repo->findByTitle($title);
     }
 
-    public function getSlug(int $id): string
+    public function getBySlug(string $slug): string
     {
-        return $this->repo->findSlug($id);
+        return $this->repo->findBySlug($slug);
     }
 
     public function saveTrick(Trick $trick): void
