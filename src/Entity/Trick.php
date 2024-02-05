@@ -28,6 +28,7 @@ class Trick
         //this->notes = new ArrayCollection();
     }
 
+    //https://symfony.com/doc/current/reference/constraints/Collection.html
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('title', new NotBlank());
@@ -172,7 +173,7 @@ class Trick
         return $this;
     }
 
-    public function getComment(): ?string
+    public function getComment(): ?Collection
     {
         return $this->comment;
     }

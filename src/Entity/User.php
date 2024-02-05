@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use App\Repository\UserRepository;
 use App\Entity\Comment;
 use App\Entity\Trick;
 
@@ -14,6 +16,26 @@ use App\Entity\Trick;
 #[Broadcast]
 class User
 {
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addPropertyConstraint('userData', new Assert\Collection([
+            'fields' => [
+                'email' => new Assert\Required([
+                    new Assert\NotBlank(),
+                    new Assert\Email(),
+                ]),
+                'name' => [
+                    new Assert\NotBlank(),
+                    new Assert\Length([
+                        'max' => 100,
+                        'maxMessage' => 'Your short bio is too long!',
+                    ]),
+                ],
+            ],
+            'allowMissingFields' => false,
+        ]));
+    }
 
     public function __construct()
     {

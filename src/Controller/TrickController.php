@@ -66,7 +66,12 @@ class TrickController extends AbstractController
 
         //$userConnected = $this->getUser();
         $trick = $this->trickService->getById($id);
+        //$comments = $trick->getComment();
         $comments = $this->commentService->getByTrick($id);
+        //$trick = $comments->getTrick();
+
+        //dump($trick);
+        dump($comments);
 
         $comment = new Comment();
         $options = [
@@ -74,7 +79,6 @@ class TrickController extends AbstractController
         ];
         $form = $this->createForm(CommentFormType::class, $comment, $options);
         $form->handleRequest($request);
-        //dump($comment);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->commentFormType->saveForm($comment, $manager, $id);

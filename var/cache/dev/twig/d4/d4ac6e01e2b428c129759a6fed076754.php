@@ -124,44 +124,47 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
     ";
         } else {
             // line 28
-            echo "        ";
-            echo             $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formComment"]) || array_key_exists("formComment", $context) ? $context["formComment"] : (function () { throw new RuntimeError('Variable "formComment" does not exist.', 28, $this->source); })()), 'form_start');
-            echo "
+            echo "    <div class=\"form-floating mb-3 alert alert-primary\">
         ";
             // line 29
-            echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formComment"]) || array_key_exists("formComment", $context) ? $context["formComment"] : (function () { throw new RuntimeError('Variable "formComment" does not exist.', 29, $this->source); })()), "content", [], "any", false, false, false, 29), 'row', ["attr" => ["placeholder" => "Contenu"]]);
+            echo             $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formComment"]) || array_key_exists("formComment", $context) ? $context["formComment"] : (function () { throw new RuntimeError('Variable "formComment" does not exist.', 29, $this->source); })()), 'form_start');
+            echo "
+        ";
+            // line 30
+            echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formComment"]) || array_key_exists("formComment", $context) ? $context["formComment"] : (function () { throw new RuntimeError('Variable "formComment" does not exist.', 30, $this->source); })()), "content", [], "any", false, false, false, 30), 'row', ["attr" => ["placeholder" => "Contenu", "class" => "form-control"]]);
             echo "
         <button type=\"submit\" class=\"btn btn-success\">Envoyer</button>
         ";
-            // line 31
-            echo             $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formComment"]) || array_key_exists("formComment", $context) ? $context["formComment"] : (function () { throw new RuntimeError('Variable "formComment" does not exist.', 31, $this->source); })()), 'form_end');
+            // line 32
+            echo             $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formComment"]) || array_key_exists("formComment", $context) ? $context["formComment"] : (function () { throw new RuntimeError('Variable "formComment" does not exist.', 32, $this->source); })()), 'form_end');
             echo "
+    </div>
     ";
         }
-        // line 33
+        // line 35
         echo "
     ";
-        // line 34
+        // line 36
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["comments"]) || array_key_exists("comments", $context) ? $context["comments"] : (function () { throw new RuntimeError('Variable "comments" does not exist.', 34, $this->source); })()));
+        $context['_seq'] = twig_ensure_traversable((isset($context["comments"]) || array_key_exists("comments", $context) ? $context["comments"] : (function () { throw new RuntimeError('Variable "comments" does not exist.', 36, $this->source); })()));
         foreach ($context['_seq'] as $context["_key"] => $context["comment"]) {
-            // line 35
+            // line 37
             echo "    <section class=\"card text-white bg-secondary mb-3\">
         <div class=\"card-header\">
             <strong>";
-            // line 37
-            echo twig_get_attribute($this->env, $this->source, $context["comment"], "name", [], "any", false, false, false, 37);
+            // line 39
+            echo twig_get_attribute($this->env, $this->source, $context["comment"], "name", [], "any", false, false, false, 39);
             echo "</strong>
             <div class=\"metadata\">";
-            // line 38
-            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, twig_get_attribute($this->env, $this->source, $context["comment"], "date", [], "any", false, false, false, 38), "d/m/Y"), "html", null, true);
+            // line 40
+            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, twig_get_attribute($this->env, $this->source, $context["comment"], "date", [], "any", false, false, false, 40), "d/m/Y"), "html", null, true);
             echo "</div>
         </div>
         <div class=\"card-boby\">
             <div class=\"content\">
                 <div class=\"text-body-primary\">";
-            // line 42
-            echo twig_get_attribute($this->env, $this->source, $context["comment"], "content", [], "any", false, false, false, 42);
+            // line 44
+            echo twig_get_attribute($this->env, $this->source, $context["comment"], "content", [], "any", false, false, false, 44);
             echo "</div>
             </div>
         </div>
@@ -171,7 +174,7 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['comment'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 47
+        // line 49
         echo "
 </div>
 ";
@@ -204,7 +207,7 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  175 => 47,  164 => 42,  157 => 38,  153 => 37,  149 => 35,  145 => 34,  142 => 33,  137 => 31,  132 => 29,  127 => 28,  123 => 26,  121 => 25,  112 => 19,  106 => 16,  99 => 12,  95 => 11,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  178 => 49,  167 => 44,  160 => 40,  156 => 39,  152 => 37,  148 => 36,  145 => 35,  139 => 32,  134 => 30,  130 => 29,  127 => 28,  123 => 26,  121 => 25,  112 => 19,  106 => 16,  99 => 12,  95 => 11,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -236,10 +239,12 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
     {% if justCommented == true %}
     <div class=\"alert alert-primary\">Merci pour votre commentaire. Il sera publié après validation.</div>
     {% else %}
+    <div class=\"form-floating mb-3 alert alert-primary\">
         {{ form_start(formComment) }}
-        {{ form_row(formComment.content, {\"attr\":{\"placeholder\":\"Contenu\"}}) }}
+        {{ form_row(formComment.content, {\"attr\":{\"placeholder\":\"Contenu\", \"class\":\"form-control\"}}) }}
         <button type=\"submit\" class=\"btn btn-success\">Envoyer</button>
         {{ form_end(formComment) }}
+    </div>
     {% endif %}
 
     {% for comment in comments %}

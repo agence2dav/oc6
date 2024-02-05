@@ -9,8 +9,8 @@ use DateTimeImmutable;
 class CommentModel
 {
     private ?int $id = null;
-    private ?int $trickId = null;
-    private ?int $userId = null;
+    private ?int $trick = null;
+    private ?int $user = null;
     private ?string $content = null;
     private ?\DateTimeInterface $date = null;
     private ?int $status = null;
@@ -26,27 +26,25 @@ class CommentModel
         return $this;
     }
 
-    public function getTrickId(): ?int
+    public function getTrick(): ?int
     {
-        return $this->trickId;
+        return $this->trick;
     }
 
-    public function setTrickId(int $trickId): static
+    public function setTrick(int $trick): static
     {
-        $this->trickId = $trickId;
-
+        $this->trick = $trick;
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getUser(): ?int
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(int $userId): static
+    public function setUser(int $user): static
     {
-        $this->userId = $userId;
-
+        $this->user = $user;
         return $this;
     }
 
@@ -58,7 +56,6 @@ class CommentModel
     public function setContent(string $content): static
     {
         $this->content = $content;
-
         return $this;
     }
 
@@ -70,7 +67,6 @@ class CommentModel
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -82,7 +78,6 @@ class CommentModel
     public function setStatus(int $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 }
