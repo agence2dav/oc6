@@ -27,8 +27,8 @@ class CommentFormType extends AbstractType
     {
         if (!$comment->getId()) {
         }
-        $comment->setTrickid($id);
-        $comment->setUserid(1);
+        $comment->setTrick($id);
+        $comment->setUser(1);
         $comment->setDate(new \DateTime());
         //$comment->setContent();
         $comment->setStatus(1);

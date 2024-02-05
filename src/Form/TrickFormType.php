@@ -37,7 +37,7 @@ class TrickFormType extends AbstractType
     public function saveForm(Trick $trick, EntityManagerInterface $manager): void
     {
         if (!$trick->getId()) {
-            $trick->setUserid(1);
+            $trick->setUser(1);
             $trick->setCreatedAt(new \DateTime());
             $trick->setUpdatedAt(new \DateTime());
             $trick->setStatus(1);

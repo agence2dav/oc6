@@ -15,7 +15,7 @@ class TrickModel
     private readonly int $status;
     private readonly DateTimeImmutable $createdAt;
     private readonly DateTimeImmutable $updatedAt;
-    private readonly int $userid;
+    private readonly int $userId;
     private readonly int $designation;
     private readonly array $results;
 
@@ -54,9 +54,9 @@ class TrickModel
         return $this->updatedAt;
     }
 
-    public function getUserid(): int
+    public function getUserId(): int
     {
-        return $this->userid;
+        return $this->userId;
     }
 
     public function getDesignation(): int

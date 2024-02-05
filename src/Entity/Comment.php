@@ -20,12 +20,13 @@ class Comment
 
     #[ORM\Column]
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'comment')]
-    //#[ORM\JoinColumn(nullable: false)]
-    private ?int $trickid = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?int $trick = null;
 
     #[ORM\Column]
-    //#[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comment')]
-    private ?int $userid = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comment')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?int $user = null;
 
     #[ORM\Column(length: 255)]
     private ?string $content = null;
@@ -41,27 +42,25 @@ class Comment
         return $this->id;
     }
 
-    public function getTrickid(): ?int
+    public function getTrick(): ?int
     {
-        return $this->trickid;
+        return $this->trick;
     }
 
-    public function setTrickid(int $trickid): static
+    public function setTrick(int $trick): static
     {
-        $this->trickid = $trickid;
-
+        $this->trick = $trick;
         return $this;
     }
 
-    public function getUserid(): ?int
+    public function getUser(): ?int
     {
-        return $this->userid;
+        return $this->user;
     }
 
-    public function setUserid(int $userid): static
+    public function setUser(int $user): static
     {
-        $this->userid = $userid;
-
+        $this->user = $user;
         return $this;
     }
 
@@ -73,7 +72,6 @@ class Comment
     public function setContent(string $content): static
     {
         $this->content = $content;
-
         return $this;
     }
 
@@ -85,7 +83,6 @@ class Comment
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -97,7 +94,6 @@ class Comment
     public function setStatus(int $status): static
     {
         $this->status = $status;
-
         return $this;
     }
 }

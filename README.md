@@ -46,13 +46,19 @@
 - separation of tasks in services an repository
 - display article with related validated comments
 
-### 5.2 - forms2 #15
+### 5.1 - forms2 #15
 
 - todo: forms of comments
 - separate tasks in Service and Form
 - propose form of tricks
 - save comment
 - redicrect correctly to the same page with 2 parameters
+
+### 5.2 - relations #17
+
+- todo : rename columns
+- todo : make relations in entities
+- todo: make it works with native function
 
 ### 6 - login
 
