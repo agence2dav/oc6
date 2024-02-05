@@ -56,12 +56,10 @@
 
 ### 5.2 - relations #17
 
-- todo : rename columns
-- todo : make relations in entities
-- todo: make it works with native function
+- rename columns
+- make relations in entities
+- create fixtures with dependancies
 
 ### 6 - login
 
 ### 7 - admin posts and comments
-
-ok
