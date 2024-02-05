@@ -28,9 +28,7 @@ class CommentRepository extends ServiceEntityRepository
     }
 
     /* */
-
-
-    public function findByTrick(int $trickId): Comment|array
+    public function findByTrick0(int $id): Comment|array
     {
         $entityManager = $this->getEntityManager();
 
@@ -38,49 +36,31 @@ class CommentRepository extends ServiceEntityRepository
             'SELECT c.id, u.name, c.content, c.date
             FROM App\Entity\Comment c
             INNER JOIN App\Entity\User u
-            WHERE u.id = c.user_id
-            AND c.trick_id = :id
+            WHERE u.id = c.user
+            AND c.trick = :id
             AND c.status = 1
             ORDER BY c.id ASC
             '
         )
-            ->setParameter('id', $trickId);
+            ->setParameter('id', $id);
 
         return $query->getResult(); //getOneOrNullResult();
     }
 
-    public function findByTrick1(int $trickId): Comment|array
+    public function findByTrick(int $id): Comment|array
     {
         return $this->createQueryBuilder('c')
             ->from(Comment::class, 'comment')
             ->select('c.id')
-            ->addSelect('c.user_id')
+            ->addSelect('c.user')
             ->addSelect('c.content')
             ->addSelect('c.date')
-            ->andWhere('c.trick_id = :id')
-            ->setParameter('id', $trickId)
+            ->andWhere('c.trick = :id')
+            ->setParameter('id', $id)
             ->andWhere('c.status = 1')
             ->orderBy('c.id', 'ASC')
             ->getQuery()
             ->getResult();
-    }
-
-    public function findByTrick0(int $trickId): Comment|array
-    {
-        $queryBuilder = $this->manager->createQueryBuilder('c');
-        $queryBuilder->from(Comment::class, 'comment');
-        $queryBuilder->select('c.id')
-            ->addSelect('c.user_id')
-            ->addSelect('c.content')
-            ->addSelect('c.date')
-            //->setMaxResults($limit)
-            //->setFirstResult(($page * $limit) - $limit)
-            ->andWhere('c.trick_id = :id')
-            ->setParameter('id', $trickId)
-            ->andWhere('c.status = 1')
-            ->orderBy('c.id', 'ASC');
-
-        return $queryBuilder->getQuery()->getResult(); //toIterable();
     }
 
     //    /**
