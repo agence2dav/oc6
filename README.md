@@ -64,13 +64,14 @@
 
 - todo: système de login et création d'utilisateurs
 
-### 6.1 - slug
+### 6.1 - slug (#19)
 
 - todo: url lisibles
 
-### 6.2 - relationship working good
+### 6.2 - relationship working good (#21)
 
 - todo: obtenir de pouvoir appeler $trick->getComment(), à travers le système de requêtes associées par l'orm
 - todo :utiliser l'architecture de mapping et des moddèles
 
 ### 7 - admin posts and comments
+
