@@ -83,6 +83,6 @@ class __TwigTemplate_a71f77705225bacee0b44eb740cff99f extends Template
     <line x1=\"14\" y1=\"10\" x2=\"14.01\" y2=\"10\"></line>
     <path d=\"M10 14a3.5 3.5 0 0 0 4 0\"></path>
 </svg>
-", "@WebProfiler/Icon/exception.svg", "C:\\Users\\dav\\Documents\\srv\\gits\\oc6\\surf\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Icon\\exception.svg");
+", "@WebProfiler/Icon/exception.svg", "C:\\Users\\dav\\Documents\\srv\\gits\\oc6\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Icon\\exception.svg");
     }
 }
