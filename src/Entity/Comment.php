@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeInterface;
+use DateTime;
 use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,50 +20,30 @@ class Comment
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'comment')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?int $trick = null;
-
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'comment')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?int $user = null;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    private ?DateTime $date = null;
 
     #[ORM\Column]
     private ?int $status = null;
 
+    //relations
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Trick $trick = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $user;
+
+    //functions
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTrick(): ?int
-    {
-        return $this->trick;
-    }
-
-    public function setTrick(int $trick): static
-    {
-        $this->trick = $trick;
-        return $this;
-    }
-
-    public function getUser(): ?int
-    {
-        return $this->user;
-    }
-
-    public function setUser(int $user): static
-    {
-        $this->user = $user;
-        return $this;
     }
 
     public function getContent(): ?string
@@ -75,12 +57,12 @@ class Comment
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function setDate(DateTime $date): static
     {
         $this->date = $date;
         return $this;
@@ -94,6 +76,32 @@ class Comment
     public function setStatus(int $status): static
     {
         $this->status = $status;
+        return $this;
+    }
+
+    //relations functions
+
+    public function getTrick(): ?Trick
+    {
+        return $this->trick;
+    }
+
+    public function setTrick(?Trick $trick): static
+    {
+        $this->trick = $trick;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
         return $this;
     }
 }

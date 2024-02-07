@@ -17,6 +17,8 @@ use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use App\Mapper\CommentMapper;
+use App\Model\CommentModel;
+use App\Entity\Trick;
 
 class CommentService
 {
@@ -30,15 +32,18 @@ class CommentService
     ) {
     }
 
-    public function getByTrick(int $id): array|Comment
+    public function getByTrick(int $id): array
     {
         //return $this->commentRepository->find($id);
         //return $this->commentRepository->findById($id);
+        //$trick = $this->trickRepository->findOneById($id); //
         //$entities = $this->commentRepository->findByTrick0($id);//old
-        $entities = $this->commentRepository->findByTrick($id); //ok
-        return $entities;
-        $trick = $this->trickRepository->findOneById($id); //
-        $commentsEntities = $trick->getComment();
+        return $this->commentRepository->findByTrick($id); //ok
+    }
+
+    public function getComments(Trick $trick): array
+    {
+        $commentsEntities = $trick->getComments();
         return $this->commentMapper->EntitiesToModels($commentsEntities);
     }
 

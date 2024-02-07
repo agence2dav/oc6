@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Mapper;
 
+use DateTimeInterface;
+use DateTimeImmutable;
+use App\Mapper\CommentMapper;
 use App\Model\TrickModel;
 use App\Entity\Trick;
 
@@ -12,52 +15,26 @@ class TrickMapper
     private static $instance;
 
     public function __construct(
-        private TrickModel $trickModel
+        private CommentMapper $commentMapper
     ) {
 
     }
 
-    public function fromFetch(
-        Trick $entity
-    ): TrickModel|bool {
-        //$trickModel = new TrickModel();
-        $trickModel = $this->trickModel;
-        $trickModel->id = $entity->id;
-        $trickModel->title = $entity->title;
-        $trickModel->content = $entity->content;
-        $trickModel->createdAt = $entity->createdAt;
-        $trickModel->status = $entity->status;
-        $trickModel->userId = $entity->userId;
+    public function EntityToModel(Trick $trickEntity): TrickModel
+    {
+        $trickModel = new TrickModel();
+        $trickModel->setId($trickEntity->getId());
+        //$trickModel->setUser($trickEntity->getUser());
+        $trickModel->setUsername($trickEntity->getUser()->getUser());
+        $trickModel->setCreatedAt($trickEntity->getCreatedAt());
+        $trickModel->setUpdatedAt($trickEntity->getUpdatedAt());
+        $trickModel->setTitle($trickEntity->getTitle());
+        $trickModel->setSlug($trickEntity->getSlug());
+        $trickModel->setImage($trickEntity->getImage());
+        $trickModel->setStatus($trickEntity->getStatus());
+        $trickModel->setContent($trickEntity->getContent());
+        $trickModel->setComments($this->commentMapper->EntitiesToModels($trickEntity->getComments()));
         return $trickModel;
     }
 
-    public static function fromFetchAll(
-        array $entities
-    ): array {
-        $trickModels = array_map(
-            function ($entity) {
-                return self::fromFetch($entity);
-            },
-            $entities
-        );
-        return $trickModels;
-    }
-
-    public function forDashboard(array $entities): array|bool
-    {
-        $trickModels = array_map(
-            function ($entity) {
-                //$trickModel = new TrickModel;
-                $trickModel = $this->trickModel;
-                $trickModel->id = $entity->id;
-                $trickModel->title = $entity->title;
-                $trickModel->content = $entity->content;
-                $trickModel->createdAt = $entity->createdAt;
-                $trickModel->status = $entity->status;
-                return $trickModel;
-            },
-            $entities
-        );
-        return $trickModels;
-    }
 }

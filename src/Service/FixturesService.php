@@ -7,20 +7,20 @@ namespace App\Service;
 //composer require fakerphp/faker
 use Faker\Factory;
 use Faker\Generator;
-use DateTimeImmutable;
+use DateTime;
 
 class FixturesService
 {
     public Generator $faker;
-    private $months = 1;
+    private $month = 1;
 
     public function __construct()
     {
-        $this->faker = Factory::create();
-        $this->months = mt_rand(1, 24);
+        $this->faker = Factory::create('fr_FR');
     }
 
     private int $numberOfTricks = 10;
+    private int $numberOfUsers = 4;
 
     private array $designations =
         [
@@ -60,24 +60,25 @@ class FixturesService
             ['Jumps', 'switch to rail'],
         ];
 
-    public function generateDateInPast(): DateTimeImmutable
+    public function generateDateInPast(): DateTime
     {
-        $now = new DateTimeImmutable();
-        $dist = \DateInterval::createFromDateString($this->months . ' months');
+        $this->month = mt_rand(1, 24);
+        $now = new DateTime();
+        $dist = \DateInterval::createFromDateString($this->month . ' months');
         $now->sub($dist);
         $now->format('Y-m-d H:i:s');
         return $now;
-        //return DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->faker->dateTimeBetween('-6 months')->format('Y-m-d H:i:s'));
+        //return DateTime::createFromFormat('Y-m-d H:i:s', $this->faker->dateTimeBetween('-6 months')->format('Y-m-d H:i:s'));
     }
 
-    public function generateRandomDateFrom(): DateTimeImmutable
+    public function generateRandomDateFrom(): DateTime
     {
-        $now = new DateTimeImmutable();
-        $dist = \DateInterval::createFromDateString(mt_rand(1, $this->months) . ' months');
+        $now = new DateTime();
+        $dist = \DateInterval::createFromDateString(mt_rand(1, $this->month) . ' months');
         $now->sub($dist);
         $now->format('Y-m-d H:i:s');
         return $now;
-        //return DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->faker->dateTimeBetween($date->format('Y-m-d H:i:s'))->format('Y-m-d H:i:s'));
+        //return DateTime::createFromFormat('Y-m-d H:i:s', $this->faker->dateTimeBetween($date->format('Y-m-d H:i:s'))->format('Y-m-d H:i:s'));
     }
 
     public function designations()
@@ -88,6 +89,11 @@ class FixturesService
     public function numberOfTricks()
     {
         return $this->numberOfTricks;
+    }
+
+    public function numberOfUsers()
+    {
+        return $this->numberOfUsers;
     }
 
 }

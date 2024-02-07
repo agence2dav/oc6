@@ -70,8 +70,8 @@
 
 ### 6.2 - relationship working good (#21)
 
-- todo: obtenir de pouvoir appeler $trick->getComment(), à travers le système de requêtes associées par l'orm
-- todo :utiliser l'architecture de mapping et des moddèles
+- appel de $trick->getComment() à travers le système de requêtes associées par l'orm
+- utilisation de l'architecture de mapping de modèles
 
 ### 7 - admin posts and comments
 

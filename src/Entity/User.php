@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 use App\Repository\UserRepository;
 use App\Entity\Comment;
@@ -14,7 +17,7 @@ use App\Entity\Trick;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[Broadcast]
-class User
+class User implements PasswordAuthenticatedUserInterface
 {
 
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
@@ -25,11 +28,11 @@ class User
                     new Assert\NotBlank(),
                     new Assert\Email(),
                 ]),
-                'name' => [
+                'user' => [
                     new Assert\NotBlank(),
                     new Assert\Length([
                         'max' => 100,
-                        'maxMessage' => 'Your short bio is too long!',
+                        'maxMessage' => 'Username is too long',
                     ]),
                 ],
             ],
@@ -40,6 +43,7 @@ class User
     public function __construct()
     {
         //$this->notes = new ArrayCollection();
+        $this->tricks = new ArrayCollection();
     }
 
     #[ORM\Id]
@@ -48,7 +52,7 @@ class User
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $user = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
@@ -59,25 +63,26 @@ class User
     #[ORM\Column]
     private ?int $role = null;
 
-    #[ORM\OneToMany(targetEntity: Trick::class, mappedBy: 'user')]
-    private ?int $trick = null;
+    //relations
 
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
-    private ?int $comment = null;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Trick::class)]
+    private Collection $tricks;
+
+    //functions
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getUser(): ?string
     {
-        return $this->name;
+        return $this->user;
     }
 
-    public function setName(string $name): static
+    public function setUser(string $user): static
     {
-        $this->name = $name;
+        $this->user = $user;
         return $this;
     }
 
@@ -114,25 +119,37 @@ class User
         return $this;
     }
 
-    public function getTrick(): ?int
+    //relations functions
+
+    /**
+     * @return Collection<int, Trick>
+     */
+    public function getTricks(): Collection
     {
-        return $this->trick;
+        return $this->tricks;
     }
 
-    public function setTrick(int $trick): static
+    public function addTrick(Trick $trick): static
     {
-        $this->role = $trick;
+        if (!$this->tricks->contains($trick)) {
+            $this->tricks->add($trick);
+            $trick->setUser($this);
+        }
+
         return $this;
     }
 
-    public function getComment(): ?int
+    public function removeTrick(Trick $trick): static
     {
-        return $this->comment;
-    }
+        if ($this->tricks->removeElement($trick)) {
+            // set the owning side to null (unless already changed)
+            if ($trick->getUser() === $this) {
+                $trick->setUser(null);
+            }
+        }
 
-    public function setComment(int $comment): static
-    {
-        $this->role = $comment;
         return $this;
     }
+
+
 }

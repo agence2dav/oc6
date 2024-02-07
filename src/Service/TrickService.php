@@ -26,7 +26,7 @@ class TrickService
         //private readonly EntityManagerInterface $entityManager,
         private TrickRepository $repo,
         //private TrickModel $model,
-        //private TrickMapper $mapper,
+        private TrickMapper $mapper,
         private EntityManagerInterface $manager
     ) {
 
@@ -45,10 +45,10 @@ class TrickService
         return $this->repo->findByStatus(1);
     }
 
-    public function getById(int $id): Trick
+    public function getById(int $id): TrickModel
     {
-        //return $this->repo->find($id);
-        return $this->repo->findOneById($id);
+        $trickEntity = $this->repo->findOneById($id);
+        return $this->mapper->EntityToModel($trickEntity);
     }
 
     public function getByTitleOne(string $title): Trick|array

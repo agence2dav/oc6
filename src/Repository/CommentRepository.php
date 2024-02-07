@@ -27,13 +27,12 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    /* */
     public function findByTrick0(int $id): Comment|array
     {
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT c.id, u.name, c.content, c.date
+            'SELECT c.id, u.user, c.content, c.date
             FROM App\Entity\Comment c
             INNER JOIN App\Entity\User u
             WHERE u.id = c.user
@@ -52,7 +51,7 @@ class CommentRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->from(Comment::class, 'comment')
             ->select('c.id')
-            ->addSelect('u.name')
+            ->addSelect('u.user')
             ->addSelect('c.content')
             ->addSelect('c.date')
             //->innerjoin(User::class, 'u', 'ON', 'u.id = c.user')
@@ -67,28 +66,4 @@ class CommentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    //    /**
-//     * @return Comment[] Returns an array of Comment objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-    //    public function findOneBySomeField($value): ?Comment
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

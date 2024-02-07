@@ -14,9 +14,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Trick;
 use App\Service\TrickService;
 use App\Repository\TrickRepository;
+use App\Mapper\TrickMapper;
 use App\Form\TrickFormType;
 use App\Entity\Comment;
 use App\Service\CommentService;
+use App\Repository\CommentRepository;
+use App\Mapper\CommentMapper;
 use App\Form\CommentFormType;
 
 class TrickController extends AbstractController
@@ -28,6 +31,9 @@ class TrickController extends AbstractController
         private TrickFormType $trickFormType,
         private CommentService $commentService,
         private CommentFormType $commentFormType,
+        private CommentMapper $commentMapper,
+        private CommentRepository $commentRepository,
+        private TrickMapper $trickMapper,
     ) {
 
     }
@@ -58,20 +64,12 @@ class TrickController extends AbstractController
         ]);
     }
 
-
     #[Route('/trick/{id}', name: 'show_trick')]
     #[Route('/trick/{id}/{commentId}', name: 'show_trick2')]
     public function show(Trick $trick, int $id, int $commentId = null, Request $request, EntityManagerInterface $manager): Response
     {
-
         //$userConnected = $this->getUser();
-        $trick = $this->trickService->getById($id);
-        //$comments = $trick->getComment();
-        $comments = $this->commentService->getByTrick($id);
-        //$trick = $comments->getTrick();
-
-        //dump($trick);
-        dump($comments);
+        $trickModel = $this->trickService->getById($id);
 
         $comment = new Comment();
         $options = [
@@ -85,15 +83,13 @@ class TrickController extends AbstractController
             //return $this->redirectToRoute('show_trick', ['id' => $id, 'commentId' => $comment->getId()]);
             return $this->redirect($this->generateUrl('show_trick2', ['id' => $id, 'commentId' => $comment->getId()]));
         }
-        //echo $commentId;
 
         $slugger = new AsciiSlugger();
         $slug = $slugger->slug($trick->getTitle());
         return $this->render(
             'home/trick.html.twig',
             [
-                'trick' => $trick,
-                'comments' => $comments,
+                'trick' => $trickModel,
                 'formComment' => $form->createView(),
                 'justCommented' => $commentId ? true : false,
             ]

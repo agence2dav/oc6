@@ -9,7 +9,8 @@
     <article class="card border-light mb-3">
         <div class="card-header">
             <h1>{{ trick.title | raw}}</h1>
-            <div class="metadata">{{ trick.createdAt | date("d/m/Y") }}</div>
+            <div class="metadata">Rédigé par {{ trick.username }}</div>
+            <div class="metadata">Mis à jour le {{ trick.updatedAt | date("d/m/Y") }}</div>
         </div>
         <div class="card-boby">
         <div class="image">
@@ -33,10 +34,10 @@
     </div>
     {% endif %}
 
-    {% for comment in comments %}
-    <section class="card text-white bg-secondary mb-3">
+    {% for comment in trick.comments %}
+    <section class="card text-white bg-primary mb-3">
         <div class="card-header">
-            <strong>{{ comment.name | raw}}</strong>
+            <strong>{{ comment.username | raw}}</strong>
             <div class="metadata">{{ comment.date | date("d/m/Y") }}</div>
         </div>
         <div class="card-boby">
