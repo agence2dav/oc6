@@ -12,7 +12,6 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 use App\Repository\UserRepository;
-use App\Entity\Comment;
 use App\Entity\Trick;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -42,7 +41,6 @@ class User implements PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        //$this->notes = new ArrayCollection();
         $this->tricks = new ArrayCollection();
     }
 
@@ -121,9 +119,6 @@ class User implements PasswordAuthenticatedUserInterface
 
     //relations functions
 
-    /**
-     * @return Collection<int, Trick>
-     */
     public function getTricks(): Collection
     {
         return $this->tricks;
@@ -135,7 +130,6 @@ class User implements PasswordAuthenticatedUserInterface
             $this->tricks->add($trick);
             $trick->setUser($this);
         }
-
         return $this;
     }
 
@@ -147,9 +141,7 @@ class User implements PasswordAuthenticatedUserInterface
                 $trick->setUser(null);
             }
         }
-
         return $this;
     }
-
 
 }

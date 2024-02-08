@@ -6,6 +6,7 @@ namespace App\Mapper;
 
 use DateTimeInterface;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\Collection;
 use App\Mapper\CommentMapper;
 use App\Model\TrickModel;
 use App\Entity\Trick;
@@ -35,6 +36,15 @@ class TrickMapper
         $trickModel->setContent($trickEntity->getContent());
         $trickModel->setComments($this->commentMapper->EntitiesToModels($trickEntity->getComments()));
         return $trickModel;
+    }
+
+    public function EntitiesToModels(array $trickEntities): array
+    {
+        $trickModels = [];
+        foreach ($trickEntities as $trickEntity) {
+            $trickModels[] = $this->EntityToModel($trickEntity);
+        }
+        return $trickModels;
     }
 
 }

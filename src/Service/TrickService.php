@@ -40,9 +40,10 @@ class TrickService
         return $this->repo->findAll();
     }
 
-    public function getAllPublic(): TrickModel|array
+    public function getAllPublic(): array
     {
-        return $this->repo->findByStatus(1);
+        $trickEntities = $this->repo->findByStatus();
+        return $this->mapper->EntitiesToModels($trickEntities);
     }
 
     public function getById(int $id): TrickModel
@@ -51,6 +52,13 @@ class TrickService
         return $this->mapper->EntityToModel($trickEntity);
     }
 
+    public function getBySlug(string $slug): TrickModel
+    {
+        $trickEntity = $this->repo->findOneBySlug($slug);
+        return $this->mapper->EntityToModel($trickEntity);
+    }
+
+    /*
     public function getByTitleOne(string $title): Trick|array
     {
         return $this->repo->findOneByTitle($title);
@@ -59,12 +67,7 @@ class TrickService
     public function getByTitle(string $title): Trick|array
     {
         return $this->repo->findByTitle($title);
-    }
-
-    public function getBySlug(string $slug): string
-    {
-        return $this->repo->findBySlug($slug);
-    }
+    }*/
 
     public function saveTrick(Trick $trick): void
     {

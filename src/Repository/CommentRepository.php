@@ -27,6 +27,7 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    /* 
     public function findByTrick0(int $id): Comment|array
     {
         $entityManager = $this->getEntityManager();
@@ -44,7 +45,7 @@ class CommentRepository extends ServiceEntityRepository
             ->setParameter('id', $id);
 
         return $query->getResult(); //getOneOrNullResult();
-    }
+    }*/
 
     public function findByTrick(int $id): array
     {

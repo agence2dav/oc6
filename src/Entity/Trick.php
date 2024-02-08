@@ -181,9 +181,6 @@ class Trick
 
     //relations functions
 
-    /**
-     * @return Collection<int, Comment>
-     */
     public function getComments(): Collection
     {
         return $this->comments;
@@ -220,9 +217,6 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection<int, TrickDesignations>
-     */
     public function getTrickDesignations(): Collection
     {
         return $this->trickDesignations;
