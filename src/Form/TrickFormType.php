@@ -16,6 +16,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Repository\UserRepository;
 use App\Entity\Trick;
 
 class TrickFormType extends AbstractType
@@ -23,6 +25,8 @@ class TrickFormType extends AbstractType
 
     public function __construct(
         //private AbstractController $abstractController
+        private readonly UserRepository $userRepository,
+        private readonly SluggerInterface $slugger,
     ) {
 
     }
@@ -37,11 +41,14 @@ class TrickFormType extends AbstractType
     public function saveForm(Trick $trick, EntityManagerInterface $manager): void
     {
         if (!$trick->getId()) {
-            $trick->setUser(1);
+            $user = $this->userRepository->findById(1);
+            $trick->setUser($user);
             $trick->setCreatedAt(new \DateTime());
-            $trick->setUpdatedAt(new \DateTime());
             $trick->setStatus(1);
         }
+        $slug = $this->slugger->slug($trick->getTitle());
+        $trick->setSlug($slug->toString());
+        $trick->setUpdatedAt(new \DateTime());
         $manager->persist($trick);
         $manager->flush();
     }
@@ -53,7 +60,6 @@ class TrickFormType extends AbstractType
             ->add('content')
             ->add('image')
             ->getForm();
-
 
         /*      
                     ->add(

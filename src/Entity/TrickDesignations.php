@@ -19,40 +19,40 @@ class TrickDesignations
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'trickDesignations')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?int $trick = null;
+    #[ORM\ManyToOne(inversedBy: 'trickDesignations')]
+    private ?Trick $trick = null;
 
-    #[ORM\Column]
-    #[ORM\ManyToOne(targetEntity: Designation::class, inversedBy: 'trickDesignations')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?int $designation = null;
+    #[ORM\ManyToOne(inversedBy: 'TrickDesignations')]
+    private ?Designation $designation = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTrick(): ?int
+    //relations functions
+
+    public function getTrick(): ?Trick
     {
         return $this->trick;
     }
 
-    public function setTrick($trick): static
+    public function setTrick(?Trick $trick): static
     {
         $this->trick = $trick;
+
         return $this;
     }
 
-    public function getDesignation(): ?string
+    public function getDesignation(): ?Designation
     {
         return $this->designation;
     }
 
-    public function setDesignation($designation): static
+    public function setDesignation(?Designation $designation): static
     {
         $this->designation = $designation;
+
         return $this;
     }
 

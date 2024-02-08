@@ -83,6 +83,6 @@ class __TwigTemplate_364437111b285dd83fcc61c5d5b3843d extends Template
    <path d=\"M7 8v2a2 2 0 0 0 2 2h6a2 2 0 0 0 2 -2v-2\"></path>
    <path d=\"M12 12l0 4\"></path>
 </svg>
-", "@WebProfiler/Icon/workflow.svg", "C:\\Users\\dav\\Documents\\srv\\gits\\oc6\\surf\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Icon\\workflow.svg");
+", "@WebProfiler/Icon/workflow.svg", "C:\\Users\\dav\\Documents\\srv\\gits\\oc6\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Icon\\workflow.svg");
     }
 }

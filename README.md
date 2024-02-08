@@ -60,6 +60,21 @@
 - make relations in entities
 - create fixtures with dependancies
 
-### 6 - login
+### 6 - login #6
+
+- todo: système de login et création d'utilisateurs
+
+### 6.1 - slug (#19) [before 6] #19
+
+- url lisibles
+- edit slug from title and redirect with new slug
+
+### 6.2 - relationship working good (#21) [before 6.1] #17
+
+- call of $trick->getComment() trough the associated requests from the Orm
+- use mapping of models
 
 ### 7 - admin posts and comments
+
+### 8 - upload images
+
