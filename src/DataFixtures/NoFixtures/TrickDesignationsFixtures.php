@@ -25,17 +25,13 @@ class TrickDesignationsFixtures extends Fixture implements DependentFixtureInter
 
     public function load(ObjectManager $manager): void
     {
-        //$designations = $this->designationFixtures->designations;
-        $designationsRandom = array_rand($this->fixturesService->designations(), 4);
-        for ($i = 1; $i < $this->fixturesService->numberOfTricks(); $i++) {
-            $trick = $this->getReference('titre' . $i);
+        $nb_designations = count($this->fixturesService->designations()) - 1;
+        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
             for ($j = 0; $j < 4; $j++) {
-                $designation = $this->getReference($designationsRandom[$j]);
                 $trick_designations = new TrickDesignations();
                 $trick_designations
-                    ->setTrick($trick)
-                    //->setDesignation($designationsRandom[$j]);
-                    ->setDesignation($designation);
+                    ->setTrick($this->fixturesService->tricks[$i])
+                    ->setDesignation($this->fixturesService->designation[mt_rand(0, $nb_designations)]);
                 $manager->persist($trick_designations);
             }
         }

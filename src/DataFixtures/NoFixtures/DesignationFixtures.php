@@ -30,17 +30,10 @@ class DesignationFixtures extends Fixture //implements DependentFixtureInterface
             $designation
                 ->setType($type)
                 ->setName($name);
+            $this->fixturesService->designation[] = $designation;
             $manager->persist($designation);
         }
         $manager->flush();
     }
-
-    /* 
-    public function getDependencies()
-    {
-        return [
-            //TrickDesignationsFixtures::class,
-        ];
-    }*/
 
 }

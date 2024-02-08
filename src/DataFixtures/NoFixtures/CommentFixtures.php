@@ -20,18 +20,15 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i < $this->fixturesService->numberOfTricks(); $i++) {
-
-            $trick = $this->getReference('titre' . $i);
-            $user = $this->getReference('user' . $i);
+        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
             for ($j = 0; $j < 4; $j++) {
                 $comments = new Comment();
                 $comments
-                    ->setTrick($trick)
-                    ->setUser($user)
-                    ->setContent('hello')
+                    ->setTrick($this->fixturesService->tricks[$i])
+                    ->setUser($this->fixturesService->users[$j])
+                    ->setContent($this->fixturesService->faker->paragraphs(mt_rand(1, 3), true))
                     ->setStatus(rand(0, 1))
-                    ->setDate(new \DateTime());
+                    ->setDate($this->fixturesService->generateRandomDateFrom());
                 $manager->persist($comments);
             }
         }

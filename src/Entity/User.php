@@ -21,7 +21,7 @@ class User implements PasswordAuthenticatedUserInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
-        $metadata->addPropertyConstraint('userData', new Assert\Collection([
+        $metadata->addPropertyConstraint('user', new Assert\Collection([
             'fields' => [
                 'email' => new Assert\Required([
                     new Assert\NotBlank(),

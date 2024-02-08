@@ -60,8 +60,9 @@
 - make relations in entities
 - create fixtures with dependancies
 
-### 6 - login #6
+### 6 - login #6 #24
 
+- pose des bases techniques, controller, form, model, mapper, twig...
 - todo: système de login et création d'utilisateurs
 
 ### 6.1 - slug (#19) [before 6] #19

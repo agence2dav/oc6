@@ -21,7 +21,7 @@ class AppFixtures extends Fixture
 {
 
     private array $objects = [];
-    private int $numberOfArticles = 10;
+    private int $numberOfTricks = 10;
 
     public function __construct(
         private readonly FixturesService $fixturesService,
@@ -33,7 +33,7 @@ class AppFixtures extends Fixture
     public function trick_designations(ObjectManager $manager): void
     {
         $nb_designations = count($this->fixturesService->designations()) - 1;
-        for ($i = 0; $i < $this->numberOfArticles; $i++) {
+        for ($i = 0; $i < $this->numberOfTricks; $i++) {
             for ($j = 0; $j < 4; $j++) {
                 $trick_designations = new TrickDesignations();
                 $trick_designations
@@ -60,7 +60,7 @@ class AppFixtures extends Fixture
 
     public function comments(ObjectManager $manager): void
     {
-        for ($i = 0; $i < $this->numberOfArticles; $i++) {
+        for ($i = 0; $i < $this->numberOfTricks; $i++) {
             for ($j = 0; $j < 4; $j++) {
                 $comments = new Comment();
                 $comments
@@ -77,7 +77,7 @@ class AppFixtures extends Fixture
 
     public function tricks(ObjectManager $manager): void
     {
-        for ($i = 0; $i < $this->numberOfArticles; $i++) {
+        for ($i = 0; $i < $this->numberOfTricks; $i++) {
             $trick = new Trick();
             $title = $this->fixturesService->faker->sentence($nbWords = 4, $variableNbWords = true);
             $slug = $this->slugger->slug($title);
@@ -98,7 +98,7 @@ class AppFixtures extends Fixture
 
     public function users(ObjectManager $manager): void
     {
-        for ($i = 0; $i < $this->numberOfArticles; $i++) {
+        for ($i = 0; $i < $this->numberOfTricks; $i++) {
             $user = new User();
             $password = $this->hasher->hashPassword($user, 'd');
             $user

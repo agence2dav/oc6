@@ -23,4 +23,6 @@ return [
     'edit_trick' => [['id'], ['_controller' => 'App\\Controller\\TrickController::form'], [], [['text', '/edit'], ['variable', '/', '[^/]++', 'id', true], ['text', '/trick']], [], [], []],
     'show_trick' => [['slug'], ['_controller' => 'App\\Controller\\TrickController::show'], [], [['variable', '/', '[^/]++', 'slug', true], ['text', '/trick']], [], [], []],
     'show_trick2' => [['slug', 'commentId'], ['_controller' => 'App\\Controller\\TrickController::show'], [], [['variable', '/', '[^/]++', 'commentId', true], ['variable', '/', '[^/]++', 'slug', true], ['text', '/trick']], [], [], []],
+    'app_login' => [[], ['_controller' => 'App\\Controller\\UserController::login'], [], [['text', '/login']], [], [], []],
+    'App\Controller\UserController::login' => [[], ['_controller' => 'App\\Controller\\UserController::login'], [], [['text', '/login']], [], [], []],
 ];

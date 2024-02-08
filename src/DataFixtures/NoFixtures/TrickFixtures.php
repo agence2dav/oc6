@@ -12,8 +12,7 @@ use App\Entity\TrickDesignations;
 use App\Service\FixturesService;
 //use App\Fixtures\TrickDesignations;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
-//use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -21,27 +20,28 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
     public const TRICK_IDS = 'trickId';
     public function __construct(
         private readonly FixturesService $fixturesService,
-        //private readonly SluggerInterface $slugger,
+        private readonly SluggerInterface $slugger,
     ) {
 
     }
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i < $this->fixturesService->numberOfTricks(); $i++) {
-            $user = $this->getReference('user' . $i);
+        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
             $trick = new Trick();
+            $title = $this->fixturesService->faker->sentence($nbWords = 4, $variableNbWords = true);
+            $slug = $this->slugger->slug($title);
             $trick
-                ->setUser($user)
-                ->setTitle('titre' . $i)
-                ->setContent('<p>hello</p>')
-                //->setContent($this->fixturesService->faker->paragraphs(4, true))
+                ->setUser($this->fixturesService->users[$i])
+                ->setTitle($title)
+                ->setSlug($slug->__toString())
+                ->setContent($this->fixturesService->faker->paragraphs(mt_rand(4, 7), true))
                 ->setImage('http://placehold.it/350x150')
                 ->setCreatedAt($this->fixturesService->generateDateInPast())
                 ->setUpdatedAt($this->fixturesService->generateRandomDateFrom())
                 ->setStatus(1);
+            $this->fixturesService->tricks[] = $trick;
             $manager->persist($trick);
-            //$this->addReference(self::TRICK_ID, $trick);
         }
         $manager->flush();
     }

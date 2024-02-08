@@ -136,6 +136,12 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"/about\">About</a>
                     </li>
+                    <li class=\"nav-item\">
+                    <a class=\"nav-link\" href=\"";
+        // line 78
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
+        echo "\">Login</a>
+                    </li>
                     <li class=\"nav-item dropdown\">
                     <a class=\"nav-link dropdown-toggle show\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown</a>
                     <div class=\"dropdown-menu\">
@@ -156,9 +162,9 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
     </nav>
     <content>
         ";
-        // line 96
+        // line 99
         $this->displayBlock('body', $context, $blocks);
-        // line 97
+        // line 100
         echo "    </content>
     </body>
     
@@ -258,7 +264,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
 
     }
 
-    // line 96
+    // line 99
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -297,7 +303,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  262 => 96,  243 => 51,  233 => 52,  230 => 51,  220 => 50,  210 => 48,  200 => 47,  181 => 5,  162 => 97,  160 => 96,  133 => 72,  127 => 69,  119 => 64,  106 => 53,  104 => 50,  101 => 49,  99 => 47,  54 => 5,  48 => 1,);
+        return array (  268 => 99,  249 => 51,  239 => 52,  236 => 51,  226 => 50,  216 => 48,  206 => 47,  187 => 5,  168 => 100,  166 => 99,  142 => 78,  133 => 72,  127 => 69,  119 => 64,  106 => 53,  104 => 50,  101 => 49,  99 => 47,  54 => 5,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -377,6 +383,9 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                     </li>
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"/about\">About</a>
+                    </li>
+                    <li class=\"nav-item\">
+                    <a class=\"nav-link\" href=\"{{ path(\"app_login\") }}\">Login</a>
                     </li>
                     <li class=\"nav-item dropdown\">
                     <a class=\"nav-link dropdown-toggle show\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown</a>

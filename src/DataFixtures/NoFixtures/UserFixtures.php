@@ -22,14 +22,16 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= $this->fixturesService->numberOfUsers(); $i++) {
+        for ($i = 0; $i < $this->fixturesService->numberOfUsers(); $i++) {
             $user = new User();
-            $user->setUser('user' . $i);
-            $user->setEmail('d' . $i . '@d.d');
-            //$password = $this->hasher->hashPassword($user, 'd');
-            //$user->setPassword($password);
-            $user->setPassword('$2y$10$P129uyqS/Hd4rF5J0kDcuuCvuoLOyQhurMHi1FvXGm/C2HeUAWnNC');
-            $user->setRole(1);
+            $password = $this->hasher->hashPassword($user, 'd');
+            $user
+                ->setUser($this->fixturesService->faker->username)
+                ->setEmail($this->fixturesService->faker->email)
+                ->setPassword($password)
+                //->setPassword('$2y$10$P129uyqS/Hd4rF5J0kDcuuCvuoLOyQhurMHi1FvXGm/C2HeUAWnNC')
+                ->setRole(1);
+            $this->fixturesService->users[] = $user;
             $manager->persist($user);
         }
         $manager->flush();

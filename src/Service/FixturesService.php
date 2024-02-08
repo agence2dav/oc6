@@ -21,6 +21,9 @@ class FixturesService
 
     private int $numberOfTricks = 10;
     private int $numberOfUsers = 4;
+    public array $users = [];
+    public array $tricks = [];
+    public array $designation = [];
 
     private array $designations =
         [
@@ -95,5 +98,6 @@ class FixturesService
     {
         return $this->numberOfUsers;
     }
+
 
 }

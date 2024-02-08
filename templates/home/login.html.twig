@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% form_theme formUser 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}
+    {% if edit_mode == true %}Inscription
+    {% else %}Authentification{% endif %}
+    {% endblock %}
+
+{% block body %}
+
+    <h1>{% if edit_mode == true %}S'inscrire{% else %}S'identifier{% endif %}</h1>
+
+    <div class="form-floating mb-3 alert alert-primary">
+    {{ form_start(formUser) }}
+
+    {{ form_row(formUser.user, {"attr":{"placeholder":"Nom d'utilisateur"}}) }}
+    {{ form_row(formUser.password, {"attr":{"placeholder":"Mot de passe"}}) }}
+
+    <button type="submit" class="btn btn-success">
+        {% if edit_mode == true %}
+        S'inscrire
+        {% else %}
+        S'identifier
+        {% endif %}
+    </button>
+    </diV>
+    {{ form_end(formUser) }}
+
+{% endblock %}

@@ -87,7 +87,7 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
         // line 6
         echo "
 <div class=\"example-wrapper\">
-    <h1>Articles</h1>
+    <h1>All of Tricks</h1>
 
     ";
         // line 10
@@ -182,7 +182,7 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
 {% block body %}
 
 <div class=\"example-wrapper\">
-    <h1>Articles</h1>
+    <h1>All of Tricks</h1>
 
     {% for trick in tricks %}
     

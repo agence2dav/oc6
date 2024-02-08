@@ -67,7 +67,6 @@ class TrickController extends AbstractController
         ]);
     }
 
-    //#[Route('/trick/{id}', name: 'show_trick')]
     #[Route('/trick/{slug}', name: 'show_trick')]
     #[Route('/trick/{slug}/{commentId}', name: 'show_trick2')]
     public function show(Trick $trick, string $slug, int $commentId = null, Request $request, EntityManagerInterface $manager): Response
