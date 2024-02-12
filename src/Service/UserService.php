@@ -29,7 +29,6 @@ class UserService
         //private readonly UserModel $model,
         private readonly UserMapper $mapper,
     ) {
-
     }
 
     public function getAll(): User|array

@@ -60,20 +60,21 @@
 - make relations in entities
 - create fixtures with dependancies
 
-### 6 - login #6 #24
+### 5.3 - relationship working good (#21) #17
 
-- pose des bases techniques, controller, form, model, mapper, twig...
-- todo: système de login et création d'utilisateurs
+- call of $trick->getComment() trough the associated requests from the Orm
+- use mapping of models
 
-### 6.1 - slug (#19) [before 6] #19
+### 5.4 - slug #19
 
 - url lisibles
 - edit slug from title and redirect with new slug
 
-### 6.2 - relationship working good (#21) [before 6.1] #17
+### 6 - login #6 #24
 
-- call of $trick->getComment() trough the associated requests from the Orm
-- use mapping of models
+- pose des bases techniques, controller, form, model, mapper, twig...
+- register : create new user
+- login user
 
 ### 7 - admin posts and comments
 

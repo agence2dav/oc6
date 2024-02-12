@@ -127,6 +127,17 @@ class TrickModel
         return $this;
     }
 
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(?string $username): static
+    {
+        $this->username = $username;
+        return $this;
+    }
+
     public function getTrickDesignations(): Collection
     {
         return $this->trickDesignations;
@@ -141,17 +152,6 @@ class TrickModel
     public function getComments(): array
     {
         return $this->comments;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(?string $username): static
-    {
-        $this->username = $username;
-        return $this;
     }
 
 }

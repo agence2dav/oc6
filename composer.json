@@ -15,9 +15,13 @@
         "symfony/framework-bundle": "7.0.*",
         "symfony/mailer": "7.0.*",
         "symfony/runtime": "7.0.*",
+        "symfony/security-bundle": "7.0.*",
+        "symfony/sendgrid-mailer": "7.0.*",
         "symfony/string": "7.0.*",
+        "symfony/validator": "7.0.*",
         "symfony/webapp-pack": "*",
-        "symfony/yaml": "7.0.*"
+        "symfony/yaml": "7.0.*",
+        "symfonycasts/verify-email-bundle": "*"
     },
     "config": {
         "allow-plugins": {
@@ -66,7 +70,8 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.0.*"
+            "require": "7.0.*",
+            "docker": false
         }
     },
     "require-dev": {

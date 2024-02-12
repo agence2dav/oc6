@@ -24,15 +24,21 @@
 
     <h3>Commentaires</h3>
 
-    {% if justCommented == true %}
-    <div class="alert alert-primary">Merci pour votre commentaire. Il sera publié après validation.</div>
+    {% if not app.user %}
+        {% if justCommented == true %}
+        <div class="alert alert-primary">Merci pour votre commentaire. Il sera publié après validation.</div>
+        {% else %}
+        <div class="form-floating mb-3 alert alert-primary">
+            {{ form_start(formComment) }}
+            {{ form_row(formComment.content, {"attr":{"placeholder":"Contenu", "class":"form-control"}}) }}
+            <button type="submit" class="btn btn-success">Envoyer</button>
+            {{ form_end(formComment) }}
+        </div>
+        {% endif %}
     {% else %}
-    <div class="form-floating mb-3 alert alert-primary">
-        {{ form_start(formComment) }}
-        {{ form_row(formComment.content, {"attr":{"placeholder":"Contenu", "class":"form-control"}}) }}
-        <button type="submit" class="btn btn-success">Envoyer</button>
-        {{ form_end(formComment) }}
-    </div>
+        <div class="text-body-primary alert alert-primary">
+        Vous devez être <a class="nav-link" href="{{ path("app_login") }}">logué</a> pour poster un commentaire
+        </div>
     {% endif %}
 
     {% for comment in trick.comments %}

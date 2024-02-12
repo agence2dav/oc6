@@ -30,7 +30,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
                 ->setEmail($this->fixturesService->faker->email)
                 ->setPassword($password)
                 //->setPassword('$2y$10$P129uyqS/Hd4rF5J0kDcuuCvuoLOyQhurMHi1FvXGm/C2HeUAWnNC')
-                ->setRole(1);
+                ->setRoles([]);
             $this->fixturesService->users[] = $user;
             $manager->persist($user);
         }

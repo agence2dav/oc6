@@ -26,10 +26,10 @@ class UserMapper
         $userModel = new UserModel();
         $userModel->setId($userEntity->getId());
         //$userModel->setUser($userEntity->getUser());
-        $userModel->setUsername($userEntity->getUser());
+        $userModel->setUsername($userEntity->getUsername());
         $userModel->setEmail($userEntity->getEmail());
         $userModel->setPassword($userEntity->getPassword());
-        $userModel->setRole($userEntity->getRole());
+        $userModel->setRole($userEntity->getRoles());
         return $userModel;
     }
 

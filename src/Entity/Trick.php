@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use DateTimeInterface;
-use DateTimeImmutable;
-use DateTime;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
@@ -20,6 +17,9 @@ use Doctrine\Common\Collections\Collection;
 use App\Entity\TrickDesignations;
 use App\Entity\Comment;
 use App\Entity\User;
+use DateTimeInterface;
+use DateTimeImmutable;
+use DateTime;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[Broadcast]
@@ -28,7 +28,6 @@ class Trick
 
     public function __construct()
     {
-        //this->notes = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->trickDesignations = new ArrayCollection();
     }
@@ -39,12 +38,6 @@ class Trick
         $metadata->addPropertyConstraint('title', new NotBlank());
         $metadata->addPropertyConstraint('content', new NotBlank());
         $metadata->addPropertyConstraint('image', new NotBlank());
-        /*
-        $metadata->addPropertyConstraint('createdAt', new NotBlank());
-        $metadata->addPropertyConstraint(
-            'createdAt',
-            new Type(DateTimeInterface::class)
-        );*/
     }
 
     #[ORM\Id]
@@ -56,13 +49,13 @@ class Trick
     //private ?int $userId = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Le titre doit être spécifié')]
-    #[Assert\Length(
+    /*#[Assert\NotBlank(message: 'Le titre doit être spécifié')]
+     #[Assert\Length(
         min: 5,
         minMessage: 'Le titre doit faire plus de {{ limit }} caractères',
         max: 50,
-        maxMessage: 'Longueur max : limit }} caractères'
-    )]
+        maxMessage: 'Longueur max : {{ limit }} caractères'
+    )]*/
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]

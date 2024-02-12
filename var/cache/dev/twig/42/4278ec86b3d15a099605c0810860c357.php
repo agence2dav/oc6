@@ -136,13 +136,29 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"/about\">About</a>
                     </li>
-                    <li class=\"nav-item\">
+                    ";
+        // line 77
+        if ( !twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 77, $this->source); })()), "user", [], "any", false, false, false, 77)) {
+            // line 78
+            echo "                    <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"";
-        // line 78
-        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
-        echo "\">Login</a>
+            // line 79
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
+            echo "\">Connexion</a>
                     </li>
-                    <li class=\"nav-item dropdown\">
+                    ";
+        } else {
+            // line 82
+            echo "                    <li class=\"nav-item\">
+                    <a class=\"nav-link\" href=\"";
+            // line 83
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
+            echo "\">Déconnexion</a>
+                    </li>
+                    ";
+        }
+        // line 86
+        echo "                    <li class=\"nav-item dropdown\">
                     <a class=\"nav-link dropdown-toggle show\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown</a>
                     <div class=\"dropdown-menu\">
                         <a class=\"dropdown-item\" href=\"#\">Action</a>
@@ -162,9 +178,9 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
     </nav>
     <content>
         ";
-        // line 99
+        // line 105
         $this->displayBlock('body', $context, $blocks);
-        // line 100
+        // line 106
         echo "    </content>
     </body>
     
@@ -264,7 +280,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
 
     }
 
-    // line 99
+    // line 105
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -303,7 +319,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  268 => 99,  249 => 51,  239 => 52,  236 => 51,  226 => 50,  216 => 48,  206 => 47,  187 => 5,  168 => 100,  166 => 99,  142 => 78,  133 => 72,  127 => 69,  119 => 64,  106 => 53,  104 => 50,  101 => 49,  99 => 47,  54 => 5,  48 => 1,);
+        return array (  284 => 105,  265 => 51,  255 => 52,  252 => 51,  242 => 50,  232 => 48,  222 => 47,  203 => 5,  184 => 106,  182 => 105,  161 => 86,  155 => 83,  152 => 82,  146 => 79,  143 => 78,  141 => 77,  133 => 72,  127 => 69,  119 => 64,  106 => 53,  104 => 50,  101 => 49,  99 => 47,  54 => 5,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -384,9 +400,15 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"/about\">About</a>
                     </li>
+                    {% if not app.user %}
                     <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"{{ path(\"app_login\") }}\">Login</a>
+                    <a class=\"nav-link\" href=\"{{ path(\"app_login\") }}\">Connexion</a>
                     </li>
+                    {% else %}
+                    <li class=\"nav-item\">
+                    <a class=\"nav-link\" href=\"{{ path(\"app_logout\") }}\">Déconnexion</a>
+                    </li>
+                    {% endif %}
                     <li class=\"nav-item dropdown\">
                     <a class=\"nav-link dropdown-toggle show\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown</a>
                     <div class=\"dropdown-menu\">

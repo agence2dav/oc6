@@ -26,7 +26,7 @@ class TrickMapper
         $trickModel = new TrickModel();
         $trickModel->setId($trickEntity->getId());
         //$trickModel->setUser($trickEntity->getUser());
-        $trickModel->setUsername($trickEntity->getUser()->getUser());
+        $trickModel->setUsername($trickEntity->getUser()->getUsername());
         $trickModel->setCreatedAt($trickEntity->getCreatedAt());
         $trickModel->setUpdatedAt($trickEntity->getUpdatedAt());
         $trickModel->setTitle($trickEntity->getTitle());

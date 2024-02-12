@@ -14,7 +14,7 @@ class UserModel
     private string $username;
     private string $email;
     private string $password;
-    private int $role;
+    private array $roles;
     private User $user;
 
     public function getId(): int
@@ -61,14 +61,14 @@ class UserModel
         return $this;
     }
 
-    public function getRole(): ?int
+    public function getRoles(): ?array
     {
-        return $this->role;
+        return $this->roles;
     }
 
-    public function setRole(int $role): static
+    public function setRole(array $roles): static
     {
-        $this->role = $role;
+        $this->roles = $roles;
         return $this;
     }
 
