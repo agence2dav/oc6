@@ -78,7 +78,9 @@
 - update post comment while being loged, and attach user to it
 - adapt menus and templates for adminuser ou logeduser
 
-### 7 - admin posts and comments
+### 7 - admin
+
+- todo: admin posts and login
 
 ### 8 - upload images
 
