@@ -6,6 +6,8 @@ namespace App\Controller;
 
 //use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +59,8 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //$trick = $form->getData();
-            $this->trickFormType->saveForm($trick, $manager);
+            $user = $this->getUser();
+            $this->trickFormType->saveForm($trick, $manager, $user);
             return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 
@@ -86,7 +89,10 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->commentFormType->saveForm($comment, $manager, $id);
+            //is loged
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+            $user = $this->getUser();
+            $this->commentFormType->saveForm($comment, $manager, $trick, $user);
             //return $this->redirectToRoute('show_trick', ['id' => $id, 'commentId' => $comment->getId()]);
             return $this->redirect($this->generateUrl('show_trick2', ['slug' => $trick->getSlug(), 'commentId' => $comment->getId()]));
         }

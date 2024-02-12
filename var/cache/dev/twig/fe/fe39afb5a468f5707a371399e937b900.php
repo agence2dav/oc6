@@ -116,7 +116,7 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
             <img src=\"";
             // line 20
             echo twig_get_attribute($this->env, $this->source, $context["trick"], "image", [], "any", false, false, false, 20);
-            echo "\"/>
+            echo "\" width=\"100%\"/>
         </div>
             <div class=\"content\">
                 <div class=\"text-body-primary\">";
@@ -194,7 +194,7 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
         </div>
         <div class=\"card-boby\">
         <div class=\"image\">
-            <img src=\"{{ trick.image | raw}}\"/>
+            <img src=\"{{ trick.image | raw}}\" width=\"100%\"/>
         </div>
             <div class=\"content\">
                 <div class=\"text-body-primary\">{{ trick.content | raw}}<div>

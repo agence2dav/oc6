@@ -21,7 +21,6 @@ return [
     'app_home' => [[], ['_controller' => 'App\\Controller\\HomeController::index'], [], [['text', '/home']], [], [], []],
     'app_register' => [[], ['_controller' => 'App\\Controller\\RegisterController::register'], [], [['text', '/register']], [], [], []],
     'app_verify_email' => [[], ['_controller' => 'App\\Controller\\RegisterController::verifyUserEmail'], [], [['text', '/verify/email']], [], [], []],
-    'app_security_registration' => [[], ['_controller' => 'App\\Controller\\SecurityController::Registration'], [], [['text', '/registration']], [], [], []],
     'new_trick' => [[], ['_controller' => 'App\\Controller\\TrickController::form'], [], [['text', '/trick/new']], [], [], []],
     'edit_trick' => [['id'], ['_controller' => 'App\\Controller\\TrickController::form'], [], [['text', '/edit'], ['variable', '/', '[^/]++', 'id', true], ['text', '/trick']], [], [], []],
     'show_trick' => [['slug'], ['_controller' => 'App\\Controller\\TrickController::show'], [], [['variable', '/', '[^/]++', 'slug', true], ['text', '/trick']], [], [], []],
@@ -30,7 +29,6 @@ return [
     'app_logout' => [[], ['_controller' => 'App\\Controller\\UserController::logout'], [], [['text', '/logout']], [], [], []],
     'App\Controller\RegisterController::register' => [[], ['_controller' => 'App\\Controller\\RegisterController::register'], [], [['text', '/register']], [], [], []],
     'App\Controller\RegisterController::verifyUserEmail' => [[], ['_controller' => 'App\\Controller\\RegisterController::verifyUserEmail'], [], [['text', '/verify/email']], [], [], []],
-    'App\Controller\SecurityController::Registration' => [[], ['_controller' => 'App\\Controller\\SecurityController::Registration'], [], [['text', '/registration']], [], [], []],
     'App\Controller\UserController::login' => [[], ['_controller' => 'App\\Controller\\UserController::login'], [], [['text', '/login']], [], [], []],
     'App\Controller\UserController::logout' => [[], ['_controller' => 'App\\Controller\\UserController::logout'], [], [['text', '/logout']], [], [], []],
 ];

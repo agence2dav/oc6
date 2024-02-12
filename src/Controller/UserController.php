@@ -31,7 +31,9 @@ class UserController extends AbstractController
     }
 
     #[Route('/login', name: 'app_login')]
+    //#[Route('/login/{slug}', name: 'app_login2')]
     public function login(
+        //string $slug,
         User $user = null,
         Request $request,
         EntityManagerInterface $manager,
@@ -40,9 +42,9 @@ class UserController extends AbstractController
     ): Response {
 
         $error = $authenticationUtils->getLastAuthenticationError();
-        //$lastUsername = $authenticationUtils->getLastUsername();
+        $lastUsername = $authenticationUtils->getLastUsername();
         //$lastEmail = $authenticationUtils->getLastEmail();
-        $lastUsername = '';
+        //$lastUsername = '';
         $lastEmail = '';
         //if (!$user) {}
         //$user = new User();
@@ -66,6 +68,10 @@ class UserController extends AbstractController
             $manager->flush();
             return $this->redirectToRoute('app_home', []);
         }*/
+        /* 
+        if ($slug) {
+            return $this->redirectToRoute('show_trick2', ['slug' => $slug]);
+        }*/
 
         //$user = $this->userService->getById($user);
         return $this->render('security/login.html.twig', [
@@ -73,10 +79,9 @@ class UserController extends AbstractController
             'last_email' => $lastEmail,
             'last_username' => $lastUsername,
             'error' => $error,
+            //'ref' => $slug,
         ]);
     }
-
-
 
     #[Route('/logout', name: 'app_logout')]
     public function logout()

@@ -75,6 +75,8 @@
 - pose des bases techniques, controller, form, model, mapper, twig...
 - register : create new user
 - login user
+- update post comment while being loged, and attach user to it
+- adapt menus and templates for adminuser ou logeduser
 
 ### 7 - admin posts and comments
 
