@@ -4,34 +4,32 @@ declare(strict_types=1);
 
 namespace App\Mapper;
 
-use App\Entity\Comment;
+use Doctrine\Common\Collections\Collection;
 use App\Model\CommentModel;
-use App\Entity\Trick;
+use App\Entity\Comment;
 
 class CommentMapper
 {
 
-    /**
-     * @var CommentEntity[] $commentEntity
-     * 
-     * */
-    public function EntitiesToModels(array $commentEntities)
-    {
-        $commentModels = [];
-        foreach ($commentEntities as $commentEntity) {
-            $commentModel = new CommentModel();
-            $commentModel->setId($commentEntity->getId());
-            $commentModels[] = $commentModel;
-        }
-        return $commentModels;
-    }
-
-    public function EntityToModel(Trick $trick)
+    //public function EntityToModel(Comment $commentEntity): CommentModel
+    public function EntityToModel(object $commentEntity): CommentModel
     {
         $commentModel = new CommentModel();
         $commentModel->setId($commentEntity->getId());
+        $commentModel->setUsername($commentEntity->getUser()->getUser());
+        $commentModel->setDate($commentEntity->getDate());
+        $commentModel->setContent($commentEntity->getContent());
+        //dump($commentModel);
         return $commentModel;
     }
 
+    public function EntitiesToModels(Collection $commentEntities): array
+    {
+        $commentModels = [];
+        foreach ($commentEntities as $commentEntity) {
+            $commentModels[] = $this->EntityToModel($commentEntity);
+        }
+        return $commentModels;
+    }
 
 }

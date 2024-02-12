@@ -127,16 +127,47 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_home");
         echo "\">Tricks</a>
                     </li>
-                    <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"";
+                    
+                    ";
         // line 72
-        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("new_trick");
-        echo "\">New trick</a>
+        if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN")) {
+            // line 73
+            echo "                    <li class=\"nav-item\">
+                    <a class=\"nav-link\" href=\"";
+            // line 74
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("new_trick");
+            echo "\">New trick</a>
                     </li>
+                    ";
+        }
+        // line 77
+        echo "
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"/about\">About</a>
                     </li>
-                    <li class=\"nav-item dropdown\">
+                    ";
+        // line 81
+        if ( !twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 81, $this->source); })()), "user", [], "any", false, false, false, 81)) {
+            // line 82
+            echo "                    <li class=\"nav-item\">
+                    <a class=\"nav-link\" href=\"";
+            // line 83
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
+            echo "\">Connexion</a>
+                    </li>
+                    ";
+        } else {
+            // line 86
+            echo "                    <li class=\"nav-item\">
+                    <a class=\"nav-link\" href=\"";
+            // line 87
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
+            echo "\">Déconnexion</a>
+                    </li>
+                    ";
+        }
+        // line 90
+        echo "                    <li class=\"nav-item dropdown\">
                     <a class=\"nav-link dropdown-toggle show\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown</a>
                     <div class=\"dropdown-menu\">
                         <a class=\"dropdown-item\" href=\"#\">Action</a>
@@ -156,9 +187,9 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
     </nav>
     <content>
         ";
-        // line 96
+        // line 109
         $this->displayBlock('body', $context, $blocks);
-        // line 97
+        // line 110
         echo "    </content>
     </body>
     
@@ -258,7 +289,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
 
     }
 
-    // line 96
+    // line 109
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -297,7 +328,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  262 => 96,  243 => 51,  233 => 52,  230 => 51,  220 => 50,  210 => 48,  200 => 47,  181 => 5,  162 => 97,  160 => 96,  133 => 72,  127 => 69,  119 => 64,  106 => 53,  104 => 50,  101 => 49,  99 => 47,  54 => 5,  48 => 1,);
+        return array (  293 => 109,  274 => 51,  264 => 52,  261 => 51,  251 => 50,  241 => 48,  231 => 47,  212 => 5,  193 => 110,  191 => 109,  170 => 90,  164 => 87,  161 => 86,  155 => 83,  152 => 82,  150 => 81,  144 => 77,  138 => 74,  135 => 73,  133 => 72,  127 => 69,  119 => 64,  106 => 53,  104 => 50,  101 => 49,  99 => 47,  54 => 5,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -372,12 +403,25 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"{{ path(\"app_home\") }}\">Tricks</a>
                     </li>
+                    
+                    {% if is_granted('ROLE_ADMIN') %}
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"{{ path(\"new_trick\") }}\">New trick</a>
                     </li>
+                    {% endif %}
+
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"/about\">About</a>
                     </li>
+                    {% if not app.user %}
+                    <li class=\"nav-item\">
+                    <a class=\"nav-link\" href=\"{{ path(\"app_login\") }}\">Connexion</a>
+                    </li>
+                    {% else %}
+                    <li class=\"nav-item\">
+                    <a class=\"nav-link\" href=\"{{ path(\"app_logout\") }}\">Déconnexion</a>
+                    </li>
+                    {% endif %}
                     <li class=\"nav-item dropdown\">
                     <a class=\"nav-link dropdown-toggle show\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown</a>
                     <div class=\"dropdown-menu\">

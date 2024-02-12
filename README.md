@@ -60,6 +60,25 @@
 - make relations in entities
 - create fixtures with dependancies
 
-### 6 - login
+### 5.3 - relationship working good (#21) #17
+
+- call of $trick->getComment() trough the associated requests from the Orm
+- use mapping of models
+
+### 5.4 - slug #19
+
+- url lisibles
+- edit slug from title and redirect with new slug
+
+### 6 - login #6 #24
+
+- pose des bases techniques, controller, form, model, mapper, twig...
+- register : create new user
+- login user
+- update post comment while being loged, and attach user to it
+- adapt menus and templates for adminuser ou logeduser
 
 ### 7 - admin posts and comments
+
+### 8 - upload images
+

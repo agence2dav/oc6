@@ -9,11 +9,13 @@
     <article class="card border-light mb-3">
         <div class="card-header">
             <h1>{{ trick.title | raw}}</h1>
-            <div class="metadata">{{ trick.createdAt | date("d/m/Y") }}</div>
+            <div class="metadata">Rédigé par : {{ trick.username }}</div>
+            <div class="metadata">Mis à jour le : {{ trick.updatedAt | date("d/m/Y") }}</div>
+            <div class="btn"><a href="{{ path("edit_trick", {id: trick.id}) }}">Editer</a></div>
         </div>
         <div class="card-boby">
         <div class="image">
-            <img src="{{ trick.image | raw}}"/>
+            <img src="{{ trick.image | raw}}" width="100%"/>
         </div>
         <div class="content">
             <div class="text-body-primary">{{ trick.content | raw}}</div>
@@ -23,18 +25,35 @@
     <h3>Commentaires</h3>
 
     {% if justCommented == true %}
-    <div class="alert alert-primary">Merci pour votre commentaire. Il sera publié après validation.</div>
+    <div class="alert alert-success mb-3">
+        <div>Merci pour votre commentaire. Il sera publié après validation.</div>
+        <a class="btn btn-primmary" href="{{ path("show_trick", {"slug": trick.slug }) }}">Retour</a> 
+    </div>
     {% else %}
-        {{ form_start(formComment) }}
-        {{ form_row(formComment.content, {"attr":{"placeholder":"Contenu"}}) }}
-        <button type="submit" class="btn btn-success">Envoyer</button>
-        {{ form_end(formComment) }}
+
+        {% if app.user %}
+        <div class="form-floating mb-3 alert alert-primary">
+            {{ form_start(formComment) }}
+            {{ form_row(formComment.content, {"attr":{"placeholder":"Comentaire...", "class":"form-control"}}) }}
+            <button type="submit" class="btn btn-success">Envoyer</button>
+            {{ form_end(formComment) }}
+        </div>
+
+        {% else %}
+            <div class="text-body-primary alert alert-primary">
+            Vous devez être logué pour poster un commentaire.
+        {#
+        <a class="nav-link" href="{{ path("app_login2", {"slug": trick.slug }) }}">Connexion</a> 
+        #}
+            <a class="nav-link" href="/login?_target_path=/trick/{{ trick.slug }}">Connexion</a> 
+            </div>
+        {% endif %}
     {% endif %}
 
-    {% for comment in comments %}
-    <section class="card text-white bg-secondary mb-3">
+    {% for comment in trick.comments %}
+    <section class="card text-white bg-primary mb-3">
         <div class="card-header">
-            <strong>{{ comment.name | raw}}</strong>
+            <strong>{{ comment.username | raw}}</strong>
             <div class="metadata">{{ comment.date | date("d/m/Y") }}</div>
         </div>
         <div class="card-boby">

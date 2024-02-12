@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\PersistentCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,6 +17,8 @@ use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use App\Mapper\CommentMapper;
+use App\Model\CommentModel;
+use App\Entity\Trick;
 
 class CommentService
 {
@@ -29,12 +34,17 @@ class CommentService
 
     public function getByTrick(int $id): array
     {
+        //return $this->commentRepository->find($id);
         //return $this->commentRepository->findById($id);
-        return $this->commentRepository->findByTrick($id);
         //$trick = $this->trickRepository->findOneById($id); //
-        //$entities = $this->commentRepository->findByTrick($id);
-        //$commentsEntities = $trick->getComments();
-        //return $this->commentMapper->EntitiesToModels($commentsEntities);
+        //$entities = $this->commentRepository->findByTrick0($id);//old
+        return $this->commentRepository->findByTrick($id); //ok
+    }
+
+    public function getComments(Trick $trick): array
+    {
+        $commentsEntities = $trick->getComments();
+        return $this->commentMapper->EntitiesToModels($commentsEntities);
     }
 
     public function saveComment(Comment $comment): void

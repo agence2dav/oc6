@@ -4,20 +4,84 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\UX\Turbo\Attribute\Broadcast;
-use App\Entity\Comment;
+use App\Repository\UserRepository;
 use App\Entity\Trick;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[Broadcast]
-class User
+#[UniqueEntity(fields: ['username'], message: 'Cet e-mail est déjà utilisé')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+
+        /* 
+         */
+        $metadata->addPropertyConstraint('username', new Assert\Required([
+            new Assert\NotBlank(),
+            new Assert\Length([
+                'min' => 2,
+                'maxMessage' => 'Nom d\'utilisateur trop court',
+            ]),
+            new Assert\Length([
+                'max' => 100,
+                'maxMessage' => 'Nom d\'utilisateur trop long',
+            ]),
+        ]));
+
+        /* */
+        $metadata->addPropertyConstraint('email', new Assert\Required([
+            new Assert\NotBlank(),
+            new Assert\Email(),
+        ]));
+
+        /* 
+        $metadata->addPropertyConstraint('profileData', new Assert\Collection([
+            'fields' => [
+                'username' => [
+                    new Assert\NotBlank(),
+                    new Assert\Length([
+                        'min' => 5,
+                        'maxMessage' => 'Nom d\'utilisateur trop court',
+                    ]),
+                    new Assert\Length([
+                        'max' => 100,
+                        'maxMessage' => 'Nom d\'utilisateur trop long',
+                    ]),
+                ],
+                'email' => new Assert\Required([
+                    new Assert\NotBlank(),
+                    new Assert\Email(),
+                ]),
+            ],
+            'allowMissingFields' => false,
+        ]));*/
+
+        /* */
+        $metadata->addGetterConstraint('passwordSafe', new Assert\IsTrue([
+            'message' => 'Les mots de passes ne correspondent pas',
+        ]));
+
+    }
+
+    public function isPasswordSafe(): bool
+    {
+        return $this->plainPassword === $this->confirmPassword;
+    }
 
     public function __construct()
     {
-        //$this->notes = new ArrayCollection();
+        $this->tricks = new ArrayCollection();
     }
 
     #[ORM\Id]
@@ -26,37 +90,57 @@ class User
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    /*
+    #[Assert\NotBlank(message: 'Spécifier un nom d\'utilisateur')]
+    #[Assert\Length(
+        min: 5,
+        minMessage: 'Le nom doit faire plus de  {{ limit }} caractères',
+        max: 50,
+        maxMessage: 'Le nom doit faire moins de {{ limit }} caractères'
+    )]*/
+    private ?string $username = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
+    private ?string $plainPassword = null;
+    private ?string $confirmPassword = null;
 
     #[ORM\Column]
-    private ?int $role = null;
+    private ?array $roles = [];
 
-    #[ORM\OneToMany(targetEntity: Trick::class, mappedBy: 'user')]
-    private ?int $trick = null;
+    //relations
 
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
-    private ?int $comment = null;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Trick::class)]
+    private Collection $tricks;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
+
+    //functions
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getUsername(): ?string
     {
-        return $this->name;
+        return (string) $this->username;
     }
 
-    public function setName(string $name): static
+    public function setUsername(string $username): static
     {
-        $this->name = $name;
+        $this->username = $username;
         return $this;
+    }
+
+    //identifier that represents this user
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
     }
 
     public function getEmail(): ?string
@@ -81,36 +165,96 @@ class User
         return $this;
     }
 
-    public function getRole(): ?int
+    public function getPlainPassword(): ?string
     {
-        return $this->role;
+        return $this->plainPassword;
     }
 
-    public function setRole(int $role): static
+    public function setPlainPassword(string $plainPassword): static
     {
-        $this->role = $role;
+        $this->plainPassword = $plainPassword;
         return $this;
     }
 
-    public function getTrick(): ?int
+    public function setConfirmPassword(string $confirmPassword): static
     {
-        return $this->trick;
-    }
-
-    public function setTrick(int $trick): static
-    {
-        $this->role = $trick;
+        $this->confirmPassword = $confirmPassword;
         return $this;
     }
 
-    public function getComment(): ?int
+    public function getConfirmPassword(): ?string
     {
-        return $this->comment;
+        return $this->confirmPassword;
     }
 
-    public function setComment(int $comment): static
+    public function getRoles(): array
     {
-        $this->role = $comment;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
         return $this;
     }
+
+    //relations functions
+
+    public function getUser(): ?string
+    {
+        return (string) $this->username;
+    }
+
+    public function setUser(string $username): static
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    public function getTricks(): Collection
+    {
+        return $this->tricks;
+    }
+
+    public function addTrick(Trick $trick): static
+    {
+        if (!$this->tricks->contains($trick)) {
+            $this->tricks->add($trick);
+            $trick->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removeTrick(Trick $trick): static
+    {
+        if ($this->tricks->removeElement($trick)) {
+            // set the owning side to null (unless already changed)
+            if ($trick->getUser() === $this) {
+                $trick->setUser(null);
+            }
+        }
+        return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
 }

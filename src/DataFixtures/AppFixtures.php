@@ -11,77 +11,35 @@ use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Entity\Designation;
 use App\Entity\TrickDesignations;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Service\FixturesService;
+//use Bar\UserInterface;
+use Faker;
 
 class AppFixtures extends Fixture
 {
 
-    private int $numberOfArticles = 10;
-    private array $designations =
-        [
-            ['Grabs', 'Mute'],
-            ['Grabs', 'Sad'],
-            ['Grabs', 'Indy'],
-            ['Grabs', 'Stalefish'],
-            ['Grabs', 'Tail grab'],
-            ['Grabs', 'Nose grab'],
-            ['Grabs', 'Seat belt'],
-            ['Grabs', 'Truck driver'],
-            ['Frontside/Backside', '180'],
-            ['Frontside/Backside', '360'],
-            ['Frontside/Backside', '540'],
-            ['Frontside/Backside', '720'],
-            ['Frontside/Backside', '900'],
-            ['Frontside/Backside', '1080'],
-            ['Rotations', '90'],
-            ['Rotations', '270'],
-            ['Rotations', '450'],
-            ['Rotations', '630'],
-            ['Rotations', '810'],
-            ['Flip', 'FrontFlip'],
-            ['Flip', 'BackFlip'],
-            ['Off-center', 'Corkscrew'],
-            ['Off-center', 'Rodeo'],
-            ['Off-center', 'misty'],
-            ['Tails', 'Nose slide'],
-            ['Tails', 'Tail slide'],
-            ['Old School', 'Tail slide'],
-            ['Old School', 'Japan air'],
-            ['Old School', 'Rocket air'],
-            ['Old School', 'Backside air'],
-            ['Old School', 'Method air'],
-            ['Jumps', 'Switch'],
-            ['Jumps', 'Rail to switch'],
-            ['Jumps', 'switch to rail'],
-        ];
+    private array $objects = [];
+    private int $numberOfTricks = 10;
 
-    public function tricks(ObjectManager $manager): void
-    {
-        for ($i = 1; $i < $this->numberOfArticles; $i++) {
-            $trick = new Trick();
-            $trick->setTitle('titre ' . $i)
-                ->setContent('<p>hello</p>')
-                ->setImage('http://placehold.it/350x150')
-                ->setCreatedAt(new \DateTime())
-                ->setUpdatedAt(new \DateTime())
-                ->setStatus(1)
-                ->setUser(1);
-            $manager->persist($trick);
-        }
-        $manager->flush();
+    public function __construct(
+        private readonly FixturesService $fixturesService,
+        private readonly UserPasswordHasherInterface $hasher,
+        private readonly SluggerInterface $slugger,
+    ) {
     }
 
-    public function comments(ObjectManager $manager): void
+    public function trick_designations(ObjectManager $manager): void
     {
-        for ($i = 1; $i < $this->numberOfArticles; $i++) {
+        $nb_designations = count($this->fixturesService->designations()) - 1;
+        for ($i = 0; $i < $this->numberOfTricks; $i++) {
             for ($j = 0; $j < 4; $j++) {
-                $comments = new Comment();
-                $comments
-                    ->setTrick(rand(1, 10))
-                    ->setUser(rand(1, 10))
-                    ->setContent('hello')
-                    ->setStatus(rand(0, 1))
-                    ->setDate(new \DateTime());
-                $manager->persist($comments);
+                $trick_designations = new TrickDesignations();
+                $trick_designations
+                    ->setTrick($this->objects['trick'][$i])
+                    ->setDesignation($this->objects['designation'][mt_rand(0, $nb_designations)]);
+                $manager->persist($trick_designations);
             }
         }
         $manager->flush();
@@ -89,40 +47,67 @@ class AppFixtures extends Fixture
 
     public function designations(ObjectManager $manager): void
     {
-        foreach ($this->designations as [$type, $name]) {
+        foreach ($this->fixturesService->designations() as [$type, $name]) {
             $designation = new Designation();
             $designation
                 ->setType($type)
                 ->setName($name);
+            $this->objects['designation'][] = $designation;
             $manager->persist($designation);
         }
         $manager->flush();
     }
 
-    public function trick_designations(ObjectManager $manager): void
+    public function comments(ObjectManager $manager): void
     {
-        $designationsRandom = array_rand($this->designations, 4);
-        for ($i = 1; $i < $this->numberOfArticles; $i++) {
+        for ($i = 0; $i < $this->numberOfTricks; $i++) {
             for ($j = 0; $j < 4; $j++) {
-                $trick_designations = new TrickDesignations();
-                $trick_designations
-                    ->setTrick($i)
-                    ->setDesignation($designationsRandom[$j]);
-                $manager->persist($trick_designations);
+                $comments = new Comment();
+                $comments
+                    ->setTrick($this->objects['trick'][$i])
+                    ->setUser($this->objects['user'][$j])
+                    ->setContent($this->fixturesService->faker->paragraphs(mt_rand(1, 3), true))
+                    ->setStatus(rand(0, 1))
+                    ->setDate($this->fixturesService->generateRandomDateFrom());
+                $manager->persist($comments);
             }
+        }
+        $manager->flush();
+    }
+
+    public function tricks(ObjectManager $manager): void
+    {
+        for ($i = 0; $i < $this->numberOfTricks; $i++) {
+            $trick = new Trick();
+            $title = $this->fixturesService->faker->sentence($nbWords = 4, $variableNbWords = true);
+            $slug = $this->slugger->slug($title);
+            $trick
+                ->setUser($this->objects['user'][$i])
+                ->setTitle($title)
+                ->setSlug($slug->__toString())
+                ->setContent($this->fixturesService->faker->paragraphs(mt_rand(4, 7), true))
+                ->setImage('http://placehold.it/350x150')
+                ->setCreatedAt($this->fixturesService->generateDateInPast())
+                ->setUpdatedAt($this->fixturesService->generateRandomDateFrom())
+                ->setStatus(1);
+            $this->objects['trick'][] = $trick;
+            $manager->persist($trick);
         }
         $manager->flush();
     }
 
     public function users(ObjectManager $manager): void
     {
-        for ($i = 0; $i < $this->numberOfArticles; $i++) {
+        for ($i = 0; $i < $this->numberOfTricks; $i++) {
             $user = new User();
+            $password = $this->hasher->hashPassword($user, 'd');
             $user
-                ->setName('user' . $i)
-                ->setEmail('d' . $i . '@d.d')
-                ->setPassword('$2y$10$P129uyqS/Hd4rF5J0kDcuuCvuoLOyQhurMHi1FvXGm/C2HeUAWnNC')
-                ->setRole(1);
+                ->setUser($this->fixturesService->faker->username)
+                ->setEmail($this->fixturesService->faker->email)
+                ->setPassword($password)
+                //->setPassword('$2y$10$P129uyqS/Hd4rF5J0kDcuuCvuoLOyQhurMHi1FvXGm/C2HeUAWnNC')
+                ->setRoles([]);
+            $this->objects['user'][] = $user;
             $manager->persist($user);
         }
         $manager->flush();
@@ -130,12 +115,14 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+
+        $faker = Faker\Factory::create('fr_FR');
         /* 
+         */
         $this->users($manager);
         $this->tricks($manager);
         $this->comments($manager);
         $this->designations($manager);
         $this->trick_designations($manager);
-        */
     }
 }

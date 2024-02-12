@@ -68,7 +68,15 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "title"));
 
-        echo "New Post";
+        // line 5
+        echo "    ";
+        if (((isset($context["edit_mode"]) || array_key_exists("edit_mode", $context) ? $context["edit_mode"] : (function () { throw new RuntimeError('Variable "edit_mode" does not exist.', 5, $this->source); })()) == true)) {
+            echo "Editer un Trick";
+        } else {
+            echo "Nouveau Trick";
+        }
+        // line 6
+        echo "    ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
 
@@ -77,7 +85,7 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
 
     }
 
-    // line 6
+    // line 8
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -87,46 +95,53 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "body"));
 
-        // line 7
+        // line 9
         echo "
-    <h1> kjhk </h1>
-
-    ";
+    <h1>";
         // line 10
-        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 10, $this->source); })()), 'form_start');
-        echo "
+        if (((isset($context["edit_mode"]) || array_key_exists("edit_mode", $context) ? $context["edit_mode"] : (function () { throw new RuntimeError('Variable "edit_mode" does not exist.', 10, $this->source); })()) == true)) {
+            echo "Editer un Trick";
+        } else {
+            echo "Nouveau Trick";
+        }
+        echo "</h1>
 
     ";
         // line 12
-        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 12, $this->source); })()), "title", [], "any", false, false, false, 12), 'row', ["attr" => ["placeholder" => "Titre"]]);
+        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 12, $this->source); })()), 'form_start');
         echo "
-    ";
-        // line 13
-        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 13, $this->source); })()), "content", [], "any", false, false, false, 13), 'row', ["attr" => ["placeholder" => "Contenu"]]);
-        echo "
+
     ";
         // line 14
-        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 14, $this->source); })()), "image", [], "any", false, false, false, 14), 'row', ["attr" => ["placeholder" => "Image (Url)"]]);
+        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 14, $this->source); })()), "title", [], "any", false, false, false, 14), 'row', ["attr" => ["placeholder" => "Titre"]]);
+        echo "
+    ";
+        // line 15
+        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 15, $this->source); })()), "content", [], "any", false, false, false, 15), 'row', ["attr" => ["placeholder" => "Contenu"]]);
+        echo "
+    ";
+        // line 16
+        echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(twig_get_attribute($this->env, $this->source, (isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 16, $this->source); })()), "image", [], "any", false, false, false, 16), 'row', ["attr" => ["placeholder" => "Image (Url)"]]);
         echo "
 
     <button type=\"submit\" class=\"btn btn-success\">
         ";
-        // line 17
-        if (((isset($context["edit_mode"]) || array_key_exists("edit_mode", $context) ? $context["edit_mode"] : (function () { throw new RuntimeError('Variable "edit_mode" does not exist.', 17, $this->source); })()) == true)) {
-            // line 18
+        // line 19
+        if (((isset($context["edit_mode"]) || array_key_exists("edit_mode", $context) ? $context["edit_mode"] : (function () { throw new RuntimeError('Variable "edit_mode" does not exist.', 19, $this->source); })()) == true)) {
+            // line 20
             echo "        Modifier
         ";
         } else {
-            // line 20
+            // line 22
             echo "        Enregistrer
         ";
         }
-        // line 22
+        // line 24
         echo "    </button>
 
     ";
-        // line 24
-        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 24, $this->source); })()), 'form_end');
+        // line 26
+        echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["formTrick"]) || array_key_exists("formTrick", $context) ? $context["formTrick"] : (function () { throw new RuntimeError('Variable "formTrick" does not exist.', 26, $this->source); })()), 'form_end');
         echo "
 
 ";
@@ -159,7 +174,7 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  129 => 24,  125 => 22,  121 => 20,  117 => 18,  115 => 17,  109 => 14,  105 => 13,  101 => 12,  96 => 10,  91 => 7,  81 => 6,  62 => 4,  51 => 1,  49 => 2,  36 => 1,);
+        return array (  144 => 26,  140 => 24,  136 => 22,  132 => 20,  130 => 19,  124 => 16,  120 => 15,  116 => 14,  111 => 12,  102 => 10,  99 => 9,  89 => 8,  79 => 6,  72 => 5,  62 => 4,  51 => 1,  49 => 2,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -167,11 +182,13 @@ class __TwigTemplate_f3c8a67cbb9bcad68d9be45708e55885 extends Template
         return new Source("{% extends 'base.html.twig' %}
 {% form_theme formTrick 'bootstrap_4_layout.html.twig' %}
 
-{% block title %}New Post{% endblock %}
+{% block title %}
+    {% if edit_mode == true %}Editer un Trick{% else %}Nouveau Trick{% endif %}
+    {% endblock %}
 
 {% block body %}
 
-    <h1> kjhk </h1>
+    <h1>{% if edit_mode == true %}Editer un Trick{% else %}Nouveau Trick{% endif %}</h1>
 
     {{ form_start(formTrick) }}
 

@@ -6,7 +6,8 @@ namespace App\Controller;
 
 //use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +15,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Trick;
 use App\Service\TrickService;
 use App\Repository\TrickRepository;
+use App\Mapper\TrickMapper;
 use App\Form\TrickFormType;
 use App\Entity\Comment;
 use App\Service\CommentService;
+use App\Repository\CommentRepository;
+use App\Mapper\CommentMapper;
 use App\Form\CommentFormType;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class TrickController extends AbstractController
 {
@@ -28,6 +34,11 @@ class TrickController extends AbstractController
         private TrickFormType $trickFormType,
         private CommentService $commentService,
         private CommentFormType $commentFormType,
+        private CommentMapper $commentMapper,
+        private CommentRepository $commentRepository,
+        private TrickMapper $trickMapper,
+        private SluggerInterface $slugger,
+        //private AsciiSlugger $asciiSlugger,
     ) {
 
     }
@@ -48,25 +59,27 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //$trick = $form->getData();
-            $this->trickFormType->saveForm($trick, $manager);
-            return $this->redirectToRoute('show_trick', ['id' => $trick->getId()]);
+            $user = $this->getUser();
+            $this->trickFormType->saveForm($trick, $manager, $user);
+            return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 
-        return $this->render('home/create.html.twig', [
+        return $this->render('home/editTrick.html.twig', [
             'formTrick' => $form->createView(),
             'edit_mode' => $trick->getId() ? true : false,
         ]);
     }
 
-
-    #[Route('/trick/{id}', name: 'show_trick')]
-    #[Route('/trick/{id}/{commentId}', name: 'show_trick2')]
-    public function show(Trick $trick, int $id, int $commentId = null, Request $request, EntityManagerInterface $manager): Response
+    #[Route('/trick/{slug}', name: 'show_trick')]
+    #[Route('/trick/{slug}/{commentId}', name: 'show_trick2')]
+    public function show(Trick $trick, string $slug, int $commentId = null, Request $request, EntityManagerInterface $manager): Response
     {
-
         //$userConnected = $this->getUser();
-        $trick = $this->trickService->getById($id);
-        $comments = $this->commentService->getByTrick($id);
+        //$trickModel = $this->trickService->getById($id);
+        $trickModel = $this->trickService->getBySlug($slug);
+        $id = $trick->getId();
+        //$slugger = new AsciiSlugger();
+        //$slug = $this->slugger->slug($trick->getTitle());
 
         $comment = new Comment();
         $options = [
@@ -74,22 +87,20 @@ class TrickController extends AbstractController
         ];
         $form = $this->createForm(CommentFormType::class, $comment, $options);
         $form->handleRequest($request);
-        //dump($comment);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->commentFormType->saveForm($comment, $manager, $id);
+            //is loged
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+            $user = $this->getUser();
+            $this->commentFormType->saveForm($comment, $manager, $trick, $user);
             //return $this->redirectToRoute('show_trick', ['id' => $id, 'commentId' => $comment->getId()]);
-            return $this->redirect($this->generateUrl('show_trick2', ['id' => $id, 'commentId' => $comment->getId()]));
+            return $this->redirect($this->generateUrl('show_trick2', ['slug' => $trick->getSlug(), 'commentId' => $comment->getId()]));
         }
-        //echo $commentId;
 
-        $slugger = new AsciiSlugger();
-        $slug = $slugger->slug($trick->getTitle());
         return $this->render(
             'home/trick.html.twig',
             [
-                'trick' => $trick,
-                'comments' => $comments,
+                'trick' => $trickModel,
                 'formComment' => $form->createView(),
                 'justCommented' => $commentId ? true : false,
             ]

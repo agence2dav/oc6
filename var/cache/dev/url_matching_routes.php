@@ -16,7 +16,11 @@ return [
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/' => [[['_route' => 'app_empty', '_controller' => 'App\\Controller\\HomeController::index'], null, null, null, false, false, null]],
         '/home' => [[['_route' => 'app_home', '_controller' => 'App\\Controller\\HomeController::index'], null, null, null, false, false, null]],
+        '/register' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegisterController::register'], null, null, null, false, false, null]],
+        '/verify/email' => [[['_route' => 'app_verify_email', '_controller' => 'App\\Controller\\RegisterController::verifyUserEmail'], null, null, null, false, false, null]],
         '/trick/new' => [[['_route' => 'new_trick', '_controller' => 'App\\Controller\\TrickController::form'], null, null, null, false, false, null]],
+        '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\UserController::login'], null, null, null, false, false, null]],
+        '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\UserController::logout'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -57,9 +61,9 @@ return [
         181 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
         191 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
         228 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
-        244 => [[['_route' => 'show_trick2', '_controller' => 'App\\Controller\\TrickController::show'], ['id', 'commentId'], null, null, false, true, null]],
+        244 => [[['_route' => 'show_trick2', '_controller' => 'App\\Controller\\TrickController::show'], ['slug', 'commentId'], null, null, false, true, null]],
         253 => [
-            [['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['id'], null, null, false, true, null],
+            [['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

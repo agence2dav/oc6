@@ -85,6 +85,6 @@ class __TwigTemplate_006fb7ec0659438f0c015672a5d2ecdd extends Template
     <path d=\"M8 5v4h11l2 -2l-2 -2z\"></path>
     <path d=\"M14 13v4h-8l-2 -2l2 -2z\"></path>
 </svg>
-", "@WebProfiler/Icon/router.svg", "C:\\Users\\dav\\Documents\\srv\\gits\\oc6\\surf\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Icon\\router.svg");
+", "@WebProfiler/Icon/router.svg", "C:\\Users\\dav\\Documents\\srv\\gits\\oc6\\vendor\\symfony\\web-profiler-bundle\\Resources\\views\\Icon\\router.svg");
     }
 }

@@ -10,8 +10,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Bundle\SecurityBundle\Security;
 use App\Entity\Comment;
-
+use App\Entity\Trick;
+use App\Entity\User;
 
 class CommentFormType extends AbstractType
 {
@@ -23,15 +26,13 @@ class CommentFormType extends AbstractType
         ]);
     }
 
-    public function saveForm(Comment $comment, EntityManagerInterface $manager, int $id): void
+    public function saveForm(Comment $comment, EntityManagerInterface $manager, Trick $trick, User $user): void
     {
-        if (!$comment->getId()) {
-        }
-        $comment->setTrick($id);
-        $comment->setUser(1);
+        $comment->setTrick($trick);
+        $comment->setUser($user);
         $comment->setDate(new \DateTime());
         //$comment->setContent();
-        $comment->setStatus(1);
+        $comment->setStatus(1); //perform later
         $manager->persist($comment);
         $manager->flush();
     }
@@ -41,7 +42,7 @@ class CommentFormType extends AbstractType
         $builder
             ->add(
                 'content',
-                TextType::class,
+                TextareaType::class,
                 [
                     'attr' => [
                         'class' => 'form-control w-lg-75 m-auto'
