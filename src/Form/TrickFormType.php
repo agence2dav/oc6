@@ -20,8 +20,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\UserRepository;
 use App\Service\MediaService;
+use App\Model\TrickModel;
 use App\Entity\Trick;
-use App\Entity\User;
 
 class TrickFormType extends AbstractType
 {
@@ -40,22 +40,6 @@ class TrickFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Trick::class,
         ]);
-    }
-
-    public function saveForm(Trick $trick, EntityManagerInterface $manager, User $user): void
-    {
-        if (!$trick->getId()) {
-            //$user = $this->userRepository->findById(1);
-            $trick->setUser($user);
-            $trick->setCreatedAt(new \DateTime());
-            $trick->setStatus(1);
-        }
-        $slug = $this->slugger->slug($trick->getTitle());
-        $trick->setSlug($slug->toString());
-        $trick->setUpdatedAt(new \DateTime());
-        $trick->setImage($this->mediaService->importImage($trick->getImage()));
-        $manager->persist($trick);
-        $manager->flush();
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -150,14 +134,5 @@ class TrickFormType extends AbstractType
                     );
         */
     }
-
-    /*    public function configureOptions(OptionsResolver $resolver): void
-        {
-            $resolver->setDefaults(
-                [
-                    'data_class' => Trick::class,
-                ]
-            );
-        }*/
 
 }

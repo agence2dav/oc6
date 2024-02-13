@@ -42,6 +42,4 @@ class SecurityController //extends AbstractController
     //You can use IS_AUTHENTICATED anywhere roles are used: like access_control or in Twig.
     //https://symfony.com/doc/current/security.html#securing-other-services
 
-
-
 }

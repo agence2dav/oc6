@@ -61,7 +61,7 @@ return [
         181 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
         191 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
         228 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
-        244 => [[['_route' => 'show_trick2', '_controller' => 'App\\Controller\\TrickController::show'], ['slug', 'commentId'], null, null, false, true, null]],
+        244 => [[['_route' => 'show_trick2', '_controller' => 'App\\Controller\\TrickController::show'], ['slug', 'commented'], null, null, false, true, null]],
         253 => [
             [['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],

@@ -74,7 +74,6 @@ class CommentModel
         return $this;
     }
 
-    /* 
     public function getUser(): ?User
     {
         return $this->user;
@@ -84,7 +83,7 @@ class CommentModel
     {
         $this->user = $user;
         return $this;
-    }*/
+    }
 
     public function getUsername(): ?string
     {

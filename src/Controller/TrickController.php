@@ -14,10 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Trick;
 use App\Service\TrickService;
+use App\Model\TrickModel;
 use App\Repository\TrickRepository;
 use App\Mapper\TrickMapper;
 use App\Form\TrickFormType;
-use App\Entity\Comment;
+use App\Model\CommentModel;
 use App\Service\CommentService;
 use App\Repository\CommentRepository;
 use App\Mapper\CommentMapper;
@@ -30,13 +31,13 @@ class TrickController extends AbstractController
 
     public function __construct(
         private TrickService $trickService,
+        private TrickMapper $trickMapper,
         private TrickRepository $trickRepository,
         private TrickFormType $trickFormType,
         private CommentService $commentService,
         private CommentFormType $commentFormType,
         private CommentMapper $commentMapper,
         private CommentRepository $commentRepository,
-        private TrickMapper $trickMapper,
         private SluggerInterface $slugger,
         //private AsciiSlugger $asciiSlugger,
     ) {
@@ -51,16 +52,12 @@ class TrickController extends AbstractController
             $trick = new Trick();
         }
 
-        $options = [
-            //'require_title' => 'Le titre est requit',
-        ];
+        $options = [];
         $form = $this->createForm(TrickFormType::class, $trick, $options);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$trick = $form->getData();
-            $user = $this->getUser();
-            $this->trickFormType->saveForm($trick, $manager, $user);
+            $this->trickService->saveTrick($trick, $this->getUser());
             return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 
@@ -71,30 +68,26 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/{slug}', name: 'show_trick')]
-    #[Route('/trick/{slug}/{commentId}', name: 'show_trick2')]
-    public function show(Trick $trick, string $slug, int $commentId = null, Request $request, EntityManagerInterface $manager): Response
+    #[Route('/trick/{slug}/{commented}', name: 'show_trick2')]
+    public function show(Trick $trick, string $slug, int $commented = null, Request $request, EntityManagerInterface $manager): Response
     {
         //$userConnected = $this->getUser();
-        //$trickModel = $this->trickService->getById($id);
         $trickModel = $this->trickService->getBySlug($slug);
+        $commentModel = new CommentModel();
         $id = $trick->getId();
-        //$slugger = new AsciiSlugger();
-        //$slug = $this->slugger->slug($trick->getTitle());
 
-        $comment = new Comment();
         $options = [
             //'require_content' => 'Ce champ est obligatoire',
         ];
-        $form = $this->createForm(CommentFormType::class, $comment, $options);
+        $form = $this->createForm(CommentFormType::class, $commentModel, $options);
         $form->handleRequest($request);
 
+        //save comment
         if ($form->isSubmitted() && $form->isValid()) {
-            //is loged
-            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-            $user = $this->getUser();
-            $this->commentFormType->saveForm($comment, $manager, $trick, $user);
+            //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');//is loged
+            $this->commentService->saveComment($form, $trick, $this->getUser());
             //return $this->redirectToRoute('show_trick', ['id' => $id, 'commentId' => $comment->getId()]);
-            return $this->redirect($this->generateUrl('show_trick2', ['slug' => $trick->getSlug(), 'commentId' => $comment->getId()]));
+            return $this->redirect($this->generateUrl('show_trick2', ['slug' => $trick->getSlug(), 'commented' => 1]));
         }
 
         return $this->render(
@@ -102,7 +95,7 @@ class TrickController extends AbstractController
             [
                 'trick' => $trickModel,
                 'formComment' => $form->createView(),
-                'justCommented' => $commentId ? true : false,
+                'justCommented' => $commented ? true : false,
             ]
         );
     }

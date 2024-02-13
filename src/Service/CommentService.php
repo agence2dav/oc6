@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Form\Extension\Core\Type\TextType;
 //use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Entity\User;
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
@@ -47,18 +48,28 @@ class CommentService
         return $this->commentMapper->EntitiesToModels($commentsEntities);
     }
 
-    public function saveComment(Comment $comment): void
+    public function saveComment($form, Trick $trick, User $user): void
     {
-        $this->commentRepository->saveComment($comment);
+        //$commentModel = new CommentModel(); //The class 'App\Model\CommentModel' was not found in the chain configured namespaces App\Entity
+        $commentModel = new Comment();
+        $commentModel->setTrick($trick);
+        $commentModel->setUser($user);
+        $commentModel->setDate(new \DateTime());
+        $commentModel->setContent($form->get("content")->getData());
+        $commentModel->setStatus(1); //perform later
+        //$this->manager->persist($commentModel);
+        //$this->manager->flush();
+        //$this->commentRepository->saveCommentModel($commentModel);
+        $this->commentRepository->saveComment($commentModel);
     }
 
     public function deleteComment(Comment $comment): bool
     {
-        if ($this->commentRepository->findOneById($comment->getId()) === null) {
-            return false;
+        if ($this->commentRepository->findOneById($comment->getId())) {
+            $this->commentRepository->delete($comment);
+            return true;
         }
-        $this->commentRepository->delete($comment);
-        return true;
+        return false;
     }
 
 }

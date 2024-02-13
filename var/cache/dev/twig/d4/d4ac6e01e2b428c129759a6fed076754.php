@@ -191,7 +191,7 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
             echo "</strong>
             <div class=\"metadata\">";
             // line 57
-            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, twig_get_attribute($this->env, $this->source, $context["comment"], "date", [], "any", false, false, false, 57), "d/m/Y"), "html", null, true);
+            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, twig_get_attribute($this->env, $this->source, $context["comment"], "date", [], "any", false, false, false, 57), "d/m/Y H:i"), "html", null, true);
             echo "</div>
         </div>
         <div class=\"card-boby\">
@@ -302,7 +302,7 @@ class __TwigTemplate_e192a5f8e17f0e2bba6228514f4038c3 extends Template
     <section class=\"card text-white bg-primary mb-3\">
         <div class=\"card-header\">
             <strong>{{ comment.username | raw}}</strong>
-            <div class=\"metadata\">{{ comment.date | date(\"d/m/Y\") }}</div>
+            <div class=\"metadata\">{{ comment.date | date(\"d/m/Y H:i\") }}</div>
         </div>
         <div class=\"card-boby\">
             <div class=\"content\">

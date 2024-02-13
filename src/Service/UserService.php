@@ -56,4 +56,79 @@ class UserService
         return true;
     }
 
+    //reset-pswd
+    /* 
+    public function getUserVerified(int $userId): ?User
+    {
+        $user = $this->repo->find($userId);
+        if ($user && !$user->getIsVerified()) {
+            return $this->repo->updateIsVerify($user);
+        }
+        return null;
+    }
+
+    public function isUserVerifiedYet(User $user): bool
+    {
+        return $user->getIsVerified();
+    }
+
+    public function newRegisterToken(UserModel $user): string
+    {
+        $header = [
+            'alg' => 'HS256',
+            'typ' => 'JWT'
+        ];
+        $payload = [
+            'userId' => $user->getId()
+        ];
+        return $this->jWTService->generate($header, $payload, $this->params->get('app.jwtsecret'));
+    }
+
+    public function getUserModel(User $user): UserModel
+    {
+        return new UserModel($user->getId(), $user->getUserIdentifier(), $user->getEmail());
+    }
+
+    public function isUserKnown(string $email): ?UserModel
+    {
+        $user = $this->repo->findOneByEmail($email);
+        if (!$user) {
+            return null;
+        }
+        return $this->getUserModel($user);
+    }
+
+    public function setToken(UserModel $userModel): string
+    {
+        $token = $this->tokenGenerator->generateToken();
+        $user = $this->repo->find($userModel->getId());
+        $user->setResetToken($token);
+        $this->repo->saveUser($user);
+        return $token;
+    }
+
+    public function findUserByResetToken(string $token): UserModel
+    {
+        $user = $this->repo->findOneByResetToken($token);
+        return $this->getUserModel($user);
+    }
+
+    public function setNewPassword(UserModel $userModel, string $password): void
+    {
+        $user = $this->repo->find($userModel->getId());
+        $user->setResetToken('');
+        $user->setPassword(
+            $this->userPasswordHasher->hashPassword(
+                $user,
+                $password
+            )
+        );
+        $this->repo->saveUser($user);
+    }
+
+    public function getUser(string $email): User
+    {
+        return $this->repo->findOneByEmail($email);
+    }
+*/
 }

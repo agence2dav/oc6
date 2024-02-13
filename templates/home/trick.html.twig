@@ -54,7 +54,7 @@
     <section class="card text-white bg-primary mb-3">
         <div class="card-header">
             <strong>{{ comment.username | raw}}</strong>
-            <div class="metadata">{{ comment.date | date("d/m/Y") }}</div>
+            <div class="metadata">{{ comment.date | date("d/m/Y H:i") }}</div>
         </div>
         <div class="card-boby">
             <div class="content">

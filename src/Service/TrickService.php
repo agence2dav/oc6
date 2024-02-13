@@ -10,30 +10,29 @@ use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Form\Extension\Core\Type\TextType;
 //use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use App\Repository\TrickRepository;
+use App\Service\MediaService;
 use App\Mapper\TrickMapper;
 use App\Model\TrickModel;
-use App\Entity\Comment;
-use App\Entity\CommentService;
-use App\Entity\CommentRepository;
 use App\Entity\Trick;
+use App\Entity\User;
 
 class TrickService
 {
 
     public function __construct(
         //private readonly EntityManagerInterface $entityManager,
-        private TrickRepository $repo,
-        //private TrickModel $model,
-        private TrickMapper $mapper,
-        private EntityManagerInterface $manager
+        private readonly TrickRepository $repo,
+        //private readonly TrickModel $model,
+        private readonly SluggerInterface $slugger,
+        private readonly TrickMapper $mapper,
+        private readonly EntityManagerInterface $manager,
+        private readonly MediaService $mediaService,
     ) {
 
     }
-
-    //$repo=$this->getDoctrine()->getRepository(Trick::class);//old1
-    //$repo=$em()->getRepository(Trick::class);//old2
 
     public function getAll(): Trick|array
     {
@@ -69,8 +68,20 @@ class TrickService
         return $this->repo->findByTitle($title);
     }*/
 
-    public function saveTrick(Trick $trick): void
+    public function saveTrick(Trick $trick, User $user): void
     {
+        if (!$trick->getId()) {
+            //$user = $this->userRepository->findById(1);
+            $trick->setUser($user);
+            $trick->setCreatedAt(new \DateTime());
+            $trick->setStatus(1);
+        }
+        $slug = $this->slugger->slug($trick->getTitle());
+        $trick->setSlug($slug->toString());
+        $trick->setUpdatedAt(new \DateTime());
+        $trick->setImage($this->mediaService->importImage($trick->getImage()));
+        //$manager->persist($trick);
+        //$manager->flush();
         $this->repo->saveTrick($trick);
     }
 
