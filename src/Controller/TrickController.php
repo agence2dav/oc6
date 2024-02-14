@@ -8,23 +8,23 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Trick;
 use App\Service\TrickService;
-use App\Model\TrickModel;
-use App\Repository\TrickRepository;
-use App\Mapper\TrickMapper;
-use App\Form\TrickFormType;
-use App\Model\CommentModel;
 use App\Service\CommentService;
+use App\Model\TrickModel;
+use App\Model\CommentModel;
+use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
+use App\Mapper\TrickMapper;
 use App\Mapper\CommentMapper;
+use App\Form\TrickFormType;
 use App\Form\CommentFormType;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class TrickController extends AbstractController
 {
@@ -57,7 +57,13 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->trickService->saveTrick($trick, $this->getUser());
+            $this->trickService->saveTrick(
+                $trick,
+                $this->getUser(),
+                $form->get("title")->getData(),
+                $form->get("content")->getData(),
+                $form->get("image")->getData(),
+            );
             return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 

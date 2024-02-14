@@ -50,6 +50,12 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/user', name: 'app_userPage')]
+    public function userPage()
+    {
+        return $this->render('home/userpage.html.twig', []);
+    }
+
     #[Route('/logout', name: 'app_logout')]
     public function logout()
     {

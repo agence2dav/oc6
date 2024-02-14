@@ -18,18 +18,19 @@ class SecurityController //extends AbstractController
 {
 
     public function __construct(
-        Security $security,
+        private Security $security,
+        private AccessDeniedException $accessDeniedException,
     ) {
     }
 
     public function generateReport(): void
     {
         //check role
-        if ($this->security->isGranted('ROLE_SALES_ADMIN')) {
+        if ($this->security->isGranted('ROLE_ADMIN')) {
             //???
         }
 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED');
+        //$this->security->denyAccessUnlessGranted('IS_AUTHENTICATED');
 
     }
 

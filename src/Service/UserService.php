@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Repository\UserRepository;
 use App\Mapper\UserMapper;
 use App\Model\UserModel;
@@ -21,38 +22,41 @@ use App\Entity\User;
 
 class UserService
 {
-
     public function __construct(
         //private readonly EntityManagerInterface $entityManager,
         private readonly EntityManagerInterface $manager,
-        private UserRepository $repo,
+        private UserRepository $userRepository,
         //private readonly UserModel $model,
         private readonly UserMapper $mapper,
+        private UserPasswordHasherInterface $userPasswordHasher,
     ) {
     }
 
     public function getAll(): User|array
     {
-        return $this->repo->findAll();
+        return $this->userRepository->findAll();
     }
 
     public function getById(int $id): UserModel
     {
-        $userEntity = $this->repo->findOneById($id);
+        $userEntity = $this->userRepository->findOneById($id);
         return $this->mapper->EntityToModel($userEntity);
     }
 
-    public function saveUser(User $user): void
+    public function saveUser(User $user, string $plainPassword): void
     {
-        $this->repo->saveUser($user);
+        $password = $this->userPasswordHasher->hashPassword($user, $plainPassword);
+        $user->setPassword($password);
+        $user->setRoles(['ROLE_EDIT']);
+        $this->userRepository->saveUser($user);
     }
 
     public function deleteUser(User $user): bool
     {
-        if ($this->repo->findOneById($user->getId()) === null) {
+        if ($this->userRepository->findOneById($user->getId()) === null) {
             return false;
         }
-        $this->repo->delete($user);
+        $this->userRepository->delete($user);
         return true;
     }
 
@@ -60,9 +64,9 @@ class UserService
     /* 
     public function getUserVerified(int $userId): ?User
     {
-        $user = $this->repo->find($userId);
+        $user = $this->userRepository->find($userId);
         if ($user && !$user->getIsVerified()) {
-            return $this->repo->updateIsVerify($user);
+            return $this->userRepository->updateIsVerify($user);
         }
         return null;
     }
@@ -91,7 +95,7 @@ class UserService
 
     public function isUserKnown(string $email): ?UserModel
     {
-        $user = $this->repo->findOneByEmail($email);
+        $user = $this->userRepository->findOneByEmail($email);
         if (!$user) {
             return null;
         }
@@ -101,21 +105,21 @@ class UserService
     public function setToken(UserModel $userModel): string
     {
         $token = $this->tokenGenerator->generateToken();
-        $user = $this->repo->find($userModel->getId());
+        $user = $this->userRepository->find($userModel->getId());
         $user->setResetToken($token);
-        $this->repo->saveUser($user);
+        $this->userRepository->saveUser($user);
         return $token;
     }
 
     public function findUserByResetToken(string $token): UserModel
     {
-        $user = $this->repo->findOneByResetToken($token);
+        $user = $this->userRepository->findOneByResetToken($token);
         return $this->getUserModel($user);
     }
 
     public function setNewPassword(UserModel $userModel, string $password): void
     {
-        $user = $this->repo->find($userModel->getId());
+        $user = $this->userRepository->find($userModel->getId());
         $user->setResetToken('');
         $user->setPassword(
             $this->userPasswordHasher->hashPassword(
@@ -123,12 +127,12 @@ class UserService
                 $password
             )
         );
-        $this->repo->saveUser($user);
+        $this->userRepository->saveUser($user);
     }
 
     public function getUser(string $email): User
     {
-        return $this->repo->findOneByEmail($email);
+        return $this->userRepository->findOneByEmail($email);
     }
 */
 }

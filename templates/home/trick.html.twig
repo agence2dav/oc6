@@ -11,7 +11,12 @@
             <h1>{{ trick.title | raw}}</h1>
             <div class="metadata">Rédigé par : {{ trick.username }}</div>
             <div class="metadata">Mis à jour le : {{ trick.updatedAt | date("d/m/Y") }}</div>
-            <div class="btn"><a href="{{ path("edit_trick", {id: trick.id}) }}">Editer</a></div>
+            {% if is_granted('ROLE_EDIT') %}
+                <div class="btn btn-secondary"><a href="{{ path("edit_trick", {id: trick.id}) }}"><i class="bi bi-pencil"></i> Editer</a></div>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="btn btn-secondary"><a href="{{ path("edit_trick", {id: trick.id}) }}"><i class="bi bi-eraser"></i> Delete</a></div>
+            {% endif %}
         </div>
         <div class="card-boby">
         <div class="image">
@@ -51,6 +56,8 @@
     {% endif %}
 
     {% for comment in trick.comments %}
+    {% if comment.status == 1 %}
+
     <section class="card text-white bg-primary mb-3">
         <div class="card-header">
             <strong>{{ comment.username | raw}}</strong>
@@ -62,6 +69,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
     {% endfor %}
 
 </div>

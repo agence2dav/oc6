@@ -19,6 +19,7 @@
         <!--
         <link rel="stylesheet" href="https://bootswatch.com/_assets/css/custom.min.css">
         -->
+        <link rel="stylesheet" href="https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.min.css">
         
         <style>
             body {
@@ -69,24 +70,22 @@
                     <a class="nav-link" href="{{ path("app_home") }}">Tricks</a>
                     </li>
                     
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDIT') %}
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ path("new_trick") }}">New trick</a>
+                    <a class="nav-link" href="{{ path("app_admin") }}">Admin</a>
                     </li>
                     {% endif %}
 
-                    <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                    </li>
                     {% if not app.user %}
                     <li class="nav-item">
                     <a class="nav-link" href="{{ path("app_login") }}">Connexion</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                    <a class="nav-link" href="{{ path("app_logout") }}">Déconnexion</a>
+                    <a class="nav-link" href="{{ path("app_userPage") }}">Bienvenue {{ app.user.username }}</a>
                     </li>
                     {% endif %}
+                    <!-- 
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle show" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                     <div class="dropdown-menu">
@@ -96,12 +95,13 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Separated link</a>
                     </div>
-                    </li>
+                    </li>-->
                 </ul>
+                <!-- 
                 <form class="d-flex">
                     <input class="form-control me-sm-2" type="search" placeholder="Search">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                </form> -->
                 </div>
             </div>
     </nav>

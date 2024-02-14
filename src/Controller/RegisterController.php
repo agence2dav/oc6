@@ -2,37 +2,40 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Form\RegisterFormType;
-use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use App\Form\RegisterFormType;
+use App\Security\EmailVerifier;
+use App\Service\UserService;
+use App\Entity\User;
 
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
 class RegisterController extends AbstractController
 {
-    private EmailVerifier $emailVerifier;
+    //private EmailVerifier $emailVerifier;
 
-    public function __construct(EmailVerifier $emailVerifier)
-    {
-        $this->emailVerifier = $emailVerifier;
+    public function __construct(
+        private readonly UserService $userService,
+        private readonly EmailVerifier $emailVerifier,
+    ) {
+        //$this->emailVerifier = $emailVerifier;
     }
 
     #[Route('/register', name: 'app_register')]
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
     ): Response {
 
         $user = new User();
@@ -40,16 +43,14 @@ class RegisterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->userService->saveUser($user, $form->get('plainPassword')->getData());
+            //encode the plain password
+            //$plainPassword = $form->get('plainPassword')->getData();
+            //$password = $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+            //$user->setRoles(['ROLE_EDIT']);
+            //$entityManager->persist($user);
+            //$entityManager->flush();
+            //$this->repo->saveUser($user);
 
             /* 
             // generate a signed url and email it to the user
@@ -64,7 +65,7 @@ class RegisterController extends AbstractController
             );
             // do anything else you need here, like send an email+
             */
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('security/register.html.twig', [

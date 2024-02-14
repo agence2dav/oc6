@@ -57,8 +57,6 @@ class CommentService
         $commentModel->setDate(new \DateTime());
         $commentModel->setContent($form->get("content")->getData());
         $commentModel->setStatus(1); //perform later
-        //$this->manager->persist($commentModel);
-        //$this->manager->flush();
         //$this->commentRepository->saveCommentModel($commentModel);
         $this->commentRepository->saveComment($commentModel);
     }
@@ -70,6 +68,32 @@ class CommentService
             return true;
         }
         return false;
+    }
+
+    //admin
+
+    public function getAllComments(): array
+    {
+        $commentModel = $this->commentRepository->findAll();
+        return $this->commentMapper->EntitiesArrayToModels($commentModel);
+    }
+
+    public function getMyComments(int $uid): array
+    {
+        $commentModel = $this->commentRepository->findMy($uid);
+        return $this->commentMapper->EntitiesArrayToModels($commentModel);
+    }
+
+    public function updateStatus(int $id): void
+    {
+        $comment = $this->commentRepository->findOneById($id);
+        //$commentModel = $this->commentMapper->EntityToModel($trick);
+        $status = $comment->getStatus();
+        $status = $status == 1 ? 0 : 1;
+        //$commentModel->setStatus($status);
+        $comment->setStatus($status);
+        //$this->commentRepository->saveCommentModel($commentModel);
+        $this->commentRepository->saveComment($comment);
     }
 
 }

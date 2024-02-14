@@ -39,19 +39,42 @@ class CommentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    //admin
 
-    public function saveCommentModel(CommentModel $comment): CommentModel
+    public function findAll(): array
     {
-        $this->getEntityManager()->persist($comment);
-        $this->getEntityManager()->flush();
-        return $comment;
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.id', 'DESC')
+            //->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
-    public function saveComment(Comment $comment): Comment
+    public function findMy($uid): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.user = :uid')
+            ->setParameter('uid', $uid)
+            ->orderBy('t.id', 'DESC')
+            //->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    //edit
+
+    public function saveComment(Comment $comment): void
     {
         $this->getEntityManager()->persist($comment);
         $this->getEntityManager()->flush();
-        return $comment;
+    }
+
+    public function saveCommentModel(CommentModel $comment): void
+    {
+        $this->getEntityManager()->persist($comment);
+        $this->getEntityManager()->flush();
     }
 
 }

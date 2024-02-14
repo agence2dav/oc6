@@ -80,7 +80,16 @@
 
 ### 7 - admin
 
-- todo: admin posts and login
+- access to admin
+- edit status of posts
+- edit status of comments
+- repair solid concepts of register, tricks and comments
+
+### 6.1 verif user
+- todo: add verif user
 
 ### 8 - upload images
+- todo: use models for saving
+- todo: add upload
+- todo: add entity media (img, video)
 

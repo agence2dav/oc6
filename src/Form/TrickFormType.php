@@ -39,6 +39,8 @@ class TrickFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Trick::class,
+            //'data_class' => TrickModel::class,
+            //'data_class' => null,
         ]);
     }
 
