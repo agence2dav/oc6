@@ -78,7 +78,18 @@
 - update post comment while being loged, and attach user to it
 - adapt menus and templates for adminuser ou logeduser
 
-### 7 - admin posts and comments
+### 7 - admin
+
+- access to admin
+- edit status of posts
+- edit status of comments
+- repair solid concepts of register, tricks and comments
+
+### 6.1 verif user
+- todo: add verif user
 
 ### 8 - upload images
+- todo: use models for saving
+- todo: add upload
+- todo: add entity media (img, video)
 

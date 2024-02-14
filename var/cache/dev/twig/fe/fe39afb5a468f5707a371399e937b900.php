@@ -127,17 +127,15 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
             // line 24
             echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("show_trick", ["slug" => twig_get_attribute($this->env, $this->source, $context["trick"], "slug", [], "any", false, false, false, 24)]), "html", null, true);
             echo "\">Lire la suite</a></div>
-
             </div>
     </article>
-
 
     ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['trick'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 31
+        // line 29
         echo "
 </div>
 ";
@@ -170,7 +168,7 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
      */
     public function getDebugInfo()
     {
-        return array (  141 => 31,  128 => 24,  124 => 23,  118 => 20,  111 => 16,  107 => 15,  103 => 14,  98 => 11,  94 => 10,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
+        return array (  139 => 29,  128 => 24,  124 => 23,  118 => 20,  111 => 16,  107 => 15,  103 => 14,  98 => 11,  94 => 10,  88 => 6,  78 => 5,  59 => 3,  36 => 1,);
     }
 
     public function getSourceContext()
@@ -199,10 +197,8 @@ class __TwigTemplate_93879270d60a1815f9f93a6f4690deaa extends Template
             <div class=\"content\">
                 <div class=\"text-body-primary\">{{ trick.content | raw}}<div>
                 <div class=\"btn\"><a href=\"{{ path(\"show_trick\", {slug: trick.slug}) }}\">Lire la suite</a></div>
-
             </div>
     </article>
-
 
     {% endfor %}
 

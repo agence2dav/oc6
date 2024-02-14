@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use DateTimeImmutable;
+use DateTime;
 use DateTimeInterface;
 use App\Entity\User;
+use App\Model\UserModel;
 use App\Entity\Trick;
 
 class CommentModel
@@ -16,8 +17,10 @@ class CommentModel
     private ?User $user = null;
     private ?string $username = null;
     private ?string $content = null;
-    private ?\DateTimeInterface $date = null;
+    private ?DateTime $date = null;
     private ?int $status = null;
+    private ?string $trickSlug = null;
+    private ?string $trickTitle = null;
 
     public function getId(): ?int
     {
@@ -41,12 +44,12 @@ class CommentModel
         return $this;
     }
 
-    public function getDate(): ?DateTimeInterface
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }
 
-    public function setDate(DateTimeInterface $date): static
+    public function setDate(DateTime $date): static
     {
         $this->date = $date;
         return $this;
@@ -74,7 +77,6 @@ class CommentModel
         return $this;
     }
 
-    /* 
     public function getUser(): ?User
     {
         return $this->user;
@@ -84,7 +86,7 @@ class CommentModel
     {
         $this->user = $user;
         return $this;
-    }*/
+    }
 
     public function getUsername(): ?string
     {
@@ -94,6 +96,28 @@ class CommentModel
     public function setUsername(?string $username): static
     {
         $this->username = $username;
+        return $this;
+    }
+
+    public function getTrickSlug(): ?string
+    {
+        return $this->trickSlug;
+    }
+
+    public function setTrickSlug(?string $trickSlug): static
+    {
+        $this->trickSlug = $trickSlug;
+        return $this;
+    }
+
+    public function getTrickTitle(): ?string
+    {
+        return $this->trickTitle;
+    }
+
+    public function setTrickTitle(?string $trickTitle): static
+    {
+        $this->trickTitle = $trickTitle;
         return $this;
     }
 

@@ -8,6 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 //use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Model\TrickModel;
 use App\Entity\Trick;
 
 class TrickRepository extends ServiceEntityRepository
@@ -30,7 +31,8 @@ class TrickRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findBySlug(string $slug): string
+    /* unused
+    public function findBySlug(string $slug): Trick
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.slug = :slug')
@@ -42,7 +44,55 @@ class TrickRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findById(int $id): Trick|null
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.id = :id')
+            ->setParameter('id', $id)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    */
+
+    //admin
+
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.id', 'DESC')
+            //->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findMy(int $uid): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.user = :uid')
+            ->setParameter('uid', $uid)
+            ->orderBy('t.id', 'DESC')
+            //->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function saveTrick(Trick $trick): void
+    {
+        $this->getEntityManager()->persist($trick);
+        $this->getEntityManager()->flush();
+    }
+
+    public function saveTrickModel(TrickModel $trickModel): void //test
+    {
+        $this->getEntityManager()->persist($trickModel);
+        $this->getEntityManager()->flush();
+    }
+
+    public function updateTrick(TrickModel $trick): void
     {
         $this->getEntityManager()->persist($trick);
         $this->getEntityManager()->flush();

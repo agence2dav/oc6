@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tricks!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>All Comments</h1>
+        <table class="table table-hover">
+            <tr class="table-info">
+                <th>id</td>
+                <th>auteur</td>
+                <th>Trick</td>
+                <th>contenu</td>
+                <th>Date</td>
+                <th>Action</td>
+                <th>Voir</td>
+            </tr>
+        {% for comment in comments %}
+            <tr class="table-dark">
+                <td>{{comment.id}}</td>
+                <td>{{comment.username}}</td>
+                <td>{{comment.trickTitle}}</td>
+                <td>{{comment.content | raw}}</td>
+                <td>{{comment.date | date("d/m/Y")}}</td>
+                <td>
+                {% if (comment.status == 1) %}
+                <a class="btn btn-success" href="{{ path("admin_commentsId", {"id": comment.id }) }}">Publié</a>
+                {% else %}
+                <a class="btn btn-warning" href="{{ path("admin_commentsId", {"id": comment.id }) }}">Dépublié</a>
+                {% endif %}
+                </td>
+                <td>
+                <a class="btn btn-primary" href="{{ path("show_trick", {"slug": comment.trickSlug }) }}">Afficher</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+
+</div>
+{% endblock %}

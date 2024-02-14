@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Repository\UserRepository;
 use App\Mapper\UserMapper;
 use App\Model\UserModel;
@@ -21,39 +22,117 @@ use App\Entity\User;
 
 class UserService
 {
-
     public function __construct(
         //private readonly EntityManagerInterface $entityManager,
         private readonly EntityManagerInterface $manager,
-        private UserRepository $repo,
+        private UserRepository $userRepository,
         //private readonly UserModel $model,
         private readonly UserMapper $mapper,
+        private UserPasswordHasherInterface $userPasswordHasher,
     ) {
     }
 
     public function getAll(): User|array
     {
-        return $this->repo->findAll();
+        return $this->userRepository->findAll();
     }
 
     public function getById(int $id): UserModel
     {
-        $userEntity = $this->repo->findOneById($id);
+        $userEntity = $this->userRepository->findOneById($id);
         return $this->mapper->EntityToModel($userEntity);
     }
 
-    public function saveUser(User $user): void
+    public function saveUser(User $user, string $plainPassword): void
     {
-        $this->repo->saveUser($user);
+        $password = $this->userPasswordHasher->hashPassword($user, $plainPassword);
+        $user->setPassword($password);
+        $user->setRoles(['ROLE_EDIT']);
+        $this->userRepository->saveUser($user);
     }
 
     public function deleteUser(User $user): bool
     {
-        if ($this->repo->findOneById($user->getId()) === null) {
+        if ($this->userRepository->findOneById($user->getId()) === null) {
             return false;
         }
-        $this->repo->delete($user);
+        $this->userRepository->delete($user);
         return true;
     }
 
+    //reset-pswd
+    /* 
+    public function getUserVerified(int $userId): ?User
+    {
+        $user = $this->userRepository->find($userId);
+        if ($user && !$user->getIsVerified()) {
+            return $this->userRepository->updateIsVerify($user);
+        }
+        return null;
+    }
+
+    public function isUserVerifiedYet(User $user): bool
+    {
+        return $user->getIsVerified();
+    }
+
+    public function newRegisterToken(UserModel $user): string
+    {
+        $header = [
+            'alg' => 'HS256',
+            'typ' => 'JWT'
+        ];
+        $payload = [
+            'userId' => $user->getId()
+        ];
+        return $this->jWTService->generate($header, $payload, $this->params->get('app.jwtsecret'));
+    }
+
+    public function getUserModel(User $user): UserModel
+    {
+        return new UserModel($user->getId(), $user->getUserIdentifier(), $user->getEmail());
+    }
+
+    public function isUserKnown(string $email): ?UserModel
+    {
+        $user = $this->userRepository->findOneByEmail($email);
+        if (!$user) {
+            return null;
+        }
+        return $this->getUserModel($user);
+    }
+
+    public function setToken(UserModel $userModel): string
+    {
+        $token = $this->tokenGenerator->generateToken();
+        $user = $this->userRepository->find($userModel->getId());
+        $user->setResetToken($token);
+        $this->userRepository->saveUser($user);
+        return $token;
+    }
+
+    public function findUserByResetToken(string $token): UserModel
+    {
+        $user = $this->userRepository->findOneByResetToken($token);
+        return $this->getUserModel($user);
+    }
+
+    public function setNewPassword(UserModel $userModel, string $password): void
+    {
+        $user = $this->userRepository->find($userModel->getId());
+        $user->setResetToken('');
+        $user->setPassword(
+            $this->userPasswordHasher->hashPassword(
+                $user,
+                $password
+            )
+        );
+        $this->userRepository->saveUser($user);
+    }
+
+    public function getUser(string $email): User
+    {
+        return $this->userRepository->findOneByEmail($email);
+    }
+*/
 }

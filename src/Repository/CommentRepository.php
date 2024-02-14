@@ -7,17 +7,10 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Model\CommentModel;
 use App\Entity\Comment;
 use App\Entity\User;
 
-/**
- * @extends ServiceEntityRepository<Comment>
- *
- * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
- * @method Comment|null findOneBy(array $criteria, array $orderBy = null)
- * @method Comment[]    findAll()
- * @method Comment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class CommentRepository extends ServiceEntityRepository
 {
     public function __construct(
@@ -26,26 +19,6 @@ class CommentRepository extends ServiceEntityRepository
     ) {
         parent::__construct($registry, Comment::class);
     }
-
-    /* 
-    public function findByTrick0(int $id): Comment|array
-    {
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT c.id, u.user, c.content, c.date
-            FROM App\Entity\Comment c
-            INNER JOIN App\Entity\User u
-            WHERE u.id = c.user
-            AND c.trick = :id
-            AND c.status = 1
-            ORDER BY c.id ASC
-            '
-        )
-            ->setParameter('id', $id);
-
-        return $query->getResult(); //getOneOrNullResult();
-    }*/
 
     public function findByTrick(int $id): array
     {
@@ -65,6 +38,43 @@ class CommentRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult();
+    }
+    //admin
+
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.id', 'DESC')
+            //->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findMy($uid): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.user = :uid')
+            ->setParameter('uid', $uid)
+            ->orderBy('t.id', 'DESC')
+            //->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    //edit
+
+    public function saveComment(Comment $comment): void
+    {
+        $this->getEntityManager()->persist($comment);
+        $this->getEntityManager()->flush();
+    }
+
+    public function saveCommentModel(CommentModel $comment): void
+    {
+        $this->getEntityManager()->persist($comment);
+        $this->getEntityManager()->flush();
     }
 
 }

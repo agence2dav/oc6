@@ -17,6 +17,13 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 
 class RegisterFormType extends AbstractType
 {
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => User::class,
+        ]);
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -95,6 +102,7 @@ class RegisterFormType extends AbstractType
                     ]),
                 ],
             ])
+            /* 
             ->add(
                 'agreeTerms',
                 CheckboxType::class,
@@ -112,15 +120,9 @@ class RegisterFormType extends AbstractType
                         ),
                     ]
                 ]
-            )
+            )*/
+
             //->add('roles')
         ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
     }
 }

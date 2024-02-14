@@ -10,77 +10,124 @@ use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Form\Extension\Core\Type\TextType;
 //use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use App\Repository\TrickRepository;
+use App\Service\MediaService;
 use App\Mapper\TrickMapper;
 use App\Model\TrickModel;
-use App\Entity\Comment;
-use App\Entity\CommentService;
-use App\Entity\CommentRepository;
 use App\Entity\Trick;
+use App\Entity\User;
 
 class TrickService
 {
 
     public function __construct(
         //private readonly EntityManagerInterface $entityManager,
-        private TrickRepository $repo,
-        //private TrickModel $model,
-        private TrickMapper $mapper,
-        private EntityManagerInterface $manager
+        private readonly EntityManagerInterface $manager,
+        private readonly SluggerInterface $slugger,
+        private readonly TrickRepository $trickRepository,
+        //private readonly TrickModel $trickModel,
+        private readonly TrickMapper $trickMapper,
+        private readonly MediaService $mediaService,
     ) {
 
     }
 
-    //$repo=$this->getDoctrine()->getRepository(Trick::class);//old1
-    //$repo=$em()->getRepository(Trick::class);//old2
-
     public function getAll(): Trick|array
     {
-        return $this->repo->findAll();
+        return $this->trickRepository->findAll();
     }
 
     public function getAllPublic(): array
     {
-        $trickEntities = $this->repo->findByStatus();
-        return $this->mapper->EntitiesToModels($trickEntities);
+        $trickModel = $this->trickRepository->findByStatus();
+        return $this->trickMapper->EntitiesToModels($trickModel);
     }
 
     public function getById(int $id): TrickModel
     {
-        $trickEntity = $this->repo->findOneById($id);
-        return $this->mapper->EntityToModel($trickEntity);
+        $trickModel = $this->trickRepository->findOneById($id);
+        return $this->trickMapper->EntityToModel($trickModel);
     }
 
     public function getBySlug(string $slug): TrickModel
     {
-        $trickEntity = $this->repo->findOneBySlug($slug);
-        return $this->mapper->EntityToModel($trickEntity);
+        $trickModel = $this->trickRepository->findOneBySlug($slug);
+        return $this->trickMapper->EntityToModel($trickModel);
     }
 
     /*
     public function getByTitleOne(string $title): Trick|array
     {
-        return $this->repo->findOneByTitle($title);
+        return $this->trickRepository->findOneByTitle($title);
     }
 
     public function getByTitle(string $title): Trick|array
     {
-        return $this->repo->findByTitle($title);
+        return $this->trickRepository->findByTitle($title);
     }*/
 
-    public function saveTrick(Trick $trick): void
-    {
-        $this->repo->saveTrick($trick);
+    public function saveTrick(
+        Trick $trick,
+        User $user,
+        string $title,
+        string $content,
+        string $image
+    ): void {
+
+        //$trickModel = $this->trickM>EntityToModel($trick);
+        $trickModel = $trick;
+        if (!$trickModel->getId()) {
+            $trickModel->setUser($user);
+            $trickModel->setCreatedAt(new \DateTime());
+            $trickModel->setStatus(1);
+        }
+        //$trickModel->setTitle($title);
+        //$trickModel->setContent($content);
+        //$trickModel->setImage($image);
+        $slug = $this->slugger->slug($trickModel->getTitle());
+        $trickModel->setSlug($slug->toString());
+        $trickModel->setUpdatedAt(new \DateTime());
+        $trickModel->setImage($this->mediaService->importImage($trickModel->getImage()));
+        //$this->trickRepository->saveTrickModel($trickModel);
+        $this->trickRepository->saveTrick($trick);
     }
 
-    public function deleteTrick(Trick $trick): bool
+    //admin
+
+    public function getAllTricks(): array
     {
-        if ($this->repo->findOneById($trick->getId()) === null) {
+        $trickModel = $this->trickRepository->findAll();
+        return $this->trickMapper->EntitiesToModels($trickModel);
+    }
+
+    public function getMyTricks(int $uid): array
+    {
+        $trickModel = $this->trickRepository->findMy($uid);
+        return $this->trickMapper->EntitiesToModels($trickModel);
+    }
+
+    public function updateStatus(int $id): void
+    {
+        $trick = $this->trickRepository->findOneById($id);
+        //$trickModel = $this->trickMapper->EntityToModel($trick);
+        $status = $trick->getStatus();
+        $status = $status == 1 ? 0 : 1;
+        //$trickModel->setStatus($status);
+        $trick->setStatus($status);
+        //$this->trickRepository->saveTrickModel($trickModel);
+        $this->trickRepository->saveTrick($trick);
+    }
+
+    /* unused 
+    public function deleteTrick(Trick $trickModel): bool
+    {
+        if ($this->trickRepository->findOneById($trickModel->getId()) === null) {
             return false;
         }
-        $this->repo->delete($trick);
+        $this->trickRepository->delete($trickModel);
         return true;
     }
-
+    */
 }

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tricks!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>All of Tricks</h1>
+        <table class="table table-hover">
+            <tr class="table-info">
+                <th>id</td>
+                <th>titre</td>
+                <th>auteur</td>
+                <th>Date création</td>
+                <th>Dernière modification</td>
+                <th>Action</td>
+                <th>Voir</td>
+            </tr>
+        {% for trick in tricks %}
+            <tr class="table-dark">
+                <td>{{trick.id}}</td>
+                <td>{{trick.username}}</td>
+                <td>{{trick.title | raw}}</td>
+                <td>{{trick.CreatedAt | date("d/m/Y") }}</td>
+                <td>{{trick.UpdatedAt | date("d/m/Y")}}</td>
+                <td>
+                {% if (trick.status == 1) %}
+                <a class="btn btn-success" href="{{ path("admin_tricksId", {"id": trick.id }) }}">Publié</a>
+                {% else %}
+                <a class="btn btn-warning" href="{{ path("admin_tricksId", {"id": trick.id }) }}">Dépublié</a>
+                {% endif %}
+                </td>
+                <td>
+                <a class="btn btn-primary" href="{{ path("show_trick", {"slug": trick.slug }) }}">Afficher</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+
+</div>
+{% endblock %}

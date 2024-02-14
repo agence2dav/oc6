@@ -14,18 +14,18 @@ use Doctrine\Common\Collections\Collection;
 
 class TrickModel
 {
-    private readonly int $id;
-    private readonly string $username;
-    private readonly string $title;
-    private readonly string $slug;
-    private readonly string $content;
-    private readonly string $image;
-    private readonly int $status;
-    private readonly DateTime $createdAt;
-    private readonly DateTime $updatedAt;
-    private readonly User $user;
-    private readonly array $comments;
-    private readonly Collection $trickDesignations;
+    private int $id;
+    private string $username;
+    private string $title;
+    private string $slug;
+    private string $content;
+    private string $image;
+    private int $status;
+    private DateTime $createdAt;
+    private DateTime $updatedAt;
+    private User $user;
+    private array $comments;
+    private Collection $trickDesignations;
 
 
     public function getId(): int

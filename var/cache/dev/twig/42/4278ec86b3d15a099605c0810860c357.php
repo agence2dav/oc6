@@ -69,6 +69,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         <!--
         <link rel=\"stylesheet\" href=\"https://bootswatch.com/_assets/css/custom.min.css\">
         -->
+        <link rel=\"stylesheet\" href=\"https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.min.css\">
         
         <style>
             body {
@@ -95,14 +96,14 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         </script> -->
 
         ";
-        // line 47
+        // line 48
         $this->displayBlock('stylesheets', $context, $blocks);
-        // line 49
+        // line 50
         echo "
         ";
-        // line 50
+        // line 51
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 53
+        // line 54
         echo "    </head>
     <body>
         <nav class=\"navbar navbar-expand-lg bg-primary\" data-bs-theme=\"dark\">
@@ -115,7 +116,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                 <ul class=\"navbar-nav me-auto\">
                     <li class=\"nav-item\">
                     <a class=\"nav-link active\" href=\"";
-        // line 64
+        // line 65
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_home");
         echo "\">Home
                         <span class=\"visually-hidden\">(current)</span>
@@ -123,51 +124,51 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                     </li>
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"";
-        // line 69
+        // line 70
         echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_home");
         echo "\">Tricks</a>
                     </li>
                     
                     ";
-        // line 72
-        if ($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN")) {
-            // line 73
+        // line 73
+        if (($this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_ADMIN") || $this->extensions['Symfony\Bridge\Twig\Extension\SecurityExtension']->isGranted("ROLE_EDIT"))) {
+            // line 74
             echo "                    <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"";
-            // line 74
-            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("new_trick");
-            echo "\">New trick</a>
+            // line 75
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_admin");
+            echo "\">Admin</a>
                     </li>
                     ";
         }
-        // line 77
+        // line 78
         echo "
-                    <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"/about\">About</a>
-                    </li>
                     ";
-        // line 81
-        if ( !twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 81, $this->source); })()), "user", [], "any", false, false, false, 81)) {
-            // line 82
+        // line 79
+        if ( !twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 79, $this->source); })()), "user", [], "any", false, false, false, 79)) {
+            // line 80
             echo "                    <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"";
-            // line 83
+            // line 81
             echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
             echo "\">Connexion</a>
                     </li>
                     ";
         } else {
-            // line 86
+            // line 84
             echo "                    <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"";
-            // line 87
-            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
-            echo "\">Déconnexion</a>
+            // line 85
+            echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_userPage");
+            echo "\">Bienvenue ";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 85, $this->source); })()), "user", [], "any", false, false, false, 85), "username", [], "any", false, false, false, 85), "html", null, true);
+            echo "</a>
                     </li>
                     ";
         }
-        // line 90
-        echo "                    <li class=\"nav-item dropdown\">
+        // line 88
+        echo "                    <!-- 
+                    <li class=\"nav-item dropdown\">
                     <a class=\"nav-link dropdown-toggle show\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown</a>
                     <div class=\"dropdown-menu\">
                         <a class=\"dropdown-item\" href=\"#\">Action</a>
@@ -176,12 +177,13 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                         <div class=\"dropdown-divider\"></div>
                         <a class=\"dropdown-item\" href=\"#\">Separated link</a>
                     </div>
-                    </li>
+                    </li>-->
                 </ul>
+                <!-- 
                 <form class=\"d-flex\">
                     <input class=\"form-control me-sm-2\" type=\"search\" placeholder=\"Search\">
                     <button class=\"btn btn-secondary my-2 my-sm-0\" type=\"submit\">Search</button>
-                </form>
+                </form> -->
                 </div>
             </div>
     </nav>
@@ -227,7 +229,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
 
     }
 
-    // line 47
+    // line 48
     public function block_stylesheets($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -237,30 +239,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "stylesheets"));
 
-        // line 48
-        echo "        ";
-        
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
-
-        
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
-
-    }
-
-    // line 50
-    public function block_javascripts($context, array $blocks = [])
-    {
-        $macros = $this->macros;
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
-        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
-
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
-        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
-
-        // line 51
-        echo "            ";
-        $this->displayBlock('importmap', $context, $blocks);
-        // line 52
+        // line 49
         echo "        ";
         
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
@@ -271,6 +250,29 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
     }
 
     // line 51
+    public function block_javascripts($context, array $blocks = [])
+    {
+        $macros = $this->macros;
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2 = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->enter($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
+
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
+
+        // line 52
+        echo "            ";
+        $this->displayBlock('importmap', $context, $blocks);
+        // line 53
+        echo "        ";
+        
+        $__internal_6f47bbe9983af81f1e7450e9a3e3768f->leave($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof);
+
+        
+        $__internal_5a27a8ba21ca79b61932376b2fa922d2->leave($__internal_5a27a8ba21ca79b61932376b2fa922d2_prof);
+
+    }
+
+    // line 52
     public function block_importmap($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -328,7 +330,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
      */
     public function getDebugInfo()
     {
-        return array (  293 => 109,  274 => 51,  264 => 52,  261 => 51,  251 => 50,  241 => 48,  231 => 47,  212 => 5,  193 => 110,  191 => 109,  170 => 90,  164 => 87,  161 => 86,  155 => 83,  152 => 82,  150 => 81,  144 => 77,  138 => 74,  135 => 73,  133 => 72,  127 => 69,  119 => 64,  106 => 53,  104 => 50,  101 => 49,  99 => 47,  54 => 5,  48 => 1,);
+        return array (  295 => 109,  276 => 52,  266 => 53,  263 => 52,  253 => 51,  243 => 49,  233 => 48,  214 => 5,  195 => 110,  193 => 109,  170 => 88,  162 => 85,  159 => 84,  153 => 81,  150 => 80,  148 => 79,  145 => 78,  139 => 75,  136 => 74,  134 => 73,  128 => 70,  120 => 65,  107 => 54,  105 => 51,  102 => 50,  100 => 48,  54 => 5,  48 => 1,);
     }
 
     public function getSourceContext()
@@ -354,6 +356,7 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
         <!--
         <link rel=\"stylesheet\" href=\"https://bootswatch.com/_assets/css/custom.min.css\">
         -->
+        <link rel=\"stylesheet\" href=\"https://bootswatch.com/_vendor/bootstrap-icons/font/bootstrap-icons.min.css\">
         
         <style>
             body {
@@ -404,24 +407,22 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                     <a class=\"nav-link\" href=\"{{ path(\"app_home\") }}\">Tricks</a>
                     </li>
                     
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDIT') %}
                     <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"{{ path(\"new_trick\") }}\">New trick</a>
+                    <a class=\"nav-link\" href=\"{{ path(\"app_admin\") }}\">Admin</a>
                     </li>
                     {% endif %}
 
-                    <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"/about\">About</a>
-                    </li>
                     {% if not app.user %}
                     <li class=\"nav-item\">
                     <a class=\"nav-link\" href=\"{{ path(\"app_login\") }}\">Connexion</a>
                     </li>
                     {% else %}
                     <li class=\"nav-item\">
-                    <a class=\"nav-link\" href=\"{{ path(\"app_logout\") }}\">Déconnexion</a>
+                    <a class=\"nav-link\" href=\"{{ path(\"app_userPage\") }}\">Bienvenue {{ app.user.username }}</a>
                     </li>
                     {% endif %}
+                    <!-- 
                     <li class=\"nav-item dropdown\">
                     <a class=\"nav-link dropdown-toggle show\" data-bs-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Dropdown</a>
                     <div class=\"dropdown-menu\">
@@ -431,12 +432,13 @@ class __TwigTemplate_05c4784e54957d6978be56c66839a175 extends Template
                         <div class=\"dropdown-divider\"></div>
                         <a class=\"dropdown-item\" href=\"#\">Separated link</a>
                     </div>
-                    </li>
+                    </li>-->
                 </ul>
+                <!-- 
                 <form class=\"d-flex\">
                     <input class=\"form-control me-sm-2\" type=\"search\" placeholder=\"Search\">
                     <button class=\"btn btn-secondary my-2 my-sm-0\" type=\"submit\">Search</button>
-                </form>
+                </form> -->
                 </div>
             </div>
     </nav>
