@@ -85,7 +85,7 @@
 - edit status of comments
 - repair solid concepts of register, tricks and comments
 
-### 6.1 verif user
+### 6.1 verif user #26
 - todo: add verif user
 
 ### 8 - upload images
