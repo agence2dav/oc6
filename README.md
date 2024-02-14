@@ -86,7 +86,7 @@
 - repair solid concepts of register, tricks and comments
 
 ### 6.1 verif user #26
-- todo: add verif user
+- todo: add verif user -
 
 ### 8 - upload images
 - todo: use models for saving
