@@ -66,6 +66,7 @@ class UserController extends AbstractController
         //intercepted by firewall in security.config
     }
 
+    /* 
     #[Route(path: '/reset-password', name: 'forgotten_password', methods: ['GET', 'POST'])]
     public function forgottenPassword(Request $request): Response
     {
@@ -122,4 +123,5 @@ class UserController extends AbstractController
         $this->addFlash('login-flash', 'Ah, bah ça n\'a pas marché. Recommencez.');
         return $this->redirectToRoute('app_login');
     }
+    */
 }

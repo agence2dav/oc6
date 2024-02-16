@@ -21,11 +21,12 @@ return [
         '/home' => [[['_route' => 'app_home', '_controller' => 'App\\Controller\\HomeController::index'], null, null, null, false, false, null]],
         '/register' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegisterController::register'], null, null, null, false, false, null]],
         '/verify/email' => [[['_route' => 'app_register_verif', '_controller' => 'App\\Controller\\RegisterController::verifyUserEmail'], null, null, null, false, false, null]],
+        '/reset-password' => [[['_route' => 'app_forgot_password_request', '_controller' => 'App\\Controller\\ResetPasswordController::request'], null, null, null, false, false, null]],
+        '/reset-password/check-email' => [[['_route' => 'app_check_email', '_controller' => 'App\\Controller\\ResetPasswordController::checkEmail'], null, null, null, false, false, null]],
         '/trick/new' => [[['_route' => 'new_trick', '_controller' => 'App\\Controller\\TrickController::form'], null, null, null, false, false, null]],
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\UserController::login'], null, null, null, false, false, null]],
         '/user' => [[['_route' => 'app_userPage', '_controller' => 'App\\Controller\\UserController::userPage'], null, null, null, false, false, null]],
         '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\UserController::logout'], null, null, null, false, false, null]],
-        '/reset-password' => [[['_route' => 'forgotten_password', '_controller' => 'App\\Controller\\UserController::forgottenPassword'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
@@ -51,14 +52,14 @@ return [
                     .'|tricks(?:/([^/]++))?(*:232)'
                     .'|comments(?:/([^/]++))?(*:262)'
                 .')'
+                .'|/reset\\-password/reset(?:/([^/]++))?(*:307)'
                 .'|/trick/([^/]++)(?'
                     .'|/(?'
-                        .'|edit(*:297)'
-                        .'|([^/]++)(*:313)'
+                        .'|edit(*:341)'
+                        .'|([^/]++)(*:357)'
                     .')'
-                    .'|(*:322)'
+                    .'|(*:366)'
                 .')'
-                .'|/reset\\-password/([^/]++)(*:356)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -72,11 +73,11 @@ return [
         191 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
         232 => [[['_route' => 'admin_tricksId', 'id' => null, '_controller' => 'App\\Controller\\AdminController::showTricks'], ['id'], null, null, false, true, null]],
         262 => [[['_route' => 'admin_commentsId', 'id' => null, '_controller' => 'App\\Controller\\AdminController::showComments'], ['id'], null, null, false, true, null]],
-        297 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
-        313 => [[['_route' => 'show_trick2', '_controller' => 'App\\Controller\\TrickController::show'], ['slug', 'commented'], null, null, false, true, null]],
-        322 => [[['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null]],
-        356 => [
-            [['_route' => 'reset_password', '_controller' => 'App\\Controller\\UserController::resetPassword'], ['token'], ['GET' => 0, 'POST' => 1], null, false, true, null],
+        307 => [[['_route' => 'app_reset_password', 'token' => null, '_controller' => 'App\\Controller\\ResetPasswordController::reset'], ['token'], null, null, false, true, null]],
+        341 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
+        357 => [[['_route' => 'show_trick2', '_controller' => 'App\\Controller\\TrickController::show'], ['slug', 'commented'], null, null, false, true, null]],
+        366 => [
+            [['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],
     ],
