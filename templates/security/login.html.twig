@@ -10,17 +10,26 @@
     <h1>Connection</h1>
 
     <div class="form-group">
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
 
+    {% if error %}
+        <div class="alert alert-success">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+    
+    {% for message in app.flashes('login-flash') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
     
     {% if app.user %}
-        <div>Vous êtes connecté en tant que : {{ app.user.username }}</div>
-        <a class="btn btn-primary" href="{{ path("app_logout") }}">Déconnexion</a>
+        <div class="alert alert-success">
+            <p>Vous êtes connecté en tant que : {{ app.user.username }}</p>
+            <a class="btn btn-primary" href="{{ path("app_logout") }}">Déconnexion</a>
+        </div>
 
     {% else %}
-
     <form action="{{ path('app_login') }}" method="post">
     
     {#
@@ -44,9 +53,8 @@
         <button type="submit" class="btn btn-secondary">Se connecter</button>
         
         <a href="{{ path('app_register') }}" class="btn btn-primary">S'enregistrer</a>
-        {# 
         <a href="{{ path('forgotten_password') }}" class="btn btn-primary">Mot de passe oublié</a>
-        #}
+        {# #}
     </form>
 
     {% endif %}

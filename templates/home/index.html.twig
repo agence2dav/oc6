@@ -3,6 +3,12 @@
 {% block title %}Tricks!{% endblock %}
 
 {% block body %}
+    
+    {% for message in app.flashes('alerts') %}
+<div class="alert alert-success">
+    {{ message | raw }}
+</div>
+    {% endfor %}
 
 <div class="example-wrapper">
     <h1>All of Tricks</h1>
