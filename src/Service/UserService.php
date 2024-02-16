@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Repository\UserRepository;
 use App\Mapper\UserMapper;
 use App\Model\UserModel;
@@ -25,10 +27,13 @@ class UserService
     public function __construct(
         //private readonly EntityManagerInterface $entityManager,
         private readonly EntityManagerInterface $manager,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly TokenGeneratorInterface $tokenGenerator,
+        private readonly ParameterBagInterface $parameterBag,
+        private readonly JwtService $JwtService,
         private UserRepository $userRepository,
-        //private readonly UserModel $model,
-        private readonly UserMapper $mapper,
-        private UserPasswordHasherInterface $userPasswordHasher,
+        private UserModel $userModel,
+        private UserMapper $mapper,
     ) {
     }
 
@@ -61,10 +66,15 @@ class UserService
     }
 
     //reset-pswd
-    /* 
-    public function getUserVerified(int $userId): ?User
+
+    public function getUser(string $email): User
     {
-        $user = $this->userRepository->find($userId);
+        return $this->userRepository->findOneByEmail($email);
+    }
+
+    public function getUserVerified(int $uid): ?User
+    {
+        $user = $this->userRepository->find($uid);
         if ($user && !$user->getIsVerified()) {
             return $this->userRepository->updateIsVerify($user);
         }
@@ -73,7 +83,7 @@ class UserService
 
     public function isUserVerifiedYet(User $user): bool
     {
-        return $user->getIsVerified();
+        return $user->isVerified();
     }
 
     public function newRegisterToken(UserModel $user): string
@@ -85,12 +95,16 @@ class UserService
         $payload = [
             'userId' => $user->getId()
         ];
-        return $this->jWTService->generate($header, $payload, $this->params->get('app.jwtsecret'));
+        $param = $this->parameterBag->get('app.jwtsecret');
+        return $this->JwtService->generate($header, $payload, $param);
     }
 
     public function getUserModel(User $user): UserModel
     {
-        return new UserModel($user->getId(), $user->getUserIdentifier(), $user->getEmail());
+        $this->userModel->setId($user->getId());
+        $this->userModel->setUsername($user->getUsername());
+        $this->userModel->setEmail($user->getEmail());
+        return $this->userModel;
     }
 
     public function isUserKnown(string $email): ?UserModel
@@ -129,10 +143,4 @@ class UserService
         );
         $this->userRepository->saveUser($user);
     }
-
-    public function getUser(string $email): User
-    {
-        return $this->userRepository->findOneByEmail($email);
-    }
-*/
 }

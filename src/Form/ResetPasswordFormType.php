@@ -11,6 +11,11 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class ResetPasswordFormType extends AbstractType
 {
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([]);
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -21,17 +26,9 @@ class ResetPasswordFormType extends AbstractType
                     'attr' => [
                         'class' => 'form-control mb-3'
                     ],
-                    'label' => 'Choisissez un nouveau mot de passe'
+                    'label' => 'Entrez le nouveau mot de passe'
                 ]
             );
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults(
-            [
-            ]
-        );
     }
 
 

@@ -24,9 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
-
-        /* 
-         */
+        /* */
         $metadata->addPropertyConstraint('username', new Assert\Required([
             new Assert\NotBlank(),
             new Assert\Length([
@@ -39,35 +37,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             ]),
         ]));
 
-        /* */
         $metadata->addPropertyConstraint('email', new Assert\Required([
             new Assert\NotBlank(),
             new Assert\Email(),
         ]));
-
-        /* 
-        $metadata->addPropertyConstraint('profileData', new Assert\Collection([
-            'fields' => [
-                'username' => [
-                    new Assert\NotBlank(),
-                    new Assert\Length([
-                        'min' => 5,
-                        'maxMessage' => 'Nom d\'utilisateur trop court',
-                    ]),
-                    new Assert\Length([
-                        'max' => 100,
-                        'maxMessage' => 'Nom d\'utilisateur trop long',
-                    ]),
-                ],
-                'email' => new Assert\Required([
-                    new Assert\NotBlank(),
-                    new Assert\Email(),
-                ]),
-            ],
-            'allowMissingFields' => false,
-        ]));*/
-
-        /* */
         $metadata->addGetterConstraint('passwordSafe', new Assert\IsTrue([
             'message' => 'Les mots de passes ne correspondent pas',
         ]));
@@ -90,14 +63,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    /*
-    #[Assert\NotBlank(message: 'Spécifier un nom d\'utilisateur')]
-    #[Assert\Length(
-        min: 5,
-        minMessage: 'Le nom doit faire plus de  {{ limit }} caractères',
-        max: 50,
-        maxMessage: 'Le nom doit faire moins de {{ limit }} caractères'
-    )]*/
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
@@ -117,7 +82,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $tricks;
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private ?bool $isVerified = false;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $resetToken = null;
 
     //functions
 
@@ -239,12 +207,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -255,6 +217,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): static
+    {
+        $this->resetToken = $resetToken;
+        return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
 }

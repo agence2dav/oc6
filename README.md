@@ -85,8 +85,9 @@
 - edit status of comments
 - repair solid concepts of register, tricks and comments
 
-### 6.1 verif user #26
-- todo: add verif user
+### 6.1 login2 #26
+- verif user by token sent by mail (add column is user)
+- reset password
 
 ### 8 - upload images
 - todo: use models for saving
