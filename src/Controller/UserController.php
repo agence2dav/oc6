@@ -14,6 +14,8 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 //use App\Controller\RegisterController;
 use App\Form\UserFormType;
 use App\Form\RegisterFormType;
@@ -29,6 +31,8 @@ class UserController extends AbstractController
 
     public function __construct(
         private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private ResetPasswordHelperInterface $resetPasswordHelper,
+        private EntityManagerInterface $entityManager,
         private readonly MailService $mailService,
         private UserFormType $userFormType,
         private UserService $userService,
@@ -68,8 +72,9 @@ class UserController extends AbstractController
 
     /* 
     #[Route(path: '/reset-password', name: 'forgotten_password', methods: ['GET', 'POST'])]
-    public function forgottenPassword(Request $request): Response
-    {
+    public function forgottenPassword(
+        Request $request
+    ): Response {
         $form = $this->createForm(ForgottenPasswordFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -123,5 +128,5 @@ class UserController extends AbstractController
         $this->addFlash('login-flash', 'Ah, bah ça n\'a pas marché. Recommencez.');
         return $this->redirectToRoute('app_login');
     }
-    */
+     */
 }
