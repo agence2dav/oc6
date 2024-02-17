@@ -50,7 +50,7 @@ class RegisterController extends AbstractController
             );
 
             $this->addFlash('login-flash', 'Votre inscription est enregistrée. 
-            Veuillez vérifier votre e-mail pour la confirmer.');
+            Veuillez vérifier votre e-mail pour le confirmer.');
             return $this->redirectToRoute('app_login');
         }
         return $this->render('security/register.html.twig', [

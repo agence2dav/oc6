@@ -21,6 +21,7 @@
         "symfony/validator": "7.0.*",
         "symfony/webapp-pack": "*",
         "symfony/yaml": "7.0.*",
+        "symfonycasts/reset-password-bundle": "*",
         "symfonycasts/verify-email-bundle": "*"
     },
     "config": {
