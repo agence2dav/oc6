@@ -89,7 +89,7 @@
 - verif user by token sent by mail (add column is user)
 - reset password
 
-### 8 - upload images
+### 8 - upload images #29
 - todo: use models for saving
 - todo: add upload
 - todo: add entity media (img, video)
