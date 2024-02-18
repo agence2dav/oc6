@@ -22,7 +22,6 @@ class CommentMapper
         $commentModel->setStatus($commentEntity->getStatus());
         $commentModel->setTrickSlug($commentEntity->getTrick()->getSlug());
         $commentModel->setTrickTitle($commentEntity->getTrick()->getTitle());
-        //dump($commentModel);
         return $commentModel;
     }
 

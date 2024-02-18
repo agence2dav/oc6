@@ -13,7 +13,10 @@
 
     {{ form_row(formTrick.title, {"attr":{"placeholder":"Titre"}}) }}
     {{ form_row(formTrick.content, {"attr":{"placeholder":"Contenu"}}) }}
+    {#    #}
     {{ form_row(formTrick.image, {"attr":{"placeholder":"Image (Url)"}}) }}
+
+    {{ form_row(formTrick.media) }}
 
     <button type="submit" class="btn btn-success">
         {% if edit_mode == true %}

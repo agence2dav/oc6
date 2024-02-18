@@ -22,7 +22,8 @@
         "symfony/webapp-pack": "*",
         "symfony/yaml": "7.0.*",
         "symfonycasts/reset-password-bundle": "*",
-        "symfonycasts/verify-email-bundle": "*"
+        "symfonycasts/verify-email-bundle": "*",
+        "vich/uploader-bundle": "*"
     },
     "config": {
         "allow-plugins": {

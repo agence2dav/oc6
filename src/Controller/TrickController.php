@@ -6,31 +6,38 @@ namespace App\Controller;
 
 //use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Trick;
 use App\Service\TrickService;
 use App\Service\CommentService;
+use App\Service\MediaService;
+use App\Service\FileUploader;
 use App\Model\TrickModel;
 use App\Model\CommentModel;
 use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
+use App\Repository\MediaRepository;
 use App\Mapper\TrickMapper;
 use App\Mapper\CommentMapper;
 use App\Form\TrickFormType;
 use App\Form\CommentFormType;
+use App\Entity\Trick;
+use App\Entity\Media;
 
 class TrickController extends AbstractController
 {
 
     public function __construct(
         private TrickService $trickService,
+        private MediaService $mediaService,
         private TrickMapper $trickMapper,
         private TrickRepository $trickRepository,
         private TrickFormType $trickFormType,
@@ -38,15 +45,17 @@ class TrickController extends AbstractController
         private CommentFormType $commentFormType,
         private CommentMapper $commentMapper,
         private CommentRepository $commentRepository,
+        private MediaRepository $mediaRepository,
         private SluggerInterface $slugger,
         //private AsciiSlugger $asciiSlugger,
+        //private UploadedFile $uploadedFile,
     ) {
 
     }
 
     #[Route('/trick/new', name: 'new_trick')]
     #[Route('/trick/{id}/edit', name: 'edit_trick')]
-    public function form(Trick $trick = null, Request $request, EntityManagerInterface $manager): Response
+    public function form(Trick $trick = null, Request $request, FileUploader $fileUploader): Response
     {
         if (!$trick) {
             $trick = new Trick();
@@ -60,10 +69,22 @@ class TrickController extends AbstractController
             $this->trickService->saveTrick(
                 $trick,
                 $this->getUser(),
-                $form->get("title")->getData(),
-                $form->get("content")->getData(),
-                $form->get("image")->getData(),
+                $form->get('title')->getData(),
+                $form->get('content')->getData(),
+                //$form->get('image')->getData(),
             );
+
+            $mediaFiles = $form->get('media')->getData();//UploadedFile
+            if ($mediaFiles) {
+                foreach ($mediaFiles as $mediaFile) {
+                    $mediaFileName = $fileUploader->upload($mediaFile);
+                    $this->mediaService->saveMedia(
+                        $trick,
+                        $mediaFileName,
+                    );
+                }
+            }
+
             return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 
@@ -74,8 +95,7 @@ class TrickController extends AbstractController
     }
 
     #[Route('/trick/{slug}', name: 'show_trick')]
-    #[Route('/trick/{slug}/{commented}', name: 'show_trick2')]
-    public function show(Trick $trick, string $slug, int $commented = null, Request $request, EntityManagerInterface $manager): Response
+    public function show(Trick $trick, string $slug, Request $request): Response //EntityManagerInterface $manager
     {
         //$userConnected = $this->getUser();
         $trickModel = $this->trickService->getBySlug($slug);
@@ -92,18 +112,38 @@ class TrickController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');//is loged
             $this->commentService->saveComment($form, $trick, $this->getUser());
-            //return $this->redirectToRoute('show_trick', ['id' => $id, 'commentId' => $comment->getId()]);
-            return $this->redirect($this->generateUrl('show_trick2', ['slug' => $trick->getSlug(), 'commented' => 1]));
+            $this->addFlash(
+                'thanks_comment',
+                'Merci pour votre commentaire. Il sera publié après validation.'
+            );
+            //return $this->redirect($this->generateUrl('show_trick', ['slug' => $trick->getSlug()]));
         }
 
+        $root_img = $this->getParameter('trick_medias');
+
+        if ($trick->getStatus() == 1) {
+            $template = 'home/trick.html.twig';
+        } else {
+            $template = 'home/trick-unpublished.html.twig';
+        }
         return $this->render(
-            'home/trick.html.twig',
+            $template,
             [
                 'trick' => $trickModel,
                 'formComment' => $form->createView(),
-                'justCommented' => $commented ? true : false,
+                'root_img' => $root_img,
             ]
         );
+    }
+
+    #[Route('/tricks', name: 'app_tricks')]
+    public function index(): Response
+    {
+        $tricks = $this->trickService->getAllPublic();
+        return $this->render('home/index.html.twig', [
+            'controller_name' => 'HomeController',
+            'tricks' => $tricks,
+        ]);
     }
 
 }
