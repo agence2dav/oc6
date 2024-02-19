@@ -96,6 +96,6 @@
 - let choose first image of article
 - add medias in articles : images, youtube
 
-### 9 - designations
+### 9 - designations #31
 - todo: use multiple tags
 - todo: tricks by tags
