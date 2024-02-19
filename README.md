@@ -89,8 +89,13 @@
 - verif user by token sent by mail (add column is user)
 - reset password
 
-### 8 - upload images
+### 8 - upload images #29
 - todo: use models for saving
-- todo: add upload
-- todo: add entity media (img, video)
+- add upload
+- add entity media (img, video)
+- let choose first image of article
+- add medias in articles : images, youtube
 
+### 9 - designations
+- todo: use multiple tags
+- todo: tricks by tags

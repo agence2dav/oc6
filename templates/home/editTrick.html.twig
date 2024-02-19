@@ -9,11 +9,19 @@
 
     <h1>{% if edit_mode == true %}Editer un Trick{% else %}Nouveau Trick{% endif %}</h1>
 
+    {% for message in app.flashes('ok_edit') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
+
     {{ form_start(formTrick) }}
 
     {{ form_row(formTrick.title, {"attr":{"placeholder":"Titre"}}) }}
     {{ form_row(formTrick.content, {"attr":{"placeholder":"Contenu"}}) }}
     {{ form_row(formTrick.image, {"attr":{"placeholder":"Image (Url)"}}) }}
+
+    {{ form_row(formTrick.media) }}
 
     <button type="submit" class="btn btn-success">
         {% if edit_mode == true %}
@@ -22,7 +30,24 @@
         Enregistrer
         {% endif %}
     </button>
+    <a class="btn btn-secondary" href="{{ path("show_trick", {"slug": trick.slug }) }}">Retour à la fiche</a>
+
 
     {{ form_end(formTrick) }}
+    
+    <div class="example-wrapper">
+    {% for media in trick.media %}
+        <div class="card border-primary mb-3" style="max-width: 20rem; float:left;">
+            <div class="card-header">
+            <img src="http://oc6.test/public/uploads/{{ media.filename }}" width="100%" />
+            </div>
+            <div class="card-body">
+                <small class="card-title">{{ media.filename }}</small>
+                <p class="card-text"><a href="{{ path("edit_trick_img", {id: trick.id, mediaId: media.id }) }}">En faire l'image principale</a></p>
+                <p class="card-text"><a href="{{ path("edit_trick", {id: trick.id}) }}">Placer dans l'article</a></p>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
 
 {% endblock %}

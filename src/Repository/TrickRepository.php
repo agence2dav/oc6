@@ -32,7 +32,21 @@ class TrickRepository extends ServiceEntityRepository
     }
 
     /* unused
-    public function findBySlug(string $slug): Trick
+    public function findBySlug(string $slug): array|null
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.slug = :slug')
+            ->andWhere('t.status = 1')
+            ->setParameter('slug', $slug)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    //$service = $repository->findBy(array('name' => 'Registration'),array('name' => 'ASC'),1 ,0)[0];
+
+    public function findOneBySlug(string $slug): Trick|null
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.slug = :slug')
@@ -54,7 +68,7 @@ class TrickRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-    */
+     */
 
     //admin
 

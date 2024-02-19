@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ trick.title | raw}}{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+
+    <article class="card border-light mb-3">
+        <div class="card-header">
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="btn btn-primary"><a href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i>Publier</a></div>
+        {% endif %}
+        </div>
+        <div class="card-boby">
+            <div class="content">
+                <div class="text-body-danger">Ce Trick a été dépublié.</div>
+            </div>
+        </div>
+    <a class="btn btn-secondary" href="{{ path("app_home") }}">Retour à l'accueil.</a>
+    </article>
+
+</div>
+{% endblock %}

@@ -30,6 +30,7 @@ class Trick
     {
         $this->comments = new ArrayCollection();
         $this->trickDesignations = new ArrayCollection();
+        $this->media = new ArrayCollection();
     }
 
     //https://symfony.com/doc/current/reference/constraints/Collection.html
@@ -37,7 +38,6 @@ class Trick
     {
         $metadata->addPropertyConstraint('title', new NotBlank());
         $metadata->addPropertyConstraint('content', new NotBlank());
-        $metadata->addPropertyConstraint('image', new NotBlank());
     }
 
     #[ORM\Id]
@@ -45,17 +45,7 @@ class Trick
     #[ORM\Column]
     private ?int $id = null;
 
-    //#[ORM\Column]
-    //private ?int $userId = null;
-
     #[ORM\Column(length: 255)]
-    /*#[Assert\NotBlank(message: 'Le titre doit être spécifié')]
-     #[Assert\Length(
-        min: 5,
-        minMessage: 'Le titre doit faire plus de {{ limit }} caractères',
-        max: 50,
-        maxMessage: 'Longueur max : {{ limit }} caractères'
-    )]*/
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
@@ -87,6 +77,9 @@ class Trick
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: TrickDesignations::class)]
     private Collection $trickDesignations;
+
+    #[ORM\OneToMany(targetEntity: Media::class, mappedBy: 'trick')]
+    private Collection $media;
 
     //get-set
 
@@ -230,6 +223,34 @@ class Trick
             // set the owning side to null (unless already changed)
             if ($trickDesignation->getTrick() === $this) {
                 $trickDesignation->setTrick(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Media>
+     */
+    public function getMedia(): Collection
+    {
+        return $this->media;
+    }
+
+    public function addMedium(Media $medium): static
+    {
+        if (!$this->media->contains($medium)) {
+            $this->media->add($medium);
+            $medium->setTrick($this);
+        }
+        return $this;
+    }
+
+    public function removeMedium(Media $medium): static
+    {
+        if ($this->media->removeElement($medium)) {
+            // set the owning side to null (unless already changed)
+            if ($medium->getTrick() === $this) {
+                $medium->setTrick(null);
             }
         }
         return $this;

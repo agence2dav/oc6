@@ -26,7 +26,7 @@ class TrickModel
     private User $user;
     private array $comments;
     private Collection $trickDesignations;
-
+    private array $media;
 
     public function getId(): int
     {
@@ -152,6 +152,17 @@ class TrickModel
     public function getComments(): array
     {
         return $this->comments;
+    }
+
+    public function setMedia(array $media): static
+    {
+        $this->media = $media;
+        return $this;
+    }
+
+    public function getMedia(): array
+    {
+        return $this->media;
     }
 
 }

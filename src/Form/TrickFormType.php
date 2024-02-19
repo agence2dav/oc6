@@ -17,7 +17,9 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints\File;
 use App\Repository\UserRepository;
 use App\Service\MediaService;
 use App\Model\TrickModel;
@@ -62,14 +64,15 @@ class TrickFormType extends AbstractType
                 TextareaType::class,
                 [
                     'attr' => [
-                        'class' => 'form-control mb-3'
+                        'class' => 'form-control mb-3',
+                        'rows' => '12'
                     ],
                     'label' => 'Description'
                 ]
             )
             ->add(
                 'image',
-                TextType::class,
+                HiddenType::class,
                 [
                     'attr' => [
                         'class' => 'form-control mb-3'
@@ -77,31 +80,63 @@ class TrickFormType extends AbstractType
                     'label' => 'Image'
                 ]
             )
-            /* 
-            ->add(
-                'images', FileType::class, [
-                    'attr' => [
-                        'class' => 'form-control mb-3'
-                    ],
-                    'label' => 'Télécharger une ou plusieurs image(s)',
-                    'multiple' => true,
-                    'mapped' => false,
-                    'required' => false,
-                    'constraints' => [
-                        new All(
-                            new Image(
-                                [
-                                    'maxWidth' => 1600,
-                                    'maxWidthMessage' => 'l\'image doit faire {{ max_width }} pixels de large au maximum',
-                                    'maxHeight' => 1600,
-                                    'maxHeightMessage' => 'l\'image doit faire {{ max_height }} pixels de long au maximum',
-                                ]
-                            )
+
+            ->add('media', FileType::class, [
+                'label' => 'Image',
+                'attr' => [
+                    'class' => 'form-control mb-3'
+                ],
+
+                //iterable
+                'multiple' => true,
+
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+
+                // unmapped fields can't define their validation using attributes
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new All(
+                        new Image(
+                            [
+                                'maxWidth' => 4096,
+                                'maxWidthMessage' => 'Largeur max : {{ max_width }}',
+                                'maxHeight' => 4096,
+                                'maxHeightMessage' => 'Hauteur max : {{ max_height }}',
+                            ]
                         )
-                    ]
+                    )
                 ]
-            )*/
+            ])
             ->getForm();
+        /*
+        ->add(
+            'images', FileType::class, [
+                'attr' => [
+                    'class' => 'form-control mb-3'
+                ],
+                'label' => 'Télécharger une ou plusieurs image(s)',
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new All(
+                        new Image(
+                            [
+                                'maxWidth' => 1600,
+                                'maxWidthMessage' => 'l\'image doit faire {{ max_width }} pixels de large au maximum',
+                                'maxHeight' => 1600,
+                                'maxHeightMessage' => 'l\'image doit faire {{ max_height }} pixels de long au maximum',
+                            ]
+                        )
+                    )
+                ]
+            ]
+        )*/
 
         /*      
                     ->add(

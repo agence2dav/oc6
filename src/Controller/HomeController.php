@@ -30,7 +30,7 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $tricks = $this->trickService->getAllPublic();
-        return $this->render('home/index.html.twig', [
+        return $this->render('home/home.html.twig', [
             'controller_name' => 'HomeController',
             'tricks' => $tricks,
         ]);

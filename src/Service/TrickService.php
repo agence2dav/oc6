@@ -13,10 +13,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use App\Repository\TrickRepository;
+use App\Repository\MediaRepository;
 use App\Service\MediaService;
 use App\Mapper\TrickMapper;
 use App\Model\TrickModel;
 use App\Entity\Trick;
+use App\Entity\Media;
 use App\Entity\User;
 
 class TrickService
@@ -30,6 +32,7 @@ class TrickService
         //private readonly TrickModel $trickModel,
         private readonly TrickMapper $trickMapper,
         private readonly MediaService $mediaService,
+        private readonly MediaRepository $mediaRepository,
     ) {
 
     }
@@ -73,7 +76,7 @@ class TrickService
         User $user,
         string $title,
         string $content,
-        string $image
+        //string $image,
     ): void {
 
         //$trickModel = $this->trickM>EntityToModel($trick);
@@ -89,8 +92,45 @@ class TrickService
         $slug = $this->slugger->slug($trickModel->getTitle());
         $trickModel->setSlug($slug->toString());
         $trickModel->setUpdatedAt(new \DateTime());
-        $trickModel->setImage($this->mediaService->importImage($trickModel->getImage()));
+        //$trickModel->setImage($this->mediaService->importImage($trickModel->getImage()));
+        //$trickModel->setImage('no');
         //$this->trickRepository->saveTrickModel($trickModel);
+        $this->trickRepository->saveTrick($trick);
+
+    }
+
+    public function formatContent($content): string
+    {
+        $paragraphs = explode("\n", $content);
+        $contentArray = [];
+        foreach ($paragraphs as $paragraph) {
+            $paragraphArray = [];
+            $words = explode(' ', $paragraph);
+            foreach ($words as $word) {
+                $extension = strrchr(trim($word), '.');
+                if (in_array($extension, ['.jpg', '.png', '.webp'])) {
+                    $paragraphArray[] = $this->mediaService->image($word);
+                } elseif (strpos($word, 'youtu')) {
+                    $paragraphArray[] = $this->mediaService->youtube($word);
+                } else {
+                    $paragraphArray[] = $word;
+                }
+            }
+            $contentArray[] = '<p class="card-text">' . implode(' ', $paragraphArray) . '</p>';
+        }
+        return implode("\n", $contentArray);
+    }
+
+    public function setAsFirstImage(Trick $trick, int $mediaId): void
+    {
+        $medias = $trick->getMedia();
+        foreach ($medias as $media) {
+            if ($media->getId() == $mediaId) {
+                $image = $media->getFilename();
+            }
+        }
+        //$image = $media[$nim]->getFilename();
+        $trick->setImage($image);
         $this->trickRepository->saveTrick($trick);
     }
 

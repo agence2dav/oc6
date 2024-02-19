@@ -56,7 +56,7 @@ class CommentService
         $commentModel->setUser($user);
         $commentModel->setDate(new \DateTime());
         $commentModel->setContent($form->get("content")->getData());
-        $commentModel->setStatus(1); //perform later
+        $commentModel->setStatus(0); //perform later
         //$this->commentRepository->saveCommentModel($commentModel);
         $this->commentRepository->saveComment($commentModel);
     }
