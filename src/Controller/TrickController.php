@@ -53,12 +53,15 @@ class TrickController extends AbstractController
 
     }
 
+    //edit
     #[Route('/trick/new', name: 'new_trick')]
     #[Route('/trick/{id}/edit', name: 'edit_trick')]
     public function form(Trick $trick = null, Request $request, FileUploader $fileUploader): Response
     {
+        $createNew = 0;
         if (!$trick) {
             $trick = new Trick();
+            $createNew = 1;
         }
 
         $options = [];
@@ -84,16 +87,32 @@ class TrickController extends AbstractController
                     );
                 }
             }
-
-            return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
+            if ($createNew) {
+                return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
+            } else {
+                $this->addFlash(
+                    'ok_edit',
+                    'Les modifications ont "été prises en compte.'
+                );
+            }
         }
 
         return $this->render('home/editTrick.html.twig', [
             'formTrick' => $form->createView(),
             'edit_mode' => $trick->getId() ? true : false,
+            'trick' => $trick,
         ]);
     }
 
+    //update image
+    #[Route('/trick/{id}/edit/{mediaId}', name: 'edit_trick_img')]
+    public function setFirstImage(Trick $trick = null, int $mediaId): Response
+    {
+        $this->trickService->setAsFirstImage($trick, $mediaId);
+        return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
+    }
+
+    //show
     #[Route('/trick/{slug}', name: 'show_trick')]
     public function show(Trick $trick, string $slug, Request $request): Response //EntityManagerInterface $manager
     {
@@ -120,6 +139,7 @@ class TrickController extends AbstractController
         }
 
         $root_img = $this->getParameter('trick_medias');
+        $trickModel->setContent($this->trickService->formatContent($trickModel->getContent()));
 
         if ($trick->getStatus() == 1) {
             $template = 'home/trick.html.twig';
@@ -140,7 +160,7 @@ class TrickController extends AbstractController
     public function index(): Response
     {
         $tricks = $this->trickService->getAllPublic();
-        return $this->render('home/index.html.twig', [
+        return $this->render('home/tricks.html.twig', [
             'controller_name' => 'HomeController',
             'tricks' => $tricks,
         ]);

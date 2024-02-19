@@ -55,8 +55,11 @@ return [
                 .')'
                 .'|/reset\\-password/reset(?:/([^/]++))?(*:307)'
                 .'|/trick/([^/]++)(?'
-                    .'|/edit(*:338)'
-                    .'|(*:346)'
+                    .'|/edit(?'
+                        .'|(*:341)'
+                        .'|/([^/]++)(*:358)'
+                    .')'
+                    .'|(*:367)'
                 .')'
             .')/?$}sDu',
     ],
@@ -72,8 +75,9 @@ return [
         232 => [[['_route' => 'admin_tricksId', 'id' => null, '_controller' => 'App\\Controller\\AdminController::showTricks'], ['id'], null, null, false, true, null]],
         262 => [[['_route' => 'admin_commentsId', 'id' => null, '_controller' => 'App\\Controller\\AdminController::showComments'], ['id'], null, null, false, true, null]],
         307 => [[['_route' => 'app_reset_password', 'token' => null, '_controller' => 'App\\Controller\\ResetPasswordController::reset'], ['token'], null, null, false, true, null]],
-        338 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
-        346 => [
+        341 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
+        358 => [[['_route' => 'edit_trick_img', '_controller' => 'App\\Controller\\TrickController::setFirstImage'], ['id', 'mediaId'], null, null, false, true, null]],
+        367 => [
             [['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],
         ],

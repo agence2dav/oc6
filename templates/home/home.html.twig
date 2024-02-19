@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tricks!{% endblock %}
+
+{% block body %}
+    
+    {% for message in app.flashes('alerts') %}
+<div class="alert alert-success">
+    {{ message | raw }}
+</div>
+    {% endfor %}
+
+<div class="example-wrapper">
+    <h1>All of Tricks</h1>
+
+    {% for trick in tricks %}
+    
+    <article class="card border-light mb-3" style="max-width: 20rem; float:left; margin:10px;">
+        <div class="card mb-3">
+            <h3 class="card-header">{{ trick.title | raw}}</h3>
+            <div class="card-body">
+                <h5 class="card-title">Rédigé par : {{ trick.username }}</h5>
+                <h6 class="card-subtitle text-muted">Mis à jour le : {{ trick.updatedAt | date("d/m/Y") }}</h6>
+            </div>
+            <img src="http://oc6.test/public/uploads/{{ trick.image }}" width="100%"/>
+            <div class="card-body">
+                {# {{ trick.content | raw}} #}
+                <a class="card-link" href="{{ path("show_trick", {slug: trick.slug}) }}">Lire cette fiche</a>
+            </div>
+            <div class="card-footer text-muted">
+                {# 
+                {% for designation in tricks.designations %}
+                    <a class="card-link" href="{{ path("show_designation", {slug: designation.id}) }}">{{designation.name}}</a> 
+                {% endfor %}
+                #}
+            </div>
+        </div>
+    </article>
+
+    {% endfor %}
+
+</div>
+{% endblock %}

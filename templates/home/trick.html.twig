@@ -10,34 +10,44 @@
     
         <div class="card-header">
             <h1>{{ trick.title | raw}}</h1>
-            <div class="metadata">Rédigé par : {{ trick.username }}</div>
-            <div class="metadata">Mis à jour le : {{ trick.updatedAt | date("d/m/Y") }}</div>
+        </div>
+        <div class="card-footer">
             {% if is_granted('ROLE_EDIT') or is_granted('ROLE_ADMIN') %}
-                <div class="btn btn-primary"><a href="{{ path("edit_trick", {id: trick.id}) }}"><i class="bi bi-pencil"></i>Editer</a></div>
+                <a class="card-link" href="{{ path("edit_trick", {id: trick.id}) }}"><i class="bi bi-pencil"></i>Editer</a>
                 {% if is_granted('ROLE_ADMIN') %}
                     {% if trick.status == 1 %}
-                    <div class="btn btn-danger"><a href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i>Dépublier</a></div>
+                    <a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i>Dépublier</a>
                     {% else %}
-                    <div class="btn btn-primary"><a href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i>Publier</a></div>
+                    <a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i>Publier</a>
                     {% endif %}
                 {% endif %}
             {% endif %}
         </div>
+        <div class="card-body">
+            <h5 class="card-title">Rédigé par : {{ trick.username }}</h5>
+            <h6 class="card-subtitle text-muted">Mis à jour le : {{ trick.updatedAt | date("d/m/Y") }}</h6>
+        </div>
         <div class="card-boby">
-        {% if trick.image !="no" %}
+        {% if trick.image !="http://placehold.it/350x150" %}
         <div class="image">
-            <img src="{{ trick.image | raw}}" width="100%"/>
+            <img src="http://oc6.test/public/uploads/{{ trick.image }}" width="100%"/>
         </div>
         {% endif %}
         
+        <div class="card-boby">
+        {#
         {% for media in trick.media %}
         <div class="image">
-            <img src="{{ img_folder }}/{{ media.filename | raw}}" max-width="100%"/>
+            <img src="http://oc6.test/public/uploads/{{ media.filename | raw}}" />
         </div>
-        {% endfor %}
+        {% endfor %}#}
 
         <div class="content">
             <div class="text-body-primary">{{ trick.content | raw}}</div>
+        </div>
+        
+        </div>
+        <div class="card-footer text-muted">
         </div>
     </article>
 
@@ -74,7 +84,7 @@
     <section class="card text-white bg-primary mb-3">
         <div class="card-header">
             <strong>{{ comment.username | raw}}</strong>
-            <div class="metadata">{{ comment.date | date("d/m/Y H:i") }}</div>
+            <div class="metadata">{{ comment.date | date("d/m/Y") }}</div>
         </div>
         <div class="card-boby">
             <div class="content">

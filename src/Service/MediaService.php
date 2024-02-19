@@ -54,14 +54,32 @@ class MediaService extends AbstractController
         $this->mediaRepository->saveMedia($media);
     }
 
-    public function importImage($imageUrl)
+    public function catalog($imageUrl)
     {
         return $imageUrl;
     }
 
-    public function resizeImage($imageUrl)
+    public function image(string $url): string
     {
-        return $imageUrl;
+        if (!str_starts_with($url, 'http')) {
+            $url = 'http://oc6.test/public/uploads/' . $url;
+        }
+        if (!file_exists($url)) {
+            $url = 'http://oc6.test/assets/img/broken_image.webp';
+            return '<img src="' . $url . '" alt="file not exists" width="40px" />';
+        }
+        return '<img src="' . $url . '" alt="' . strrchr($url, '/') . '" />';
+    }
+
+    public function youtube(string $url): string
+    {
+        //input: https://youtu.be/hW_RhD0D-Ew
+        //input: https://www.youtube.com/watch?v=hW_RhD0D-Ew
+        //outpu: https://www.youtube.com/embed/hW_RhD0D-Ew
+        $url = str_replace('youtu.be', 'youtube.com', $url);
+        $url = str_replace('watch?v=', '', $url);
+        $url = str_replace('youtube.com/', 'youtube.com/embed/', $url);
+        return '<iframe src="' . $url . '" width="100%" height="320px" allowfullscreen="true"></iframe>';
     }
 
 }

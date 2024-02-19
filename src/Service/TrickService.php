@@ -93,10 +93,45 @@ class TrickService
         $trickModel->setSlug($slug->toString());
         $trickModel->setUpdatedAt(new \DateTime());
         //$trickModel->setImage($this->mediaService->importImage($trickModel->getImage()));
-        $trickModel->setImage('no');
+        //$trickModel->setImage('no');
         //$this->trickRepository->saveTrickModel($trickModel);
         $this->trickRepository->saveTrick($trick);
 
+    }
+
+    public function formatContent($content): string
+    {
+        $paragraphs = explode("\n", $content);
+        $contentArray = [];
+        foreach ($paragraphs as $paragraph) {
+            $paragraphArray = [];
+            $words = explode(' ', $paragraph);
+            foreach ($words as $word) {
+                $extension = strrchr(trim($word), '.');
+                if (in_array($extension, ['.jpg', '.png', '.webp'])) {
+                    $paragraphArray[] = $this->mediaService->image($word);
+                } elseif (strpos($word, 'youtu')) {
+                    $paragraphArray[] = $this->mediaService->youtube($word);
+                } else {
+                    $paragraphArray[] = $word;
+                }
+            }
+            $contentArray[] = '<p class="card-text">' . implode(' ', $paragraphArray) . '</p>';
+        }
+        return implode("\n", $contentArray);
+    }
+
+    public function setAsFirstImage(Trick $trick, int $mediaId): void
+    {
+        $medias = $trick->getMedia();
+        foreach ($medias as $media) {
+            if ($media->getId() == $mediaId) {
+                $image = $media->getFilename();
+            }
+        }
+        //$image = $media[$nim]->getFilename();
+        $trick->setImage($image);
+        $this->trickRepository->saveTrick($trick);
     }
 
     //admin
