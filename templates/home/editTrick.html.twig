@@ -32,15 +32,14 @@
     {{ form_row(formTrick.image, {"attr":{"placeholder":"Image (Url)"}}) }}
     {{ form_row(formTrick.media) }}
     {#
-    {{ form_row(formTrick.trickDesignations) }}
-    {{ form_row(formTrick.trickDesignations) }}#}
+    {{ form_row(formTrick.trickTags) }}#}
     {{ form_end(formTrick) }}
 
     <!-- tags -->
     <div class="content">
-        {% for trickDesignation in trick.trickDesignations %}
-            <a class="card-link" href="{{ path("show_designation", {id: trickDesignation.designation.id}) }} ">{{ trickDesignation.designation.name }}</a> 
-        {% endfor %}
+    {% for trickTag in trick.trickTags %}
+        <a class="card-link" href="{{ path("show_tag", {id: trickTag.tag.id}) }} ">{{ trickTag.tag.cat.name }} : {{ trickTag.tag.name }}</a> 
+    {% endfor %}
     </div>
     
     <!-- catalog of images -->

@@ -67,7 +67,6 @@ return [
                         .'|/edit(*:406)'
                     .')'
                 .')'
-                .'|/designation/([^/]++)/edit(*:442)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -86,9 +85,8 @@ return [
         361 => [[['_route' => 'edit_trick_img', '_controller' => 'App\\Controller\\TrickController::setFirstImage'], ['id', 'mediaId'], null, null, false, true, null]],
         370 => [[['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null]],
         393 => [[['_route' => 'show_tag', '_controller' => 'App\\Controller\\TrickTagsController::show'], ['id'], null, null, false, true, null]],
-        406 => [[['_route' => 'edit_tag', '_controller' => 'App\\Controller\\TrickTagsController::form'], ['id'], null, null, false, false, null]],
-        442 => [
-            [['_route' => 'show_designation', '_controller' => 'App\\Controller\\TrickDesignationsController::form'], ['id'], null, null, false, false, null],
+        406 => [
+            [['_route' => 'edit_tag', '_controller' => 'App\\Controller\\TrickTagsController::form'], ['id'], null, null, false, false, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

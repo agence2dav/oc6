@@ -102,5 +102,6 @@
 - update fixtures for medias and tags
 
 ### 10 - tags #33
+- dele all things about designations
 - todo: use multiple tags
 - todo: tricks by tags

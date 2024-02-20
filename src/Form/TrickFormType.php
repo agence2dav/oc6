@@ -30,9 +30,7 @@ use App\Repository\UserRepository;
 use App\Service\MediaService;
 use App\Model\TrickModel;
 use App\Entity\Trick;
-use App\Entity\Designation;
-use App\Entity\TrickDesignations;
-use App\StaticClass;
+use App\Entity\Tag;
 
 class TrickFormType extends AbstractType
 {
@@ -127,14 +125,14 @@ class TrickFormType extends AbstractType
             )
             /* */
             ->add(
-                'trickDesignations',
+                'trickTag',
                 EntityType::class,
                 [
                     'attr' => [
                         'class' => 'form-select mb-3',
                         'size' => "2"
                     ],
-                    'class' => Designation::class,
+                    'class' => Tag::class,
                     'mapped' => false,
                     'choice_label' => 'name',
                     'multiple' => true,
@@ -142,7 +140,7 @@ class TrickFormType extends AbstractType
                 ]
             )
             /* //ok
-            ->add('trickDesignations', ChoiceType::class, [
+            ->add('trickTag', ChoiceType::class, [
                 'choices' => [
                     'Maybe' => null,
                     'Yes' => true,
@@ -150,7 +148,7 @@ class TrickFormType extends AbstractType
                 ],
             ])*/
             /* 
-            ->add('trickDesignations', CheckboxType::class, [
+            ->add('trickTag', CheckboxType::class, [
                 'choices' => [
                     'Maybe' => null,
                     'Yes' => true,
@@ -161,7 +159,7 @@ class TrickFormType extends AbstractType
             ->add('Enregistrer', SubmitType::class)
             /* 
             ->add(
-                'designations',
+                'Tag',
                 ChoiceType::class,
                 [
                     'attr' => [
@@ -170,7 +168,7 @@ class TrickFormType extends AbstractType
                     ],
                     'class' => Designation::class,
                     'mapped' => false,
-                    'choice_label' => 'designations',
+                    'choice_label' => 'Tags',
                     'label' => 'Selectionnez une ou plusieurs désignations',
                     //'choice_attr' => ChoiceList::attr($this, function (?Designation $designation): array {
                     //    return $designation ? ['data-name' => $designation->getName()] : [];
