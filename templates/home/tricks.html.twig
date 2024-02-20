@@ -11,7 +11,7 @@
     {% endfor %}
 
 <div class="example-wrapper">
-    <h1>All of Tricks</h1>
+    <h1>{{ pageTitle }}</h1>
 
     {% for trick in tricks %}
     
@@ -28,7 +28,7 @@
                 <a class="card-link" href="{{ path("show_trick", {slug: trick.slug}) }}">Lire cette fiche</a>
             </div>
             <div class="card-footer text-muted">
-            
+
             {% for trickTag in trick.trickTags %}
                 <a class="card-link" href="{{ path("show_tag", {id: trickTag.tag.id}) }} ">{{ trickTag.tag.cat.name }} : {{ trickTag.tag.name }}</a> 
             {% endfor %}

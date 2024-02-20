@@ -36,7 +36,4 @@ class TrickTagsService
         return $this->trickTagsMapper->EntitiesArrayToModels($trickTagsModel);
     }
 
-
-
-
 }

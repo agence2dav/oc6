@@ -166,12 +166,12 @@ class TrickFormType extends AbstractType
                         'class' => 'form-select mb-3',
                         'size' => "4"
                     ],
-                    'class' => Designation::class,
+                    'class' => Tag::class,
                     'mapped' => false,
                     'choice_label' => 'Tags',
                     'label' => 'Selectionnez une ou plusieurs désignations',
-                    //'choice_attr' => ChoiceList::attr($this, function (?Designation $designation): array {
-                    //    return $designation ? ['data-name' => $designation->getName()] : [];
+                    //'choice_attr' => ChoiceList::attr($this, function (?Tag $tag): array {
+                    //    return $tag ? ['data-name' => $tag->getName()] : [];
                     //}),
                 ]
             )*/

@@ -9,6 +9,8 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
 use App\Mapper\CommentMapper;
 use App\Mapper\MediaMapper;
+use App\Mapper\TrickTagsMapper;
+use App\Mapper\TagMapper;
 use App\Model\TrickModel;
 use App\Entity\Trick;
 
@@ -19,8 +21,8 @@ class TrickMapper
     public function __construct(
         private CommentMapper $commentMapper,
         private TrickTagsMapper $trickTagsMapper,
-        //private TagMapper $tagMapper,
-        private MediaMapper $mediaMapper
+        private MediaMapper $mediaMapper,
+        private TagMapper $tagMapper,
     ) {
 
     }

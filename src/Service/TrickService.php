@@ -32,7 +32,7 @@ class TrickService
         //private readonly TrickModel $trickModel,
         private readonly TrickMapper $trickMapper,
         private readonly MediaService $mediaService,
-        private readonly MediaRepository $mediaRepository,
+        //private readonly MediaRepository $mediaRepository,
     ) {
 
     }

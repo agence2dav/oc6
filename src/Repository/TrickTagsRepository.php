@@ -18,11 +18,11 @@ class TrickTagsRepository extends ServiceEntityRepository
     public function findByTagId(int $id): array
     {
         return $this->createQueryBuilder('td')
-            ->andWhere('td.designation = :id')
-            ->innerjoin(Tag::class, 'd', )
-            ->innerjoin(Trick::class, 't')
-            ->andWhere('d.id = td.designation')
-            ->andWhere('t.id = td.trick')
+            ->andWhere('td.tag = :id')
+            //->innerjoin(Tag::class, 'd')
+            //->andWhere('d.id = td.tag')
+            //->innerjoin(Trick::class, 't')
+            //->andWhere('t.id = td.trick')
             ->setParameter('id', $id)
             //->orderBy('d.id', 'ASC')
             //->groupBy('t')

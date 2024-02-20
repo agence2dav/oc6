@@ -11,11 +11,12 @@ use App\Entity\Tag;
 class TrickTagsMapper
 {
 
-    public function EntityToModel(object $trickTags): trickTagsModel
+    public function EntityToModel(object $trickTags): TrickTagsModel
     {
-        $trickTagsModel = new trickTagsModel();
+        $trickTagsModel = new TrickTagsModel();
         $trickTagsModel->setId($trickTags->getId());
         $trickTagsModel->setTag($trickTags->getTag());
+        //$trickTagsModel->setCat($trickTags->getCat());
         $trickTagsModel->setTrick($trickTags->getTrick());
         return $trickTagsModel;
     }

@@ -139,7 +139,7 @@ class TrickController extends AbstractController
             //return $this->redirect($this->generateUrl('show_trick', ['slug' => $trick->getSlug()]));
         }
 
-        dump($trickModel);
+        //dd($trickModel);
         $root_img = $this->getParameter('trick_medias');
         $trickModel->setContent($this->trickService->formatContent($trickModel->getContent()));
 
@@ -162,8 +162,9 @@ class TrickController extends AbstractController
     public function index(): Response
     {
         $tricks = $this->trickService->getAllPublic();
+        //dd($tricks);
         return $this->render('home/tricks.html.twig', [
-            'controller_name' => 'HomeController',
+            'pageTitle' => 'All of Tricks',
             'tricks' => $tricks,
         ]);
     }
