@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTime;
 use App\Entity\User;
-use App\Entity\TrickDesignations;
+use App\Entity\TrickTrickDesignations;
 use App\Entity\Comment;
 use Doctrine\Common\Collections\Collection;
 
@@ -25,7 +25,9 @@ class TrickModel
     private DateTime $updatedAt;
     private User $user;
     private array $comments;
-    private Collection $trickDesignations;
+    private array $trickDesignations;
+    private array $designations;
+    private array $trickTags;
     private array $media;
 
     public function getId(): int
@@ -138,9 +140,9 @@ class TrickModel
         return $this;
     }
 
-    public function getTrickDesignations(): Collection
+    public function getComments(): array
     {
-        return $this->trickDesignations;
+        return $this->comments;
     }
 
     public function setComments(array $comments): static
@@ -149,9 +151,32 @@ class TrickModel
         return $this;
     }
 
-    public function getComments(): array
+    /* 
+    public function getDesignations(): array
     {
-        return $this->comments;
+        return $this->designations;
+    }
+
+    public function setDesignations(array $designations): static
+    {
+        $this->designations = $designations;
+        return $this;
+    }*/
+
+    public function getTrickDesignations(): array
+    {
+        return $this->trickDesignations;
+    }
+
+    public function setTrickDesignations(array $trickDesignations): static
+    {
+        $this->trickDesignations = $trickDesignations;
+        return $this;
+    }
+
+    public function getMedia(): array
+    {
+        return $this->media;
     }
 
     public function setMedia(array $media): static
@@ -160,9 +185,15 @@ class TrickModel
         return $this;
     }
 
-    public function getMedia(): array
+    public function getTrickTags(): array
     {
-        return $this->media;
+        return $this->trickTags;
+    }
+
+    public function setTrickTags(array $trickTags): static
+    {
+        $this->trickTags = $trickTags;
+        return $this;
     }
 
 }

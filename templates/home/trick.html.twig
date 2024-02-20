@@ -5,7 +5,7 @@
 {% block body %}
 
 <div class="example-wrapper">
-
+    <!-- article -->
     <article class="card border-light mb-3">
     
         <div class="card-header">
@@ -13,12 +13,12 @@
         </div>
         <div class="card-footer">
             {% if is_granted('ROLE_EDIT') or is_granted('ROLE_ADMIN') %}
-                <a class="card-link" href="{{ path("edit_trick", {id: trick.id}) }}"><i class="bi bi-pencil"></i>Editer</a>
+                <a class="card-link" href="{{ path("edit_trick", {id: trick.id}) }}"><i class="bi bi-pencil"></i> Editer</a>
                 {% if is_granted('ROLE_ADMIN') %}
                     {% if trick.status == 1 %}
-                    <a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i>Dépublier</a>
+                    <a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i> Dépublier</a>
                     {% else %}
-                    <a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i>Publier</a>
+                    <a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i> Publier</a>
                     {% endif %}
                 {% endif %}
             {% endif %}
@@ -48,9 +48,18 @@
         
         </div>
         <div class="card-footer text-muted">
+            {# 
+            {% for trickDesignation in trick.trickDesignations %}
+                <a class="card-link" href="{{ path("show_designation", {id: trickDesignation.designation.id}) }} ">{{ trickDesignation.designation.name }}</a> 
+            {% endfor %}#}
+            
+            {% for trickTag in trick.trickTags %}
+                <a class="card-link" href="{{ path("show_tag", {id: trickTag.tag.id}) }} ">{{ trickTag.tag.cat.name }} : {{ trickTag.tag.name }}</a> 
+            {% endfor %}
         </div>
     </article>
 
+    <!-- comments -->
     <h3>Commentaires</h3>
 
     {% for message in app.flashes('thanks_comment') %}
@@ -70,11 +79,11 @@
 
     {% else %}
         <div class="text-body-primary alert alert-primary">
-        Vous devez être logué pour poster un commentaire.
-    {#
-    <a class="nav-link" href="{{ path("app_login2", {"slug": trick.slug }) }}">Connexion</a> 
-    #}
-        <a class="nav-link" href="/login?_target_path=/trick/{{ trick.slug }}">Connexion</a> 
+            Vous devez être logué pour poster un commentaire. 
+            <a class="nav-link" href="{{ path("app_login") }}">Connexion</a> 
+            {# //come-back to this page after login
+            <a class="nav-link" href="/login?_target_path=/trick/{{ trick.slug }}">Connexion</a>
+            #}
         </div>
     {% endif %}
 

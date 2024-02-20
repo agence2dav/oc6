@@ -128,8 +128,9 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         //save comment
-        if ($form->isSubmitted() && $form->isValid()) {
-            //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');//is loged
+        //$userConnected=$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');//is loged
+        $userConnected = $this->getUser();
+        if ($form->isSubmitted() && $form->isValid() && $userConnected) {
             $this->commentService->saveComment($form, $trick, $this->getUser());
             $this->addFlash(
                 'thanks_comment',
@@ -138,6 +139,7 @@ class TrickController extends AbstractController
             //return $this->redirect($this->generateUrl('show_trick', ['slug' => $trick->getSlug()]));
         }
 
+        dump($trickModel);
         $root_img = $this->getParameter('trick_medias');
         $trickModel->setContent($this->trickService->formatContent($trickModel->getContent()));
 

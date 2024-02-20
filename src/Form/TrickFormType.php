@@ -11,19 +11,28 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Repository\UserRepository;
 use App\Service\MediaService;
 use App\Model\TrickModel;
 use App\Entity\Trick;
+use App\Entity\Designation;
+use App\Entity\TrickDesignations;
+use App\StaticClass;
 
 class TrickFormType extends AbstractType
 {
@@ -81,94 +90,115 @@ class TrickFormType extends AbstractType
                 ]
             )
 
-            ->add('media', FileType::class, [
-                'label' => 'Image',
-                'attr' => [
-                    'class' => 'form-control mb-3'
-                ],
+            ->add(
+                'media',
+                FileType::class,
+                [
+                    'label' => 'Image',
+                    'attr' => [
+                        'class' => 'form-control mb-3'
+                    ],
 
-                //iterable
-                'multiple' => true,
+                    //iterable
+                    'multiple' => true,
 
-                // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
+                    // unmapped means that this field is not associated to any entity property
+                    'mapped' => false,
 
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
-                'required' => false,
+                    // make it optional so you don't have to re-upload the PDF file
+                    // every time you edit the Product details
+                    'required' => false,
 
-                // unmapped fields can't define their validation using attributes
-                // in the associated entity, so you can use the PHP constraint classes
-                'constraints' => [
-                    new All(
-                        new Image(
-                            [
-                                'maxWidth' => 4096,
-                                'maxWidthMessage' => 'Largeur max : {{ max_width }}',
-                                'maxHeight' => 4096,
-                                'maxHeightMessage' => 'Hauteur max : {{ max_height }}',
-                            ]
+                    // unmapped fields can't define their validation using attributes
+                    // in the associated entity, so you can use the PHP constraint classes
+                    'constraints' => [
+                        new All(
+                            new Image(
+                                [
+                                    'maxWidth' => 4096,
+                                    'maxWidthMessage' => 'Largeur max : {{ max_width }}',
+                                    'maxHeight' => 4096,
+                                    'maxHeightMessage' => 'Hauteur max : {{ max_height }}',
+                                ]
+                            )
                         )
-                    )
+                    ]
                 ]
-            ])
+            )
+            /* */
+            ->add(
+                'trickDesignations',
+                EntityType::class,
+                [
+                    'attr' => [
+                        'class' => 'form-select mb-3',
+                        'size' => "2"
+                    ],
+                    'class' => Designation::class,
+                    'mapped' => false,
+                    'choice_label' => 'name',
+                    'multiple' => true,
+                    'label' => 'Selectionnez une ou plusieurs désignations'
+                ]
+            )
+            /* //ok
+            ->add('trickDesignations', ChoiceType::class, [
+                'choices' => [
+                    'Maybe' => null,
+                    'Yes' => true,
+                    'No' => false,
+                ],
+            ])*/
+            /* 
+            ->add('trickDesignations', CheckboxType::class, [
+                'choices' => [
+                    'Maybe' => null,
+                    'Yes' => true,
+                    'No' => false,
+                ],
+            ])*/
+
+            ->add('Enregistrer', SubmitType::class)
+            /* 
+            ->add(
+                'designations',
+                ChoiceType::class,
+                [
+                    'attr' => [
+                        'class' => 'form-select mb-3',
+                        'size' => "4"
+                    ],
+                    'class' => Designation::class,
+                    'mapped' => false,
+                    'choice_label' => 'designations',
+                    'label' => 'Selectionnez une ou plusieurs désignations',
+                    //'choice_attr' => ChoiceList::attr($this, function (?Designation $designation): array {
+                    //    return $designation ? ['data-name' => $designation->getName()] : [];
+                    //}),
+                ]
+            )*/
+
             ->getForm();
-        /*
-        ->add(
-            'images', FileType::class, [
-                'attr' => [
-                    'class' => 'form-control mb-3'
-                ],
-                'label' => 'Télécharger une ou plusieurs image(s)',
-                'multiple' => true,
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new All(
-                        new Image(
-                            [
-                                'maxWidth' => 1600,
-                                'maxWidthMessage' => 'l\'image doit faire {{ max_width }} pixels de large au maximum',
-                                'maxHeight' => 1600,
-                                'maxHeightMessage' => 'l\'image doit faire {{ max_height }} pixels de long au maximum',
-                            ]
-                        )
-                    )
-                ]
-            ]
-        )*/
 
         /*      
-                    ->add(
-                        'trickGroup', EntityType::class, [
-                            'attr' => [
-                                'class' => 'form-select mb-3',
-                                'size' => "2"
-                            ],
-                            'class' => 'form-control mb-3',
-                            'choice_label' => 'name',
-                            'multiple' => true,
-                            'label' => 'Selectionnez un ou plusieurs groupe(s)'
-                        ]
-                    )
-                    ->add(
-                        'videos', UrlType::class, [
-                            'attr' => [
-                                'class' => 'form-control mb-3'
-                            ],
-                            'label' => 'Coller l\'url de la vidéo que vous souhaitez ajouter',
-                            'mapped' => false,
-                            'required' => false,
-                            'constraints' => [
-                                new Regex(
-                                    [
-                                        'pattern' => '/https?:\/\/www\.youtube\.com/',
-                                        'message' => 'Seules les liens Youtube sont acceptés'
-                                    ]
-                                )
+            ->add(
+                'videos', UrlType::class, [
+                    'attr' => [
+                        'class' => 'form-control mb-3'
+                    ],
+                    'label' => 'Coller l\'url de la vidéo que vous souhaitez ajouter',
+                    'mapped' => false,
+                    'required' => false,
+                    'constraints' => [
+                        new Regex(
+                            [
+                                'pattern' => '/https?:\/\/www\.youtube\.com/',
+                                'message' => 'Seules les liens Youtube sont acceptés'
                             ]
-                        ]
-                    );
+                        )
+                    ]
+                ]
+            );
         */
     }
 

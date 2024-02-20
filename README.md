@@ -97,5 +97,10 @@
 - add medias in articles : images, youtube
 
 ### 9 - designations #31
+- current set is not performant (Designation and TrickDesignations)
+- add new set of tables tags, cats and trackTags
+- update fixtures for medias and tags
+
+### 10 - tags 
 - todo: use multiple tags
 - todo: tricks by tags

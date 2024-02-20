@@ -6,14 +6,18 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\User;
-use App\Entity\Trick;
-use App\Entity\Comment;
-use App\Entity\Designation;
-use App\Entity\TrickDesignations;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Service\FixturesService;
+use App\Entity\TrickDesignations;
+use App\Entity\Designation;
+use App\Entity\Comment;
+use App\Entity\Media;
+use App\Entity\Trick;
+use App\Entity\User;
+use App\Entity\Cat;
+use App\Entity\Tag;
+use App\Entity\TrickTags;
 //use Bar\UserInterface;
 use Faker;
 
@@ -30,6 +34,7 @@ class AppFixtures extends Fixture
     ) {
     }
 
+    /* 
     public function trick_designations(ObjectManager $manager): void
     {
         $nb_designations = count($this->fixturesService->designations()) - 1;
@@ -54,6 +59,40 @@ class AppFixtures extends Fixture
                 ->setName($name);
             $this->objects['designation'][] = $designation;
             $manager->persist($designation);
+        }
+        $manager->flush();
+    }*/
+
+    public function tags(ObjectManager $manager): void
+    {
+        foreach ($this->fixturesService->tags() as $key => $categories) {
+            foreach ($categories as $category => $tags) {
+                $cat = new Cat();
+                $cat->setName($category);
+                $manager->persist($cat);
+                foreach ($tags as $tagname) {
+                    $tag = new Tag();
+                    $tag->setName($tagname);
+                    $tag->setCat($cat);
+                    $this->objects['tag'][] = $tag;
+                    $manager->persist($tag);
+                }
+            }
+        }
+        $manager->flush();
+    }
+
+    public function trick_tags(ObjectManager $manager): void
+    {
+        $nb_tags = count($this->objects['tag']) - 1;
+        for ($i = 0; $i < $this->numberOfTricks; $i++) {
+            for ($j = 0; $j < 4; $j++) {
+                $trickTags = new TrickTags();
+                $trickTags
+                    ->setTrick($this->objects['trick'][$i])
+                    ->setTag($this->objects['tag'][mt_rand(0, $nb_tags)]);
+                $manager->persist($trickTags);
+            }
         }
         $manager->flush();
     }
@@ -86,7 +125,8 @@ class AppFixtures extends Fixture
                 ->setTitle($title)
                 ->setSlug($slug->__toString())
                 ->setContent($this->fixturesService->faker->paragraphs(mt_rand(4, 7), true))
-                ->setImage('http://placehold.it/350x150')
+                //->setImage('http://placehold.it/350x150')
+                ->setImage($this->objects['images'][$i])
                 ->setCreatedAt($this->fixturesService->generateDateInPast())
                 ->setUpdatedAt($this->fixturesService->generateRandomDateFrom())
                 ->setStatus(1);
@@ -96,17 +136,40 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    public function images(): void
+    {
+        $dir = getcwd() . '/public/uploads/';
+        $images = scandir($dir);
+        unset($images[0]);
+        unset($images[1]);
+        sort($images);
+        $this->objects['images'] = $images;
+    }
+
+    public function medias(ObjectManager $manager): void
+    {
+        for ($i = 0; $i < $this->numberOfTricks; $i++) {
+            $media = new Media();
+            $media
+                ->setTrick($this->objects['trick'][$i])
+                ->setFilename($this->objects['images'][$i]);
+            $this->objects['media'][] = $media;
+            $manager->persist($media);
+        }
+        $manager->flush();
+    }
+
     public function users(ObjectManager $manager): void
     {
         for ($i = 0; $i < $this->numberOfTricks; $i++) {
             $user = new User();
-            $password = $this->hasher->hashPassword($user, 'd');
+            $password = $this->hasher->hashPassword($user, $this->fixturesService->generalPassword());
             $user
-                ->setUser($this->fixturesService->faker->username)
-                ->setEmail($this->fixturesService->faker->email)
+                ->setUser($i == 0 ? $this->fixturesService->adminName() : $this->fixturesService->faker->username)
+                ->setEmail($i == 0 ? $this->fixturesService->adminMAil() : $this->fixturesService->faker->email)
                 ->setPassword($password)
                 //->setPassword('$2y$10$P129uyqS/Hd4rF5J0kDcuuCvuoLOyQhurMHi1FvXGm/C2HeUAWnNC')
-                ->setRoles([]);
+                ->setRoles([$i == 0 ? 'ROLE_ADMIN' : 'ROLE_EDIT']);
             $this->objects['user'][] = $user;
             $manager->persist($user);
         }
@@ -115,14 +178,15 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-
         $faker = Faker\Factory::create('fr_FR');
-        /* 
-         */
+        $this->images();
         $this->users($manager);
         $this->tricks($manager);
+        $this->medias($manager);
         $this->comments($manager);
-        $this->designations($manager);
-        $this->trick_designations($manager);
+        //$this->designations($manager);
+        //$this->trick_designations($manager);
+        $this->tags($manager);
+        $this->trick_tags($manager);
     }
 }
