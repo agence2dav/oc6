@@ -11,6 +11,7 @@ use Symfony\UX\Turbo\Attribute\Broadcast;
 use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: DesignationRepository::class)]
+//#[ORM\Table(name:"designations")]
 #[Broadcast]
 class Designation
 {

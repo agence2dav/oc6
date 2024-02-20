@@ -31,6 +31,7 @@ class Trick
         $this->comments = new ArrayCollection();
         $this->trickDesignations = new ArrayCollection();
         $this->media = new ArrayCollection();
+        $this->trickTags = new ArrayCollection();
     }
 
     //https://symfony.com/doc/current/reference/constraints/Collection.html
@@ -80,6 +81,9 @@ class Trick
 
     #[ORM\OneToMany(targetEntity: Media::class, mappedBy: 'trick')]
     private Collection $media;
+
+    #[ORM\OneToMany(targetEntity: TrickTags::class, mappedBy: 'trick')]
+    private Collection $trickTags;
 
     //get-set
 
@@ -231,6 +235,7 @@ class Trick
     /**
      * @return Collection<int, Media>
      */
+
     public function getMedia(): Collection
     {
         return $this->media;
@@ -251,6 +256,34 @@ class Trick
             // set the owning side to null (unless already changed)
             if ($medium->getTrick() === $this) {
                 $medium->setTrick(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TrickTags>
+     */
+    public function getTrickTags(): Collection
+    {
+        return $this->trickTags;
+    }
+
+    public function addTrickTags(TrickTags $trickTags): static
+    {
+        if (!$this->trickTags->contains($trickTags)) {
+            $this->trickTags->add($trickTags);
+            $trickTags->setTrick($this);
+        }
+        return $this;
+    }
+
+    public function removeTrickTags(TrickTags $trickTags): static
+    {
+        if ($this->trickTags->removeElement($trickTags)) {
+            // set the owning side to null (unless already changed)
+            if ($trickTags->getTrick() === $this) {
+                $trickTags->setTrick(null);
             }
         }
         return $this;
