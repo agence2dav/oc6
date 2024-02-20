@@ -1374,3 +1374,10 @@ f946f9,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1
 bf435f,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1708444155,,404,request
 91ace5,127.0.0.1,GET,http://localhost:8000/tag/7,1708444156,47ba82,500,request
 47ba82,127.0.0.1,GET,http://localhost:8000/tag/7,1708444156,,500,request
+a9a1c5,127.0.0.1,GET,http://localhost:8000/tag/7,1708444848,23b41b,500,request
+23b41b,127.0.0.1,GET,http://localhost:8000/tag/7,1708444848,,500,request
+112e1a,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1708444851,b63146,404,request
+b63146,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1708444851,,404,request
+dc818e,127.0.0.1,GET,http://localhost:8000/trick/Itaque-maxime-hic,1708444855,,200,request
+904119,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1708444856,2e4d1f,404,request
+2e4d1f,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1708444856,,404,request
