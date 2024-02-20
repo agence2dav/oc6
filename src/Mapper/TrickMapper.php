@@ -7,6 +7,8 @@ namespace App\Mapper;
 use DateTimeInterface;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
+use App\Mapper\TrickDesignationsMapper;
+use App\Mapper\DesignationMapper;
 use App\Mapper\CommentMapper;
 use App\Mapper\MediaMapper;
 use App\Model\TrickModel;
@@ -18,6 +20,10 @@ class TrickMapper
 
     public function __construct(
         private CommentMapper $commentMapper,
+        private TrickDesignationsMapper $trickDesignationsMapper,
+        private DesignationMapper $designationMapper,
+        private TrickTagsMapper $trickTagsMapper,
+        //private TagMapper $tagMapper,
         private MediaMapper $mediaMapper
     ) {
 
@@ -38,6 +44,8 @@ class TrickMapper
         $trickModel->setContent($trickEntity->getContent());
         $trickModel->setComments($this->commentMapper->EntitiesToModels($trickEntity->getComments()));
         $trickModel->setMedia($this->mediaMapper->EntitiesToModels($trickEntity->getMedia()));
+        $trickModel->setTrickDesignations($this->trickDesignationsMapper->EntitiesToModels($trickEntity->getTrickDesignations()));
+        $trickModel->setTrickTags($this->trickTagsMapper->EntitiesToModels($trickEntity->getTrickTags()));
         return $trickModel;
     }
 
