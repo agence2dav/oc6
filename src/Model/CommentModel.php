@@ -7,7 +7,6 @@ namespace App\Model;
 use DateTime;
 use DateTimeInterface;
 use App\Entity\User;
-use App\Model\UserModel;
 use App\Entity\Trick;
 
 class CommentModel

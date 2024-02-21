@@ -7,7 +7,6 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Model\CommentModel;
 use App\Entity\Comment;
 use App\Entity\User;
 
@@ -39,6 +38,7 @@ class CommentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
     //admin
 
     public function findAll(): array
@@ -66,12 +66,6 @@ class CommentRepository extends ServiceEntityRepository
     //edit
 
     public function saveComment(Comment $comment): void
-    {
-        $this->getEntityManager()->persist($comment);
-        $this->getEntityManager()->flush();
-    }
-
-    public function saveCommentModel(CommentModel $comment): void
     {
         $this->getEntityManager()->persist($comment);
         $this->getEntityManager()->flush();

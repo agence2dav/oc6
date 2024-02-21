@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Mapper;
 
-use DateTimeInterface;
-use DateTimeImmutable;
-use Doctrine\Common\Collections\Collection;
 use App\Mapper\CommentMapper;
 use App\Model\UserModel;
 use App\Entity\User;
@@ -25,7 +22,6 @@ class UserMapper
     {
         $userModel = new UserModel();
         $userModel->setId($userEntity->getId());
-        //$userModel->setUser($userEntity->getUser());
         $userModel->setUsername($userEntity->getUsername());
         $userModel->setEmail($userEntity->getEmail());
         $userModel->setPassword($userEntity->getPassword());

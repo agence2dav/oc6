@@ -16,22 +16,18 @@ use App\Entity\Trick;
 
 class TrickMapper
 {
-    private static $instance;
-
     public function __construct(
         private CommentMapper $commentMapper,
         private TrickTagsMapper $trickTagsMapper,
         private MediaMapper $mediaMapper,
         private TagMapper $tagMapper,
     ) {
-
     }
 
     public function EntityToModel(Trick $trickEntity): TrickModel
     {
         $trickModel = new TrickModel();
         $trickModel->setId($trickEntity->getId());
-        //$trickModel->setUser($trickEntity->getUser());
         $trickModel->setUsername($trickEntity->getUser()->getUsername());
         $trickModel->setCreatedAt($trickEntity->getCreatedAt());
         $trickModel->setUpdatedAt($trickEntity->getUpdatedAt());

@@ -8,8 +8,6 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTime;
 use App\Entity\User;
-use App\Entity\Comment;
-use Doctrine\Common\Collections\Collection;
 
 class TrickModel
 {

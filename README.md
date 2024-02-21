@@ -105,4 +105,5 @@
 - delete all things about designations
 - use multiple tags in tricks
 - find tricks by tags
-- todo: edit tags
+- edit tags
+- todo: add tags

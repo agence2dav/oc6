@@ -12,11 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use App\Repository\TrickTagsRepository;
 use App\Repository\TrickRepository;
 use App\Repository\MediaRepository;
 use App\Service\MediaService;
 use App\Mapper\TrickMapper;
 use App\Model\TrickModel;
+use App\Entity\TrickTags;
 use App\Entity\Trick;
 use App\Entity\Media;
 use App\Entity\User;
@@ -28,6 +30,7 @@ class TrickService
         //private readonly EntityManagerInterface $entityManager,
         private readonly EntityManagerInterface $manager,
         private readonly SluggerInterface $slugger,
+        private readonly TrickTagsRepository $trickTagsRepository,
         private readonly TrickRepository $trickRepository,
         //private readonly TrickModel $trickModel,
         private readonly TrickMapper $trickMapper,
@@ -60,42 +63,29 @@ class TrickService
         return $this->trickMapper->EntityToModel($trickModel);
     }
 
-    /*
-    public function getByTitleOne(string $title): Trick|array
-    {
-        return $this->trickRepository->findOneByTitle($title);
-    }
-
-    public function getByTitle(string $title): Trick|array
-    {
-        return $this->trickRepository->findByTitle($title);
-    }*/
-
     public function saveTrick(
         Trick $trick,
         User $user,
         string $title,
         string $content,
-        //string $image,
     ): void {
 
-        //$trickModel = $this->trickM>EntityToModel($trick);
-        $trickModel = $trick;
-        if (!$trickModel->getId()) {
-            $trickModel->setUser($user);
-            $trickModel->setCreatedAt(new \DateTime());
-            $trickModel->setStatus(1);
+        //$trickModel = $this->trickModel->EntityToModel($trick);
+        if (!$trick->getId()) {
+            $trick->setUser($user);
+            $trick->setCreatedAt(new \DateTime());
+            $trick->setStatus(1);
         }
-        //$trickModel->setTitle($title);
-        //$trickModel->setContent($content);
-        //$trickModel->setImage($image);
-        $slug = $this->slugger->slug($trickModel->getTitle());
-        $trickModel->setSlug($slug->toString());
-        $trickModel->setUpdatedAt(new \DateTime());
-        //$trickModel->setImage($this->mediaService->importImage($trickModel->getImage()));
-        //$trickModel->setImage('no');
-        //$this->trickRepository->saveTrickModel($trickModel);
+        //$trick->setTitle($title);
+        //$trick->setContent($content);
+        //$trick->setImage($image);
+        $slug = $this->slugger->slug($trick->getTitle());
+        $trick->setSlug($slug->toString());
+        $trick->setUpdatedAt(new \DateTime());
+        //$trick->setImage($this->mediaService->importImage($trick->getImage()));
+        //$trick->setImage('no');
         $this->trickRepository->saveTrick($trick);
+        //$this->trickRepository->saveTrickModel($trick);
 
     }
 
@@ -126,12 +116,25 @@ class TrickService
         $medias = $trick->getMedia();
         foreach ($medias as $media) {
             if ($media->getId() == $mediaId) {
-                $image = $media->getFilename();
+                $trick->setImage($media->getFilename());
+                $this->trickRepository->saveTrick($trick);
             }
         }
-        //$image = $media[$nim]->getFilename();
-        $trick->setImage($image);
-        $this->trickRepository->saveTrick($trick);
+    }
+
+    public function deleteTag(Trick $trick, int $tagId): void
+    {
+        $trickTags = $trick->getTrickTags();
+        //dd($trickTags);
+        foreach ($trickTags as $trickTag) {
+            if ($trickTag->getTag()->getId() == $tagId) {
+                //$trickTag = $this->trickTagsRepository->findByTagId($tagId)[0];//findBy(['id' => $tagId])[0];
+                $trickTag = $this->trickTagsRepository->findOneById($trickTag->getId());
+                //$trick->removeTrickTags($trickTag);
+                //$this->trickRepository->saveTrick($trick);//?
+                $this->trickTagsRepository->delete($trickTag);
+            }
+        }
     }
 
     //admin
@@ -151,12 +154,9 @@ class TrickService
     public function updateStatus(int $id): void
     {
         $trick = $this->trickRepository->findOneById($id);
-        //$trickModel = $this->trickMapper->EntityToModel($trick);
         $status = $trick->getStatus();
         $status = $status == 1 ? 0 : 1;
-        //$trickModel->setStatus($status);
         $trick->setStatus($status);
-        //$this->trickRepository->saveTrickModel($trickModel);
         $this->trickRepository->saveTrick($trick);
     }
 

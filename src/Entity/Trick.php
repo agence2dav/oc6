@@ -80,6 +80,12 @@ class Trick
     #[ORM\OneToMany(targetEntity: TrickTags::class, mappedBy: 'trick')]
     private Collection $trickTags;
 
+    private Collection $cats;
+    private Collection $tags;
+
+    private ?Cat $cat = null;
+    private ?Tag $tag = null;
+
     //get-set
 
     public function getId(): ?int
@@ -202,10 +208,6 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection<int, Media>
-     */
-
     public function getMedia(): Collection
     {
         return $this->media;
@@ -231,9 +233,6 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection<int, TrickTags>
-     */
     public function getTrickTags(): Collection
     {
         return $this->trickTags;
@@ -257,6 +256,26 @@ class Trick
             }
         }
         return $this;
+    }
+
+    public function getCats(): Collection
+    {
+        return $this->cats;
+    }
+
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function getCat(): ?Cat
+    {
+        return $this->cat;
+    }
+
+    public function getTag(): ?Tag
+    {
+        return $this->tag;
     }
 
 }

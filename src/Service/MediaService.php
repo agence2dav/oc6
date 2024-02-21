@@ -62,12 +62,14 @@ class MediaService extends AbstractController
     public function image(string $url): string
     {
         if (!str_starts_with($url, 'http')) {
+            //$url = getcwd() . DIRECTORY_SEPARATOR . $url;
             $url = 'http://oc6.test/public/uploads/' . $url;
         }
-        if (!file_exists($url)) {
+        /* 
+        if (!is_link($url)) {
             $url = 'http://oc6.test/assets/img/broken_image.webp';
             return '<img src="' . $url . '" alt="file not exists" width="40px" />';
-        }
+        }*/
         return '<img src="' . $url . '" alt="' . strrchr($url, '/') . '" />';
     }
 

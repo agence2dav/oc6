@@ -10,8 +10,6 @@ use App\Entity\Tag;
 
 class TagMapper
 {
-
-    //public function EntityToModel(Tag $tagEntity): TagModel
     public function EntityToModel(object $tagEntity): TagModel
     {
         $tagModel = new TagModel();

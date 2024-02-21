@@ -56,8 +56,7 @@ class CommentService
         $commentModel->setUser($user);
         $commentModel->setDate(new \DateTime());
         $commentModel->setContent($form->get("content")->getData());
-        $commentModel->setStatus(0); //perform later
-        //$this->commentRepository->saveCommentModel($commentModel);
+        $commentModel->setStatus(0); //by default
         $this->commentRepository->saveComment($commentModel);
     }
 
@@ -87,12 +86,9 @@ class CommentService
     public function updateStatus(int $id): void
     {
         $comment = $this->commentRepository->findOneById($id);
-        //$commentModel = $this->commentMapper->EntityToModel($trick);
         $status = $comment->getStatus();
         $status = $status == 1 ? 0 : 1;
-        //$commentModel->setStatus($status);
         $comment->setStatus($status);
-        //$this->commentRepository->saveCommentModel($commentModel);
         $this->commentRepository->saveComment($comment);
     }
 

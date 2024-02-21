@@ -31,4 +31,17 @@ class TrickTagsRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function saveTrickTags(TrickTags $trickTag): void
+    {
+        $this->getEntityManager()->persist($trickTag);
+        $this->getEntityManager()->flush();
+    }
+
+    public function delete(TrickTags $trickTag): void
+    {
+        $this->getEntityManager()->remove($trickTag);
+        $this->getEntityManager()->flush();
+    }
+
 }

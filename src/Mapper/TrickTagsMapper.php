@@ -16,7 +16,7 @@ class TrickTagsMapper
         $trickTagsModel = new TrickTagsModel();
         $trickTagsModel->setId($trickTags->getId());
         $trickTagsModel->setTag($trickTags->getTag());
-        //$trickTagsModel->setCat($trickTags->getCat());
+        $trickTagsModel->setCat($trickTags->getCat());
         $trickTagsModel->setTrick($trickTags->getTrick());
         return $trickTagsModel;
     }

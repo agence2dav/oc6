@@ -20,7 +20,7 @@ class Tag
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tags')]
+    #[ORM\ManyToOne(inversedBy: 'tag')]
     private ?Cat $cat = null;
 
     #[ORM\OneToMany(targetEntity: TrickTags::class, mappedBy: 'tag')]
@@ -58,9 +58,6 @@ class Tag
         return $this;
     }
 
-    /**
-     * @return Collection<int, TrickTags>
-     */
     public function getTrickTags(): Collection
     {
         return $this->trickTags;
@@ -85,4 +82,5 @@ class Tag
         }
         return $this;
     }
+
 }

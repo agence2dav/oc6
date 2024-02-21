@@ -37,12 +37,14 @@
         <input type="text" class="form-control mb-3" id="email" name="_email" value="{{ last_email }}">
      
     #}
-        <label for="username">Nom d'utilisateur</label>
-        <input type="text" class="form-control mb-3" id="username" name="_username" value="{{ last_username }}">
-
-        <label for="password">Mot de passe</label>
-        <input type="password" class="form-control mb-3" id="password" name="_password">
-
+        <div class="form-floating mb-3">
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" class="form-control mb-3" id="username" name="_username" value="{{ last_username }}">
+        </div>
+        <div class="form-floating mb-3">
+            <label for="password">Mot de passe</label>
+            <input type="password" class="form-control mb-3" id="password" name="_password">
+        </div>
         {# If you want to control the URL the user is redirected to on success
         <input type="hidden" name="_target_path" value="/account"> #}
         

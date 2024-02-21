@@ -6,12 +6,9 @@ namespace App\Mapper;
 
 use Doctrine\Common\Collections\Collection;
 use App\Model\MediaModel;
-use App\Entity\Media;
 
 class MediaMapper
 {
-
-    //public function EntityToModel(Media $mediaEntity): MediaModel
     public function EntityToModel(object $mediaEntity): MediaModel
     {
         $mediaModel = new MediaModel();

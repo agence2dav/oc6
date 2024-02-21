@@ -21,6 +21,8 @@ class TrickTags
     #[ORM\ManyToOne(inversedBy: 'trickTags')]
     private ?Tag $tag = null;
 
+    private ?Cat $cat = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +48,18 @@ class TrickTags
     public function setTag(?Tag $tag): static
     {
         $this->tag = $tag;
+
+        return $this;
+    }
+
+    public function getCat(): ?Cat
+    {
+        return $this->cat;
+    }
+
+    public function setCat(?Cat $cat): static
+    {
+        $this->cat = $cat;
 
         return $this;
     }

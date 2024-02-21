@@ -11,10 +11,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -27,9 +29,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Repository\UserRepository;
+use App\Repository\CatRepository;
 use App\Service\MediaService;
 use App\Model\TrickModel;
 use App\Entity\Trick;
+use App\Entity\Cat;
 use App\Entity\Tag;
 
 class TrickFormType extends AbstractType
@@ -48,8 +52,6 @@ class TrickFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Trick::class,
-            //'data_class' => TrickModel::class,
-            //'data_class' => null,
         ]);
     }
 
@@ -63,7 +65,16 @@ class TrickFormType extends AbstractType
                     'attr' => [
                         'class' => 'form-control mb-3'
                     ],
-                    'label' => 'Titre'
+                    'label' => 'Titre',
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Entrez un titre',
+                        ]),
+                        new Length([
+                            'min' => 4,
+                            'minMessage' => 'mini {{ limit }} caractères',
+                        ]),
+                    ]
                 ]
             )
             ->add(
@@ -74,7 +85,16 @@ class TrickFormType extends AbstractType
                         'class' => 'form-control mb-3',
                         'rows' => '12'
                     ],
-                    'label' => 'Description'
+                    'label' => 'Description',
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Le contenu ne peut être vide',
+                        ]),
+                        new Length([
+                            'min' => 100,
+                            'minMessage' => 'mini {{ limit }} caractères',
+                        ]),
+                    ],
                 ]
             )
             ->add(
@@ -82,9 +102,8 @@ class TrickFormType extends AbstractType
                 HiddenType::class,
                 [
                     'attr' => [
-                        'class' => 'form-control mb-3'
+                        'value' => 'http://placehold.it/350x150'
                     ],
-                    'label' => 'Image'
                 ]
             )
 
@@ -123,22 +142,39 @@ class TrickFormType extends AbstractType
                     ]
                 ]
             )
-            /* */
-            ->add(
-                'trickTag',
-                EntityType::class,
-                [
+            /* 
                     'attr' => [
                         'class' => 'form-select mb-3',
                         'size' => "2"
                     ],
-                    'class' => Tag::class,
                     'mapped' => false,
-                    'choice_label' => 'name',
                     'multiple' => true,
-                    'label' => 'Selectionnez une ou plusieurs désignations'
+            */
+            /* 
+            ->add(
+                'cat',
+                EntityType::class,
+                [
+                    'class' => Cat::class,
+                    //'choice_label' => 'name',
+                    //'choice_label' => function ($cat) {
+                    //    return $cat->getId() . '-' . $cat->getName();
+                    //},
+                    'choice_label' => fn($cat) => $cat->getId() . '-' . $cat->getName(),//Cat
+                    //'query_builder' => fn(CatRepository $catRepo) => $catRepo->createQueryBuilder('c')->orderBy('c.name', 'ASC'),
+                    'label' => 'Selectionnez une catégorie de tags',
                 ]
             )
+            ->add(
+                'tag',
+                EntityType::class,
+                [
+                    'class' => Tag::class,
+                    'choice_label' => 'name',
+                    'label' => 'Selectionnez un tag',
+                ]
+            )
+             */
             /* //ok
             ->add('trickTag', ChoiceType::class, [
                 'choices' => [
@@ -198,6 +234,10 @@ class TrickFormType extends AbstractType
                 ]
             );
         */
+        /* 
+        $builder
+            ->setData(['name' => 'image', 'message' => 'http://placehold.it/350x150'])
+        ;*/
     }
 
 }
