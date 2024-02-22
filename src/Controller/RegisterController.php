@@ -43,7 +43,7 @@ class RegisterController extends AbstractController
                 'app_register_verif',
                 $user,
                 (new TemplatedEmail())
-                    ->from(new Address('agence2dav@gmail.com', 'dav'))
+                    ->from(new Address('admin@mailhog.local', 'dav'))
                     ->to($user->getEmail())
                     ->subject('SnowTricks : confirmez votre Email')
                     ->htmlTemplate('security/confirmation_email.html.twig')

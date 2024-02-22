@@ -8,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Doctrine\Common\Collections\Collection;
 use App\Model\TrickTagsModel;
 use App\Mapper\TrickTagsMapper;
 use App\Service\TrickService;
@@ -34,10 +37,20 @@ class TrickTagsController extends AbstractController
     #[Route('/tag/{id}', name: 'show_tag')]
     public function show(Tag $tag = null, int $id): Response
     {
-        $tricks = $this->trickTagsService->getTricksByTag($id);
-        dd($tricks);
+        $trickTagsModel = $this->trickTagsService->getTricksByTag($id);
+        //dd($trickTagsModel);
+        $tricks = new ArrayCollection;
+        if ($trickTagsModel) {
+            foreach ($trickTagsModel as $trickTagsModel) {
+                $trickId = $trickTagsModel->getTrick()->getId();
+                $tricks->add($this->trickService->getById($trickId));
+            }
+        }
+        //dd($tricks);
+        $currentTag = $trickTagsModel->getTag()->getName();
 
-        return $this->render('home/home.html.twig', [
+        return $this->render('home/tricks.html.twig', [
+            'pageTitle' => 'Tricks avec le tag ' . $currentTag,
             'tricks' => $tricks,
         ]);
     }

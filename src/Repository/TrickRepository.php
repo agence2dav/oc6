@@ -44,7 +44,7 @@ class TrickRepository extends ServiceEntityRepository
         ;
     }
 
-    //$service = $repository->findBy(array('name' => 'Registration'),array('name' => 'ASC'),1 ,0)[0];
+    //$service = $repository->findBy(['name' => 'Registration'], ['name' => 'ASC'], 1, 0)[0];
 
     public function findOneBySlug(string $slug): Trick|null
     {
@@ -100,6 +100,7 @@ class TrickRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    /* 
     public function saveTrickModel(TrickModel $trickModel): void //test
     {
         $this->getEntityManager()->persist($trickModel);
@@ -117,5 +118,6 @@ class TrickRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($trick);
         $this->getEntityManager()->flush();
     }
+    */
 
 }

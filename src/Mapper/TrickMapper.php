@@ -7,33 +7,27 @@ namespace App\Mapper;
 use DateTimeInterface;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\Collection;
-use App\Mapper\TrickDesignationsMapper;
-use App\Mapper\DesignationMapper;
 use App\Mapper\CommentMapper;
 use App\Mapper\MediaMapper;
+use App\Mapper\TrickTagsMapper;
+use App\Mapper\TagMapper;
 use App\Model\TrickModel;
 use App\Entity\Trick;
 
 class TrickMapper
 {
-    private static $instance;
-
     public function __construct(
         private CommentMapper $commentMapper,
-        private TrickDesignationsMapper $trickDesignationsMapper,
-        private DesignationMapper $designationMapper,
         private TrickTagsMapper $trickTagsMapper,
-        //private TagMapper $tagMapper,
-        private MediaMapper $mediaMapper
+        private MediaMapper $mediaMapper,
+        private TagMapper $tagMapper,
     ) {
-
     }
 
     public function EntityToModel(Trick $trickEntity): TrickModel
     {
         $trickModel = new TrickModel();
         $trickModel->setId($trickEntity->getId());
-        //$trickModel->setUser($trickEntity->getUser());
         $trickModel->setUsername($trickEntity->getUser()->getUsername());
         $trickModel->setCreatedAt($trickEntity->getCreatedAt());
         $trickModel->setUpdatedAt($trickEntity->getUpdatedAt());
@@ -44,7 +38,6 @@ class TrickMapper
         $trickModel->setContent($trickEntity->getContent());
         $trickModel->setComments($this->commentMapper->EntitiesToModels($trickEntity->getComments()));
         $trickModel->setMedia($this->mediaMapper->EntitiesToModels($trickEntity->getMedia()));
-        $trickModel->setTrickDesignations($this->trickDesignationsMapper->EntitiesToModels($trickEntity->getTrickDesignations()));
         $trickModel->setTrickTags($this->trickTagsMapper->EntitiesToModels($trickEntity->getTrickTags()));
         return $trickModel;
     }

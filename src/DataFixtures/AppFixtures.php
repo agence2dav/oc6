@@ -9,8 +9,6 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Service\FixturesService;
-use App\Entity\TrickDesignations;
-use App\Entity\Designation;
 use App\Entity\Comment;
 use App\Entity\Media;
 use App\Entity\Trick;
@@ -33,35 +31,6 @@ class AppFixtures extends Fixture
         private readonly SluggerInterface $slugger,
     ) {
     }
-
-    /* 
-    public function trick_designations(ObjectManager $manager): void
-    {
-        $nb_designations = count($this->fixturesService->designations()) - 1;
-        for ($i = 0; $i < $this->numberOfTricks; $i++) {
-            for ($j = 0; $j < 4; $j++) {
-                $trick_designations = new TrickDesignations();
-                $trick_designations
-                    ->setTrick($this->objects['trick'][$i])
-                    ->setDesignation($this->objects['designation'][mt_rand(0, $nb_designations)]);
-                $manager->persist($trick_designations);
-            }
-        }
-        $manager->flush();
-    }
-
-    public function designations(ObjectManager $manager): void
-    {
-        foreach ($this->fixturesService->designations() as [$type, $name]) {
-            $designation = new Designation();
-            $designation
-                ->setType($type)
-                ->setName($name);
-            $this->objects['designation'][] = $designation;
-            $manager->persist($designation);
-        }
-        $manager->flush();
-    }*/
 
     public function tags(ObjectManager $manager): void
     {
@@ -184,8 +153,6 @@ class AppFixtures extends Fixture
         $this->tricks($manager);
         $this->medias($manager);
         $this->comments($manager);
-        //$this->designations($manager);
-        //$this->trick_designations($manager);
         $this->tags($manager);
         $this->trick_tags($manager);
     }

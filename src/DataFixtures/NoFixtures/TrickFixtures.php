@@ -4,15 +4,14 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\User;
-use App\Entity\Trick;
-use App\Entity\Comment;
-use App\Entity\Designation;
-use App\Entity\TrickDesignations;
-use App\Service\FixturesService;
-//use App\Fixtures\TrickDesignations;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Service\FixturesService;
+use App\Entity\Comment;
+use App\Entity\Trick;
+use App\Entity\TrickTags;
+use App\Entity\Tag;
+use App\Entity\User;
 
 class TrickFixtures extends Fixture implements DependentFixtureInterface
 {

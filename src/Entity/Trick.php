@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Entity\TrickDesignations;
 use App\Entity\Comment;
 use App\Entity\User;
 use DateTimeInterface;
@@ -29,7 +28,6 @@ class Trick
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->trickDesignations = new ArrayCollection();
         $this->media = new ArrayCollection();
         $this->trickTags = new ArrayCollection();
     }
@@ -76,14 +74,17 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: TrickDesignations::class)]
-    private Collection $trickDesignations;
-
     #[ORM\OneToMany(targetEntity: Media::class, mappedBy: 'trick')]
     private Collection $media;
 
     #[ORM\OneToMany(targetEntity: TrickTags::class, mappedBy: 'trick')]
     private Collection $trickTags;
+
+    private Collection $cats;
+    private Collection $tags;
+
+    private ?Cat $cat = null;
+    private ?Tag $tag = null;
 
     //get-set
 
@@ -207,35 +208,6 @@ class Trick
         return $this;
     }
 
-    public function getTrickDesignations(): Collection
-    {
-        return $this->trickDesignations;
-    }
-
-    public function addTrickDesignation(TrickDesignations $trickDesignation): static
-    {
-        if (!$this->trickDesignations->contains($trickDesignation)) {
-            $this->trickDesignations->add($trickDesignation);
-            $trickDesignation->setTrick($this);
-        }
-        return $this;
-    }
-
-    public function removeTrickDesignation(TrickDesignations $trickDesignation): static
-    {
-        if ($this->trickDesignations->removeElement($trickDesignation)) {
-            // set the owning side to null (unless already changed)
-            if ($trickDesignation->getTrick() === $this) {
-                $trickDesignation->setTrick(null);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Media>
-     */
-
     public function getMedia(): Collection
     {
         return $this->media;
@@ -261,9 +233,6 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection<int, TrickTags>
-     */
     public function getTrickTags(): Collection
     {
         return $this->trickTags;
@@ -287,6 +256,26 @@ class Trick
             }
         }
         return $this;
+    }
+
+    public function getCats(): Collection
+    {
+        return $this->cats;
+    }
+
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function getCat(): ?Cat
+    {
+        return $this->cat;
+    }
+
+    public function getTag(): ?Tag
+    {
+        return $this->tag;
     }
 
 }

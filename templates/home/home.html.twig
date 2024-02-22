@@ -29,9 +29,9 @@
             </div>
             <div class="card-footer text-muted">
                 {# 
-                {% for designation in tricks.designations %}
-                    <a class="card-link" href="{{ path("show_designation", {slug: designation.id}) }}">{{designation.name}}</a> 
-                {% endfor %}
+                    {% for trickTag in trick.trickTags %}
+                        <a class="card-link" href="{{ path("show_tag", {id: trickTag.tag.id}) }} ">{{ trickTag.tag.cat.name }} : {{ trickTag.tag.name }}</a> 
+                    {% endfor %}
                 #}
             </div>
         </div>

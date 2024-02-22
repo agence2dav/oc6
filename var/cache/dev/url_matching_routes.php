@@ -56,18 +56,20 @@ return [
                 .'|/reset\\-password/reset(?:/([^/]++))?(*:307)'
                 .'|/t(?'
                     .'|rick/([^/]++)(?'
-                        .'|/edit(?'
-                            .'|(*:344)'
-                            .'|/([^/]++)(*:361)'
+                        .'|/(?'
+                            .'|edit(?'
+                                .'|(*:347)'
+                                .'|/([^/]++)(*:364)'
+                            .')'
+                            .'|deltag/([^/]++)(*:388)'
                         .')'
-                        .'|(*:370)'
+                        .'|(*:397)'
                     .')'
                     .'|ag/([^/]++)(?'
-                        .'|(*:393)'
-                        .'|/edit(*:406)'
+                        .'|(*:420)'
+                        .'|/edit(*:433)'
                     .')'
                 .')'
-                .'|/designation/([^/]++)/edit(*:442)'
             .')/?$}sDu',
     ],
     [ // $dynamicRoutes
@@ -82,13 +84,13 @@ return [
         232 => [[['_route' => 'admin_tricksId', 'id' => null, '_controller' => 'App\\Controller\\AdminController::showTricks'], ['id'], null, null, false, true, null]],
         262 => [[['_route' => 'admin_commentsId', 'id' => null, '_controller' => 'App\\Controller\\AdminController::showComments'], ['id'], null, null, false, true, null]],
         307 => [[['_route' => 'app_reset_password', 'token' => null, '_controller' => 'App\\Controller\\ResetPasswordController::reset'], ['token'], null, null, false, true, null]],
-        344 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
-        361 => [[['_route' => 'edit_trick_img', '_controller' => 'App\\Controller\\TrickController::setFirstImage'], ['id', 'mediaId'], null, null, false, true, null]],
-        370 => [[['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null]],
-        393 => [[['_route' => 'show_tag', '_controller' => 'App\\Controller\\TrickTagsController::show'], ['id'], null, null, false, true, null]],
-        406 => [[['_route' => 'edit_tag', '_controller' => 'App\\Controller\\TrickTagsController::form'], ['id'], null, null, false, false, null]],
-        442 => [
-            [['_route' => 'show_designation', '_controller' => 'App\\Controller\\TrickDesignationsController::form'], ['id'], null, null, false, false, null],
+        347 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
+        364 => [[['_route' => 'edit_trick_img', '_controller' => 'App\\Controller\\TrickController::setFirstImage'], ['id', 'mediaId'], null, null, false, true, null]],
+        388 => [[['_route' => 'del_tag', '_controller' => 'App\\Controller\\TrickController::delTag'], ['id', 'tagId'], null, null, false, true, null]],
+        397 => [[['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null]],
+        420 => [[['_route' => 'show_tag', '_controller' => 'App\\Controller\\TrickTagsController::show'], ['id'], null, null, false, true, null]],
+        433 => [
+            [['_route' => 'edit_tag', '_controller' => 'App\\Controller\\TrickTagsController::form'], ['id'], null, null, false, false, null],
             [null, null, null, null, false, false, 0],
         ],
     ],

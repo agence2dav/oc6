@@ -101,6 +101,9 @@
 - add new set of tables tags, cats and trackTags
 - update fixtures for medias and tags
 
-### 10 - tags 
-- todo: use multiple tags
-- todo: tricks by tags
+### 10 - tags #33
+- delete all things about designations
+- use multiple tags in tricks
+- find tricks by tags
+- edit tags
+- todo: add tags

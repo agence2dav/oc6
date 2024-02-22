@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\TrickTagsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TrickTagsRepository;
 use App\Entity\Cat;
 use App\Entity\Tag;
 
@@ -20,6 +20,8 @@ class TrickTags
 
     #[ORM\ManyToOne(inversedBy: 'trickTags')]
     private ?Tag $tag = null;
+
+    private ?Cat $cat = null;
 
     public function getId(): ?int
     {
@@ -46,6 +48,18 @@ class TrickTags
     public function setTag(?Tag $tag): static
     {
         $this->tag = $tag;
+
+        return $this;
+    }
+
+    public function getCat(): ?Cat
+    {
+        return $this->cat;
+    }
+
+    public function setCat(?Cat $cat): static
+    {
+        $this->cat = $cat;
 
         return $this;
     }

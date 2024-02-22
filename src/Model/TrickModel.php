@@ -8,9 +8,6 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use DateTime;
 use App\Entity\User;
-use App\Entity\TrickTrickDesignations;
-use App\Entity\Comment;
-use Doctrine\Common\Collections\Collection;
 
 class TrickModel
 {
@@ -25,8 +22,6 @@ class TrickModel
     private DateTime $updatedAt;
     private User $user;
     private array $comments;
-    private array $trickDesignations;
-    private array $designations;
     private array $trickTags;
     private array $media;
 
@@ -148,29 +143,6 @@ class TrickModel
     public function setComments(array $comments): static
     {
         $this->comments = $comments;
-        return $this;
-    }
-
-    /* 
-    public function getDesignations(): array
-    {
-        return $this->designations;
-    }
-
-    public function setDesignations(array $designations): static
-    {
-        $this->designations = $designations;
-        return $this;
-    }*/
-
-    public function getTrickDesignations(): array
-    {
-        return $this->trickDesignations;
-    }
-
-    public function setTrickDesignations(array $trickDesignations): static
-    {
-        $this->trickDesignations = $trickDesignations;
         return $this;
     }
 

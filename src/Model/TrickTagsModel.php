@@ -14,8 +14,8 @@ class TrickTagsModel
     private ?int $id = null;
     private ?Tag $tag = null;
     private ?Cat $cat = null;
-    private ?TrickTags $trickTags = null;
     private ?Trick $trick = null;
+    private ?TrickTags $trickTags = null;
 
     public function getId(): ?int
     {
@@ -39,14 +39,14 @@ class TrickTagsModel
         return $this;
     }
 
-    public function getTrickTags(): ?TrickTags
+    public function getCat(): ?Trick
     {
-        return $this->trickTags;
+        return $this->cat;
     }
 
-    public function setTrickTags(?TrickTags $trickTags): static
+    public function setCat(?Cat $cat): static
     {
-        $this->trickTags = $trickTags;
+        $this->cat = $cat;
         return $this;
     }
 
@@ -61,14 +61,14 @@ class TrickTagsModel
         return $this;
     }
 
-    public function getCat(): ?Trick
+    public function getTrickTags(): ?TrickTags
     {
-        return $this->cat;
+        return $this->trickTags;
     }
 
-    public function setCat(?Cat $cat): static
+    public function setTrickTags(?TrickTags $trickTags): static
     {
-        $this->cat = $cat;
+        $this->trickTags = $trickTags;
         return $this;
     }
 

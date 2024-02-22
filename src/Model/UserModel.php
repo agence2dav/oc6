@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Model;
 
 use App\Entity\User;
-use App\Entity\Trick;
-use Doctrine\Common\Collections\Collection;
 
 class UserModel
 {

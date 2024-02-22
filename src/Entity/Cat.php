@@ -20,7 +20,7 @@ class Cat
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(targetEntity: Tag::class, mappedBy: 'tag')]
+    #[ORM\OneToMany(targetEntity: Tag::class, mappedBy: 'cat')]
     private Collection $tags;
 
     public function __construct()
@@ -44,9 +44,6 @@ class Cat
         return $this;
     }
 
-    /**
-     * @return Collection<int, Tag>
-     */
     public function getTags(): Collection
     {
         return $this->tags;

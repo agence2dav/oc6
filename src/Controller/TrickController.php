@@ -4,48 +4,53 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-//use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Service\TrickService;
+use App\Service\TrickTagsService;
 use App\Service\CommentService;
 use App\Service\MediaService;
 use App\Service\FileUploader;
-use App\Model\TrickModel;
+use App\Service\CatService;
 use App\Model\CommentModel;
 use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
 use App\Repository\MediaRepository;
+use App\Repository\CatRepository;
 use App\Mapper\TrickMapper;
 use App\Mapper\CommentMapper;
 use App\Form\TrickFormType;
+use App\Form\TrickTagsFormType;
 use App\Form\CommentFormType;
+use App\Entity\TrickTags;
 use App\Entity\Trick;
-use App\Entity\Media;
+use App\Entity\Cat;
+use App\Entity\Tag;
 
 class TrickController extends AbstractController
 {
 
     public function __construct(
-        private TrickService $trickService,
-        private MediaService $mediaService,
         private TrickMapper $trickMapper,
+        private TrickService $trickService,
         private TrickRepository $trickRepository,
         private TrickFormType $trickFormType,
+        private MediaService $mediaService,
+        private MediaRepository $mediaRepository,
+        private TrickTagsService $trickTagsService,
+        private TrickTagsFormType $trickTagsFormType,
+        private CatService $catService,
+        private CatRepository $catRepository,
+        private CommentMapper $commentMapper,
         private CommentService $commentService,
         private CommentFormType $commentFormType,
-        private CommentMapper $commentMapper,
         private CommentRepository $commentRepository,
-        private MediaRepository $mediaRepository,
         private SluggerInterface $slugger,
         //private AsciiSlugger $asciiSlugger,
         //private UploadedFile $uploadedFile,
@@ -64,20 +69,20 @@ class TrickController extends AbstractController
             $createNew = 1;
         }
 
-        $options = [];
-        $form = $this->createForm(TrickFormType::class, $trick, $options);
-        $form->handleRequest($request);
+        $formTrick = $this->createForm(TrickFormType::class, $trick);
+        //$formTrick->get('image')->setData('http://placehold.it/600x200');
+        $formTrick->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $this->trickService->saveTrick(
                 $trick,
                 $this->getUser(),
-                $form->get('title')->getData(),
-                $form->get('content')->getData(),
-                //$form->get('image')->getData(),
+                $formTrick->get('title')->getData(),
+                $formTrick->get('content')->getData(),
+                //$formTrick->get('image')->getData(),
             );
 
-            $mediaFiles = $form->get('media')->getData();//UploadedFile
+            $mediaFiles = $formTrick->get('media')->getData();//UploadedFile
             if ($mediaFiles) {
                 foreach ($mediaFiles as $mediaFile) {
                     $mediaFileName = $fileUploader->upload($mediaFile);
@@ -97,11 +102,32 @@ class TrickController extends AbstractController
             }
         }
 
+        $formTags = $this->createForm(TrickTagsFormType::class);
+        $catsModel = $this->catService->getAll();
+        $formTags->handleRequest($request);
+        if ($formTags->isSubmitted() && $formTags->isValid()) {
+            $this->trickTagsService->saveTrickTag(
+                $trick,
+                $formTags->get('tagId')->getData(),
+            );
+            return $this->redirectToRoute('edit_trick', ['id' => $trick->getId()]);
+        }
+
         return $this->render('home/editTrick.html.twig', [
-            'formTrick' => $form->createView(),
+            'formTrick' => $formTrick->createView(),
+            'formTags' => $formTags->createView(),
             'edit_mode' => $trick->getId() ? true : false,
             'trick' => $trick,
+            'cats' => $catsModel,
         ]);
+    }
+
+    //delete tag
+    #[Route('/trick/{id}/deltag/{tagId}', name: 'del_tag')]
+    public function delTag(Trick $trick = null, int $tagId): Response
+    {
+        $this->trickService->deleteTag($trick, $tagId);
+        return $this->redirectToRoute('edit_trick', ['id' => $trick->getId()]);
     }
 
     //update image
@@ -124,14 +150,14 @@ class TrickController extends AbstractController
         $options = [
             //'require_content' => 'Ce champ est obligatoire',
         ];
-        $form = $this->createForm(CommentFormType::class, $commentModel, $options);
-        $form->handleRequest($request);
+        $formComment = $this->createForm(CommentFormType::class, $commentModel, $options);
+        $formComment->handleRequest($request);
 
         //save comment
         //$userConnected=$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');//is loged
         $userConnected = $this->getUser();
-        if ($form->isSubmitted() && $form->isValid() && $userConnected) {
-            $this->commentService->saveComment($form, $trick, $this->getUser());
+        if ($formComment->isSubmitted() && $formComment->isValid() && $userConnected) {
+            $this->commentService->saveComment($formComment, $trick, $this->getUser());
             $this->addFlash(
                 'thanks_comment',
                 'Merci pour votre commentaire. Il sera publié après validation.'
@@ -139,7 +165,7 @@ class TrickController extends AbstractController
             //return $this->redirect($this->generateUrl('show_trick', ['slug' => $trick->getSlug()]));
         }
 
-        dump($trickModel);
+        //dd($trickModel);
         $root_img = $this->getParameter('trick_medias');
         $trickModel->setContent($this->trickService->formatContent($trickModel->getContent()));
 
@@ -152,7 +178,7 @@ class TrickController extends AbstractController
             $template,
             [
                 'trick' => $trickModel,
-                'formComment' => $form->createView(),
+                'formComment' => $formComment->createView(),
                 'root_img' => $root_img,
             ]
         );
@@ -162,8 +188,9 @@ class TrickController extends AbstractController
     public function index(): Response
     {
         $tricks = $this->trickService->getAllPublic();
+        //dd($tricks);
         return $this->render('home/tricks.html.twig', [
-            'controller_name' => 'HomeController',
+            'pageTitle' => 'All of Tricks',
             'tricks' => $tricks,
         ]);
     }

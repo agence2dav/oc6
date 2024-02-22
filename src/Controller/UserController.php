@@ -5,26 +5,16 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-//use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
-use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
-//use App\Controller\RegisterController;
 use App\Form\UserFormType;
-use App\Form\RegisterFormType;
-use App\Form\ResetPasswordFormType;
-use App\Form\ForgottenPasswordFormType;
-use App\Repository\UserRepository;
 use App\Service\UserService;
 use App\Service\MailService;
-use App\Entity\User;
 
 class UserController extends AbstractController
 {
@@ -82,7 +72,7 @@ class UserController extends AbstractController
             if ($userKnown !== null) {
                 $token = $this->userService->setToken($userKnown);
                 $this->mailService->send(
-                    'agence2dav@gmail.com',
+                    'admin@mailhog.local',
                     $userKnown->getEmail(),
                     'Réinitialisation du mot de passe',
                     'resetpswdmail', //emails dir

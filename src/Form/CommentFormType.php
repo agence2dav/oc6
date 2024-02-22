@@ -10,11 +10,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use App\Model\CommentModel;
 
 class CommentFormType extends AbstractType
 {
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
