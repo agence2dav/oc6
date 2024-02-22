@@ -119,6 +119,6 @@
 - presentation of medias in article
 - ehance homepage
 
-### 11 pagination
+### 11 pagination #37
 
 - todo: make bypages
