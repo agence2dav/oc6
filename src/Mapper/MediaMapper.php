@@ -14,6 +14,7 @@ class MediaMapper
         $mediaModel = new MediaModel();
         $mediaModel->setId($mediaEntity->getId());
         $mediaModel->setFilename($mediaEntity->getFilename());
+        $mediaModel->setMediaType($mediaEntity->getType());
         $mediaModel->setTrick($mediaEntity->getTrick());
         return $mediaModel;
     }

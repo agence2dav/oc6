@@ -61,13 +61,16 @@ return [
                                 .'|(*:347)'
                                 .'|/([^/]++)(*:364)'
                             .')'
-                            .'|deltag/([^/]++)(*:388)'
+                            .'|del(?'
+                                .'|tag/([^/]++)(*:391)'
+                                .'|media/([^/]++)(*:413)'
+                            .')'
                         .')'
-                        .'|(*:397)'
+                        .'|(*:423)'
                     .')'
                     .'|ag/([^/]++)(?'
-                        .'|(*:420)'
-                        .'|/edit(*:433)'
+                        .'|(*:446)'
+                        .'|/edit(*:459)'
                     .')'
                 .')'
             .')/?$}sDu',
@@ -86,10 +89,11 @@ return [
         307 => [[['_route' => 'app_reset_password', 'token' => null, '_controller' => 'App\\Controller\\ResetPasswordController::reset'], ['token'], null, null, false, true, null]],
         347 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
         364 => [[['_route' => 'edit_trick_img', '_controller' => 'App\\Controller\\TrickController::setFirstImage'], ['id', 'mediaId'], null, null, false, true, null]],
-        388 => [[['_route' => 'del_tag', '_controller' => 'App\\Controller\\TrickController::delTag'], ['id', 'tagId'], null, null, false, true, null]],
-        397 => [[['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null]],
-        420 => [[['_route' => 'show_tag', '_controller' => 'App\\Controller\\TrickTagsController::show'], ['id'], null, null, false, true, null]],
-        433 => [
+        391 => [[['_route' => 'del_tag', '_controller' => 'App\\Controller\\TrickController::delTag'], ['id', 'tagId'], null, null, false, true, null]],
+        413 => [[['_route' => 'del_media', '_controller' => 'App\\Controller\\TrickController::delMedia'], ['id', 'mediaId'], null, null, false, true, null]],
+        423 => [[['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null]],
+        446 => [[['_route' => 'show_tag', '_controller' => 'App\\Controller\\TrickTagsController::show'], ['id'], null, null, false, true, null]],
+        459 => [
             [['_route' => 'edit_tag', '_controller' => 'App\\Controller\\TrickTagsController::form'], ['id'], null, null, false, false, null],
             [null, null, null, null, false, false, 0],
         ],

@@ -71,9 +71,8 @@ class TrickTagsFormType extends AbstractType
                     ],
                     'mapped' => false,
                     'multiple' => true,
+            )
             */
-            /* 
-            )*/
             /* 
             ->add(
                 'cat',
@@ -117,7 +116,7 @@ class TrickTagsFormType extends AbstractType
                 [
                     'class' => Tag::class,
                     //'choice_label' => 'name',
-                    'choice_label' => fn($tag) => $tag->getCat()->getName() . ' : ' . $tag->getName(),//Cat
+                    'choice_label' => fn($tag) => $tag->getCat()->getName() . ' : ' . $tag->getName(),//call model
                     //'query_builder' => fn(TagRepository $tagRepo) => $tagRepo->createQueryBuilder('c')->orderBy('c.name', 'ASC'),
                     'label' => 'Selectionnez un tag',
                     'placeholder' => 'Choisissez un tag',//not works
@@ -131,52 +130,8 @@ class TrickTagsFormType extends AbstractType
             )*/
 
             /* */
-            ->add(
-                'tagId',
-            )
-
-            /* 
-                ChoiceType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-select mb-3'
-                    ],
-                    //'class' => Tag::class,
-                    //'mapped' => false,
-                    //'choice_label' => 'Tags',
-                    'label' => 'Selectionnez un tag',
-                    //'choice_attr' => ChoiceList::attr($this, function (?Tag $tag): array {
-                    //    return $tag ? ['data-name' => $tag->getName()] : [];
-                    //}),
-                ]*/
-
+            ->add('tagId')
             ->add('Enregistrer', SubmitType::class)
-
-            /* 
-            ->add(
-                'Tag',
-                ChoiceType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-select mb-3',
-                        'size' => "4"
-                    ],
-                    'choices' => [
-                        new Cat('Cat1'),
-                        new Cat('Cat2'),
-                        new Cat('Cat3'),
-                        new Cat('Cat4'),
-                    ],
-                    'class' => Tag::class,
-                    'mapped' => false,
-                    'choice_label' => 'Tags',
-                    'label' => 'Selectionnez un tag',
-                    //'choice_attr' => ChoiceList::attr($this, function (?Tag $tag): array {
-                    //    return $tag ? ['data-name' => $tag->getName()] : [];
-                    //}),
-                ]
-            )*/
-
             ->getForm();
     }
 

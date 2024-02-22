@@ -17,8 +17,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
-use App\Repository\TrickRepository;
+use App\Repository\MediaTypeRepository;
 use App\Repository\MediaRepository;
+use App\Repository\TrickRepository;
 use App\Service\FileUploader;
 use App\Mapper\TrickMapper;
 use App\Model\TrickModel;
@@ -27,19 +28,18 @@ use App\Entity\CommentService;
 use App\Entity\CommentRepository;
 use App\Entity\Trick;
 use App\Entity\Media;
+use App\Entity\MediaType;
 
 class MediaService extends AbstractController
 {
 
     public function __construct(
-        //private readonly EntityManagerInterface $entityManager,
         private readonly EntityManagerInterface $manager,
         private readonly SluggerInterface $slugger,
         private readonly TrickRepository $trickRepository,
-        //private readonly TrickModel $trickModel,
         private readonly TrickMapper $trickMapper,
         private readonly MediaRepository $mediaRepository,
-        //private readonly UploadedFile $uploadedFile,
+        private readonly MediaTypeRepository $mediaTypeRepository,
     ) {
 
     }
@@ -47,11 +47,19 @@ class MediaService extends AbstractController
     public function saveMedia(
         Trick $trick,
         string $mediaFileName,
+        string $mediaType = 'image'
     ): void {
         $media = new Media();
         $media->setFilename($mediaFileName);
+        $mediaTypeEntity = $this->getMediaType($mediaType);
+        $media->setType($mediaTypeEntity);
         $media->setTrick($trick);
         $this->mediaRepository->saveMedia($media);
+    }
+
+    public function getMediaType(string $mediaType): MediaType|null
+    {
+        return $this->mediaTypeRepository->findOneByType($mediaType);
     }
 
     public function catalog($imageUrl)

@@ -20,4 +20,11 @@ class MediaRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($media);
         $this->getEntityManager()->flush();
     }
+
+    public function delete(Media $trickTag): void
+    {
+        $this->getEntityManager()->remove($trickTag);
+        $this->getEntityManager()->flush();
+    }
+
 }

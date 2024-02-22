@@ -102,11 +102,30 @@ class TrickFormType extends AbstractType
                 HiddenType::class,
                 [
                     'attr' => [
-                        'value' => 'http://placehold.it/350x150'
+                        'value' => ''
                     ],
                 ]
             )
-
+            ->add(
+                'video',
+                UrlType::class,
+                [
+                    'attr' => [
+                        'class' => 'form-control mb-3'
+                    ],
+                    'label' => 'Url Youtube seulement',
+                    'mapped' => false,
+                    'required' => false,
+                    'constraints' => [
+                        new Regex(
+                            [
+                                'pattern' => '/https?:\/\/www\.youtube\.com/',
+                                'message' => 'Seuls les liens "youtube.com" sont actuellement pris en charge'
+                            ]
+                        )
+                    ]
+                ]
+            )
             ->add(
                 'media',
                 FileType::class,
@@ -142,98 +161,9 @@ class TrickFormType extends AbstractType
                     ]
                 ]
             )
-            /* 
-                    'attr' => [
-                        'class' => 'form-select mb-3',
-                        'size' => "2"
-                    ],
-                    'mapped' => false,
-                    'multiple' => true,
-            */
-            /* 
-            ->add(
-                'cat',
-                EntityType::class,
-                [
-                    'class' => Cat::class,
-                    //'choice_label' => 'name',
-                    //'choice_label' => function ($cat) {
-                    //    return $cat->getId() . '-' . $cat->getName();
-                    //},
-                    'choice_label' => fn($cat) => $cat->getId() . '-' . $cat->getName(),//Cat
-                    //'query_builder' => fn(CatRepository $catRepo) => $catRepo->createQueryBuilder('c')->orderBy('c.name', 'ASC'),
-                    'label' => 'Selectionnez une catégorie de tags',
-                ]
-            )
-            ->add(
-                'tag',
-                EntityType::class,
-                [
-                    'class' => Tag::class,
-                    'choice_label' => 'name',
-                    'label' => 'Selectionnez un tag',
-                ]
-            )
-             */
-            /* //ok
-            ->add('trickTag', ChoiceType::class, [
-                'choices' => [
-                    'Maybe' => null,
-                    'Yes' => true,
-                    'No' => false,
-                ],
-            ])*/
-            /* 
-            ->add('trickTag', CheckboxType::class, [
-                'choices' => [
-                    'Maybe' => null,
-                    'Yes' => true,
-                    'No' => false,
-                ],
-            ])*/
 
             ->add('Enregistrer', SubmitType::class)
-            /* 
-            ->add(
-                'Tag',
-                ChoiceType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-select mb-3',
-                        'size' => "4"
-                    ],
-                    'class' => Tag::class,
-                    'mapped' => false,
-                    'choice_label' => 'Tags',
-                    'label' => 'Selectionnez une ou plusieurs désignations',
-                    //'choice_attr' => ChoiceList::attr($this, function (?Tag $tag): array {
-                    //    return $tag ? ['data-name' => $tag->getName()] : [];
-                    //}),
-                ]
-            )*/
-
             ->getForm();
-
-        /*      
-            ->add(
-                'videos', UrlType::class, [
-                    'attr' => [
-                        'class' => 'form-control mb-3'
-                    ],
-                    'label' => 'Coller l\'url de la vidéo que vous souhaitez ajouter',
-                    'mapped' => false,
-                    'required' => false,
-                    'constraints' => [
-                        new Regex(
-                            [
-                                'pattern' => '/https?:\/\/www\.youtube\.com/',
-                                'message' => 'Seules les liens Youtube sont acceptés'
-                            ]
-                        )
-                    ]
-                ]
-            );
-        */
         //$builder->get('image')->setData('http://placehold.it/600x200');
     }
 

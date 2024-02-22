@@ -40,6 +40,7 @@
     {{ form_row(formTrick.title, {"attr":{"placeholder":"Titre"}}) }}
     {{ form_row(formTrick.content, {"attr":{"placeholder":"Contenu"}}) }}
     {{ form_row(formTrick.image, {"attr":{"placeholder":"Image (Url)"}}) }}
+    {{ form_row(formTrick.video) }}
     {{ form_row(formTrick.media) }}
     {# Can't get a way to read the property "cat" in class "App\Entity\Trick".
     {{ form_row(formTrick.cat) }}
@@ -99,17 +100,28 @@
                 <th>Intitulé (à mettre dans l'article)</td>
                 <th>Image principale</td>
                 <th>Voir</td>
+                <th>Supprimer</td>
             </tr>
             {% for media in trick.media %}
             <tr class="table-dark">
-                <td><img src="http://oc6.test/public/uploads/{{ media.filename }}" width="240px" /></td>
+                <td>
+                {% if media.type.type == "image" %}
+                <img src="http://oc6.test/public/uploads/{{ media.filename }}" width="240px" />
+                {% elseif media.type.type == "video" %}
+                <img src="http://oc6.test/assets/img/broken_image.webp" width="240px" />
+                {% endif %}
+                {% elseif media.type.type == "youtube" %}
+                <img src="https://img.youtube.com/vi/{{ media.filename | slice(-11) }}/hqdefault.jpg" width="240px" />
+                {% endif %}
+                </td>
                 <td><input type="text" value="{{ media.filename }}" size="44" /></td>
+                <td><a href="http://oc6.test/public/uploads/{{ media.filename }}" target="_blank" class="btn btn-primary"><i class="bi bi-see"></i>Voir</a></td>
                 {% if media.filename == trick.image %}
                 <td><a href="" class="btn btn-primary">Image principale</a></td>
                 {% else %}
                 <td><a href="{{ path("edit_trick_img", {id: trick.id, mediaId: media.id }) }}" class="btn btn-warning">En faire l'image principale</a></td>
                 {% endif %}
-                <td><a href="http://oc6.test/public/uploads/{{ media.filename }}" target="_blank" class="btn btn-primary"><i class="bi bi-see"></i>Voir</a></td>
+                <td><a href="{{ path("del_media", {id: trick.id, mediaId: media.id}) }}" class="btn btn-danger"><i class="bi bi-trash"></i>Supprimer</a></td>
             </tr>
             {% endfor %}
         </table>

@@ -11,6 +11,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Service\FixturesService;
 use App\Entity\Comment;
 use App\Entity\Media;
+use App\Entity\MediaType;
 use App\Entity\Trick;
 use App\Entity\User;
 use App\Entity\Cat;
@@ -94,7 +95,6 @@ class AppFixtures extends Fixture
                 ->setTitle($title)
                 ->setSlug($slug->__toString())
                 ->setContent($this->fixturesService->faker->paragraphs(mt_rand(4, 7), true))
-                //->setImage('http://placehold.it/350x150')
                 ->setImage($this->objects['images'][$i])
                 ->setCreatedAt($this->fixturesService->generateDateInPast())
                 ->setUpdatedAt($this->fixturesService->generateRandomDateFrom())
@@ -115,13 +115,58 @@ class AppFixtures extends Fixture
         $this->objects['images'] = $images;
     }
 
+    public function avatars(): void
+    {
+        $dir = getcwd() . '/assets/avatars/';
+        $images = scandir($dir);
+        unset($images[0]);
+        unset($images[1]);
+        sort($images);
+        $this->objects['avatars'] = $images;
+    }
+
+    public function videos(): void
+    {
+        $this->objects['videos'] = [
+            'https://www.youtube.com/watch?v=R2Cp1RumorU',
+            'https://www.youtube.com/watch?v=P-HnC7Ej9mw',
+            'https://www.youtube.com/watch?v=PxhfDec8Ays',
+            'https://www.youtube.com/watch?v=3GHU3DN1v4Q',
+            'https://www.youtube.com/watch?v=7VBalG0IhhI',
+            'https://www.youtube.com/watch?v=rxGOi2FFGLA',
+            'https://www.youtube.com/watch?v=eTh9_-6gJIQ',
+            'https://www.youtube.com/watch?v=8sdaseV7SEk',
+            'https://www.youtube.com/watch?v=Iofrv4rxJcY',
+            'https://www.youtube.com/watch?v=aPhYdeitDtA'
+        ];
+    }
+
+    public function mediaTypes(ObjectManager $manager): void
+    {
+        foreach (['image', 'video', 'avatar', 'youtube'] as $type) {
+            $mediaType = new MediaType();
+            $mediaType->setType($type);
+            $manager->persist($mediaType);
+            $this->objects['mediaType'][] = $mediaType;
+        }
+        $manager->flush();
+    }
+
     public function medias(ObjectManager $manager): void
     {
         for ($i = 0; $i < $this->numberOfTricks; $i++) {
             $media = new Media();
             $media
                 ->setTrick($this->objects['trick'][$i])
-                ->setFilename($this->objects['images'][$i]);
+                ->setFilename($this->objects['images'][$i])
+                ->setType($this->objects['mediaType'][0]);
+            $this->objects['media'][] = $media;
+            $manager->persist($media);
+            $media = new Media();
+            $media
+                ->setTrick($this->objects['trick'][$i])
+                ->setFilename($this->objects['videos'][$i])
+                ->setType($this->objects['mediaType'][3]);
             $this->objects['media'][] = $media;
             $manager->persist($media);
         }
@@ -137,8 +182,8 @@ class AppFixtures extends Fixture
                 ->setUser($i == 0 ? $this->fixturesService->adminName() : $this->fixturesService->faker->username)
                 ->setEmail($i == 0 ? $this->fixturesService->adminMAil() : $this->fixturesService->faker->email)
                 ->setPassword($password)
-                //->setPassword('$2y$10$P129uyqS/Hd4rF5J0kDcuuCvuoLOyQhurMHi1FvXGm/C2HeUAWnNC')
-                ->setRoles([$i == 0 ? 'ROLE_ADMIN' : 'ROLE_EDIT']);
+                ->setRoles([$i == 0 ? 'ROLE_ADMIN' : 'ROLE_EDIT'])
+                ->setAvatar($this->objects['avatars'][mt_rand(0, 9)]);
             $this->objects['user'][] = $user;
             $manager->persist($user);
         }
@@ -149,8 +194,11 @@ class AppFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr_FR');
         $this->images();
+        $this->videos();
+        $this->avatars();
         $this->users($manager);
         $this->tricks($manager);
+        $this->mediaTypes($manager);
         $this->medias($manager);
         $this->comments($manager);
         $this->tags($manager);
