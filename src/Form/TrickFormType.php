@@ -143,14 +143,6 @@ class TrickFormType extends AbstractType
                 ]
             )
             /* 
-                    'attr' => [
-                        'class' => 'form-select mb-3',
-                        'size' => "2"
-                    ],
-                    'mapped' => false,
-                    'multiple' => true,
-            */
-            /* 
             ->add(
                 'cat',
                 EntityType::class,
@@ -165,75 +157,31 @@ class TrickFormType extends AbstractType
                     'label' => 'Selectionnez une catégorie de tags',
                 ]
             )
-            ->add(
-                'tag',
-                EntityType::class,
-                [
-                    'class' => Tag::class,
-                    'choice_label' => 'name',
-                    'label' => 'Selectionnez un tag',
-                ]
-            )
              */
-            /* //ok
-            ->add('trickTag', ChoiceType::class, [
-                'choices' => [
-                    'Maybe' => null,
-                    'Yes' => true,
-                    'No' => false,
-                ],
-            ])*/
-            /* 
-            ->add('trickTag', CheckboxType::class, [
-                'choices' => [
-                    'Maybe' => null,
-                    'Yes' => true,
-                    'No' => false,
-                ],
-            ])*/
+
+            /*      
+                ->add(
+                    'videos', UrlType::class, [
+                        'attr' => [
+                            'class' => 'form-control mb-3'
+                        ],
+                        'label' => 'Coller l\'url de la vidéo que vous souhaitez ajouter',
+                        'mapped' => false,
+                        'required' => false,
+                        'constraints' => [
+                            new Regex(
+                                [
+                                    'pattern' => '/https?:\/\/www\.youtube\.com/',
+                                    'message' => 'Seules les liens Youtube sont acceptés'
+                                ]
+                            )
+                        ]
+                    ]
+                );
+            */
 
             ->add('Enregistrer', SubmitType::class)
-            /* 
-            ->add(
-                'Tag',
-                ChoiceType::class,
-                [
-                    'attr' => [
-                        'class' => 'form-select mb-3',
-                        'size' => "4"
-                    ],
-                    'class' => Tag::class,
-                    'mapped' => false,
-                    'choice_label' => 'Tags',
-                    'label' => 'Selectionnez une ou plusieurs désignations',
-                    //'choice_attr' => ChoiceList::attr($this, function (?Tag $tag): array {
-                    //    return $tag ? ['data-name' => $tag->getName()] : [];
-                    //}),
-                ]
-            )*/
-
             ->getForm();
-
-        /*      
-            ->add(
-                'videos', UrlType::class, [
-                    'attr' => [
-                        'class' => 'form-control mb-3'
-                    ],
-                    'label' => 'Coller l\'url de la vidéo que vous souhaitez ajouter',
-                    'mapped' => false,
-                    'required' => false,
-                    'constraints' => [
-                        new Regex(
-                            [
-                                'pattern' => '/https?:\/\/www\.youtube\.com/',
-                                'message' => 'Seules les liens Youtube sont acceptés'
-                            ]
-                        )
-                    ]
-                ]
-            );
-        */
         //$builder->get('image')->setData('http://placehold.it/600x200');
     }
 

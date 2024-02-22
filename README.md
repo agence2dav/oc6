@@ -106,4 +106,7 @@
 - use multiple tags in tricks
 - find tricks by tags
 - edit tags
-- todo: add tags
+- add tags
+
+### 10 - video #35
+- todo add field video
