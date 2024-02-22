@@ -109,4 +109,16 @@
 - add tags
 
 ### 10 - video #35
-- todo add field video
+- add table MediaType linked to table Media
+- upgrade save media by type
+- upgrade fixtures
+- update uml of models
+- add delete media
+- preview thumb of youtube video
+- update mediaMapper
+- presentation of medias in article
+- ehance homepage
+
+### 11 pagination
+
+- todo: make bypages

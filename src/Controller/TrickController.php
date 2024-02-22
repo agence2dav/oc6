@@ -12,8 +12,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use App\Service\TrickService;
 use App\Service\TrickTagsService;
+use App\Service\TrickService;
 use App\Service\CommentService;
 use App\Service\MediaService;
 use App\Service\FileUploader;
@@ -70,7 +70,6 @@ class TrickController extends AbstractController
         }
 
         $formTrick = $this->createForm(TrickFormType::class, $trick);
-        //$formTrick->get('image')->setData('http://placehold.it/600x200');
         $formTrick->handleRequest($request);
 
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
@@ -79,7 +78,7 @@ class TrickController extends AbstractController
                 $this->getUser(),
                 $formTrick->get('title')->getData(),
                 $formTrick->get('content')->getData(),
-                //$formTrick->get('image')->getData(),
+                $formTrick->get('video')->getData(),
             );
 
             $mediaFiles = $formTrick->get('media')->getData();//UploadedFile
@@ -89,6 +88,7 @@ class TrickController extends AbstractController
                     $this->mediaService->saveMedia(
                         $trick,
                         $mediaFileName,
+                        'image'
                     );
                 }
             }
@@ -130,6 +130,14 @@ class TrickController extends AbstractController
         return $this->redirectToRoute('edit_trick', ['id' => $trick->getId()]);
     }
 
+    //delete media
+    #[Route('/trick/{id}/delmedia/{mediaId}', name: 'del_media')]
+    public function delMedia(Trick $trick = null, int $mediaId): Response
+    {
+        $this->trickService->deleteMedia($trick, $mediaId);
+        return $this->redirectToRoute('edit_trick', ['id' => $trick->getId()]);
+    }
+
     //update image
     #[Route('/trick/{id}/edit/{mediaId}', name: 'edit_trick_img')]
     public function setFirstImage(Trick $trick = null, int $mediaId): Response
@@ -145,12 +153,8 @@ class TrickController extends AbstractController
         //$userConnected = $this->getUser();
         $trickModel = $this->trickService->getBySlug($slug);
         $commentModel = new CommentModel();
-        $id = $trick->getId();
 
-        $options = [
-            //'require_content' => 'Ce champ est obligatoire',
-        ];
-        $formComment = $this->createForm(CommentFormType::class, $commentModel, $options);
+        $formComment = $this->createForm(CommentFormType::class, $commentModel);
         $formComment->handleRequest($request);
 
         //save comment
@@ -162,12 +166,11 @@ class TrickController extends AbstractController
                 'thanks_comment',
                 'Merci pour votre commentaire. Il sera publié après validation.'
             );
-            //return $this->redirect($this->generateUrl('show_trick', ['slug' => $trick->getSlug()]));
         }
 
-        //dd($trickModel);
         $root_img = $this->getParameter('trick_medias');
         $trickModel->setContent($this->trickService->formatContent($trickModel->getContent()));
+        //dd($trickModel);
 
         if ($trick->getStatus() == 1) {
             $template = 'home/trick.html.twig';
@@ -188,7 +191,6 @@ class TrickController extends AbstractController
     public function index(): Response
     {
         $tricks = $this->trickService->getAllPublic();
-        //dd($tricks);
         return $this->render('home/tricks.html.twig', [
             'pageTitle' => 'All of Tricks',
             'tricks' => $tricks,

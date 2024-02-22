@@ -32,10 +32,9 @@ class TrickService
         private readonly SluggerInterface $slugger,
         private readonly TrickTagsRepository $trickTagsRepository,
         private readonly TrickRepository $trickRepository,
-        //private readonly TrickModel $trickModel,
-        private readonly TrickMapper $trickMapper,
+        private readonly MediaRepository $mediaRepository,
         private readonly MediaService $mediaService,
-        //private readonly MediaRepository $mediaRepository,
+        private readonly TrickMapper $trickMapper,
     ) {
 
     }
@@ -68,9 +67,8 @@ class TrickService
         User $user,
         string $title,
         string $content,
+        string $video = null,
     ): void {
-
-        //$trickModel = $this->trickModel->EntityToModel($trick);
         if (!$trick->getId()) {
             $trick->setUser($user);
             $trick->setCreatedAt(new \DateTime());
@@ -78,15 +76,13 @@ class TrickService
         }
         //$trick->setTitle($title);
         //$trick->setContent($content);
-        //$trick->setImage($image);
         $slug = $this->slugger->slug($trick->getTitle());
         $trick->setSlug($slug->toString());
         $trick->setUpdatedAt(new \DateTime());
-        //$trick->setImage($this->mediaService->importImage($trick->getImage()));
-        //$trick->setImage('no');
         $this->trickRepository->saveTrick($trick);
-        //$this->trickRepository->saveTrickModel($trick);
-
+        if ($video) {
+            $this->mediaService->saveMedia($trick, $video, 'image');
+        }
     }
 
     public function formatContent($content): string
@@ -125,19 +121,25 @@ class TrickService
     public function deleteTag(Trick $trick, int $tagId): void
     {
         $trickTags = $trick->getTrickTags();
-        //dd($trickTags);
         foreach ($trickTags as $trickTag) {
             if ($trickTag->getTag()->getId() == $tagId) {
-                //$trickTag = $this->trickTagsRepository->findByTagId($tagId)[0];//findBy(['id' => $tagId])[0];
                 $trickTag = $this->trickTagsRepository->findOneById($trickTag->getId());
-                //$trick->removeTrickTags($trickTag);
-                //$this->trickRepository->saveTrick($trick);//?
                 $this->trickTagsRepository->delete($trickTag);
             }
         }
     }
 
-    //admin
+    public function deleteMedia(Trick $trick, int $tagId): void
+    {
+        $medias = $trick->getMedia();
+        //dd($trickTags);
+        foreach ($medias as $media) {
+            if ($media->getId() == $tagId) {
+                $media = $this->mediaRepository->findOneById($media->getId());
+                $this->mediaRepository->delete($media);
+            }
+        }
+    }
 
     public function getAllTricks(): array
     {

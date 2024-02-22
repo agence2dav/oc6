@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Model;
 
 use App\Entity\Trick;
+use App\Entity\MediaType;
 
 class MediaModel
 {
     private ?int $id = null;
     private ?string $filename = null;
+    private ?string $type = null;
     private ?Trick $trick = null;
+    private ?MediaType $mediaType = null;
 
     public function getId(): ?int
     {
@@ -34,6 +37,17 @@ class MediaModel
         return $this;
     }
 
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): static
+    {
+        $this->type = $type;
+        return $this;
+    }
+
     public function getTrick(): ?Trick
     {
         return $this->trick;
@@ -42,6 +56,17 @@ class MediaModel
     public function setTrick(?Trick $trick): static
     {
         $this->trick = $trick;
+        return $this;
+    }
+
+    public function getMediaType(): ?MediaType
+    {
+        return $this->mediaType;
+    }
+
+    public function setMediaType(?MediaType $mediaType): static
+    {
+        $this->mediaType = $mediaType;
         return $this;
     }
 

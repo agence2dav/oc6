@@ -102,11 +102,30 @@ class TrickFormType extends AbstractType
                 HiddenType::class,
                 [
                     'attr' => [
-                        'value' => 'http://placehold.it/350x150'
+                        'value' => ''
                     ],
                 ]
             )
-
+            ->add(
+                'video',
+                UrlType::class,
+                [
+                    'attr' => [
+                        'class' => 'form-control mb-3'
+                    ],
+                    'label' => 'Url Youtube seulement',
+                    'mapped' => false,
+                    'required' => false,
+                    'constraints' => [
+                        new Regex(
+                            [
+                                'pattern' => '/https?:\/\/www\.youtube\.com/',
+                                'message' => 'Seuls les liens "youtube.com" sont actuellement pris en charge'
+                            ]
+                        )
+                    ]
+                ]
+            )
             ->add(
                 'media',
                 FileType::class,
@@ -142,43 +161,6 @@ class TrickFormType extends AbstractType
                     ]
                 ]
             )
-            /* 
-            ->add(
-                'cat',
-                EntityType::class,
-                [
-                    'class' => Cat::class,
-                    //'choice_label' => 'name',
-                    //'choice_label' => function ($cat) {
-                    //    return $cat->getId() . '-' . $cat->getName();
-                    //},
-                    'choice_label' => fn($cat) => $cat->getId() . '-' . $cat->getName(),//Cat
-                    //'query_builder' => fn(CatRepository $catRepo) => $catRepo->createQueryBuilder('c')->orderBy('c.name', 'ASC'),
-                    'label' => 'Selectionnez une catégorie de tags',
-                ]
-            )
-             */
-
-            /*      
-                ->add(
-                    'videos', UrlType::class, [
-                        'attr' => [
-                            'class' => 'form-control mb-3'
-                        ],
-                        'label' => 'Coller l\'url de la vidéo que vous souhaitez ajouter',
-                        'mapped' => false,
-                        'required' => false,
-                        'constraints' => [
-                            new Regex(
-                                [
-                                    'pattern' => '/https?:\/\/www\.youtube\.com/',
-                                    'message' => 'Seules les liens Youtube sont acceptés'
-                                ]
-                            )
-                        ]
-                    ]
-                );
-            */
 
             ->add('Enregistrer', SubmitType::class)
             ->getForm();
