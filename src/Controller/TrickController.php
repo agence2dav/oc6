@@ -70,6 +70,7 @@ class TrickController extends AbstractController
         }
 
         $formTrick = $this->createForm(TrickFormType::class, $trick);
+        //$formTrick->get('image')->setData('http://placehold.it/600x200');
         $formTrick->handleRequest($request);
 
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
@@ -102,19 +103,11 @@ class TrickController extends AbstractController
         }
 
         $formTags = $this->createForm(TrickTagsFormType::class);
-        //$catTags = $this->trickTagsService->getAllCatTags();
-        //$cats = $this->catRepository->findAll();
-        //dd($catTags, $cats);
         $catsModel = $this->catService->getAll();
-        //dd($cats);
-        /* */
         $formTags->handleRequest($request);
         if ($formTags->isSubmitted() && $formTags->isValid()) {
             $this->trickTagsService->saveTrickTag(
                 $trick,
-                //$trick->getTrickTags(),
-                //$formTags->get('cat')->getData(),
-                //$formTags->get('tag')->getData(),
                 $formTags->get('tagId')->getData(),
             );
             return $this->redirectToRoute('edit_trick', ['id' => $trick->getId()]);

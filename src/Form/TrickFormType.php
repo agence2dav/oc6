@@ -234,10 +234,7 @@ class TrickFormType extends AbstractType
                 ]
             );
         */
-        /* 
-        $builder
-            ->setData(['name' => 'image', 'message' => 'http://placehold.it/350x150'])
-        ;*/
+        //$builder->get('image')->setData('http://placehold.it/600x200');
     }
 
 }

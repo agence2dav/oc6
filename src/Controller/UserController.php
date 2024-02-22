@@ -72,7 +72,7 @@ class UserController extends AbstractController
             if ($userKnown !== null) {
                 $token = $this->userService->setToken($userKnown);
                 $this->mailService->send(
-                    'agence2dav@gmail.com',
+                    'admin@mailhog.local',
                     $userKnown->getEmail(),
                     'Réinitialisation du mot de passe',
                     'resetpswdmail', //emails dir

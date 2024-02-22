@@ -73,6 +73,8 @@ class TrickTagsFormType extends AbstractType
                     'multiple' => true,
             */
             /* 
+            )*/
+            /* 
             ->add(
                 'cat',
                 EntityType::class,
@@ -89,8 +91,6 @@ class TrickTagsFormType extends AbstractType
                         ]),
                     ],
                 ]
-            )*/
-            /* 
             ->add(
                 'tag',
                 EntityType::class,
@@ -107,7 +107,9 @@ class TrickTagsFormType extends AbstractType
                         ]),
                     ],
                 ]
-            )*/
+            )
+            
+            */
             /* 
             ->add(
                 'tags',

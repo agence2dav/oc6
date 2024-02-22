@@ -20,7 +20,6 @@ class TrickTagsService
 {
 
     public function __construct(
-        //private readonly EntityManagerInterface $entityManager,
         private TrickRepository $TrickRepo,
         private TagRepository $tagRepo,
         private CatRepository $catRepo,
@@ -33,21 +32,18 @@ class TrickTagsService
 
     public function saveTrickTag(
         Trick $trick,
-        //Collection $trickTags,
-        //Cat $cat,
-        //Tag $tag,
         string $tagId,
     ): void {
-        echo $tagId;
+        //echo $tagId;
         $trickTags = new TrickTags();
-        $tag = $this->tagRepo->findBy(['id' => $tagId])[0];
-        //dd($tag);
-        $cat = $tag->getCat();
-        $trickTags->setTrick($trick);
-        $trickTags->setCat($cat);
-        $trickTags->setTag($tag);
-        $this->trickTagsRepo->saveTrickTags($trickTags);
-
+        $tag = $this->tagRepo->findOneBy(['id' => $tagId]);
+        if ($tag) {
+            $cat = $tag->getCat();
+            $trickTags->setTrick($trick);
+            $trickTags->setCat($cat);
+            $trickTags->setTag($tag);
+            $this->trickTagsRepo->saveTrickTags($trickTags);
+        }
     }
 
     public function getAll(): Trick|array
