@@ -121,4 +121,9 @@
 
 ### 11 pagination #37
 
-- todo: make bypages kjk
+- throw error 403 on bad pages
+- implements hierarchy of roles
+- prepare to switch between all rights for edituser or adminuser in admin and editbuttons
+- add newtrick page different from edittrick
+- try again to fix enable save button on formtag
+- todo: make bypages using paginator

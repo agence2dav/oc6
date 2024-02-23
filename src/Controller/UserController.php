@@ -21,8 +21,8 @@ class UserController extends AbstractController
 
     public function __construct(
         private readonly UserPasswordHasherInterface $userPasswordHasher,
-        private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EntityManagerInterface $entityManager,
+        private readonly ResetPasswordHelperInterface $resetPasswordHelper,
+        private readonly EntityManagerInterface $entityManager,
         private readonly MailService $mailService,
         private UserFormType $userFormType,
         private UserService $userService,
@@ -37,10 +37,13 @@ class UserController extends AbstractController
     ): Response {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-        //if ($this->security->denyAccessUnlessGranted('IS_AUTHENTICATED')) {
-        if ($this->security->isGranted('ROLE_EDIT')) {
+
+        //$hasAccess = $this->isGranted('ROLE_ADMIN');
+        //$this->denyAccessUnlessGranted('ROLE_EDIT');
+        if ($this->security->isGranted('ROLE_USER')) {
             $this->addFlash('home-flash', 'Vous êtes connecté avec succès.');
         }
+
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
@@ -60,63 +63,4 @@ class UserController extends AbstractController
         //intercepted by firewall in security.config
     }
 
-    /* 
-    #[Route(path: '/reset-password', name: 'forgotten_password', methods: ['GET', 'POST'])]
-    public function forgottenPassword(
-        Request $request
-    ): Response {
-        $form = $this->createForm(ForgottenPasswordFormType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userKnown = $this->userService->isUserKnown($form->get('email')->getData());
-            if ($userKnown !== null) {
-                $token = $this->userService->setToken($userKnown);
-                $this->mailService->send(
-                    'admin@mailhog.local',
-                    $userKnown->getEmail(),
-                    'Réinitialisation du mot de passe',
-                    'resetpswdmail', //emails dir
-                    [
-                        'token' => $token,
-                        'user' => $userKnown
-                    ]
-                );
-                $this->addFlash('login-flash', 'Un e-mail vous a été envoyé. Cliquez sur le lien pour renouveler votre mot de passe.');
-                return $this->redirectToRoute('app_login');
-            }
-            $this->addFlash('login-flash', 'Cette adresse e-mail est inusitée');
-            return $this->redirectToRoute('app_login');
-        }
-        return $this->render(
-            'security/forgottenpswd.html.twig',
-            [
-                'pswdForm' => $form->createView()
-            ]
-        );
-    }
-
-    #[Route(path: '/reset-password/{token}', name: 'reset_password', methods: ['GET', 'POST'])]
-    public function resetPassword(string $token, Request $request): Response
-    {
-        $userModel = $this->userService->findUserByResetToken($token);
-        if ($userModel !== null) {
-            $form = $this->createForm(ResetPasswordFormType::class);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->userService->setNewPassword($userModel, $form->get('password')->getData());
-                $this->addFlash('login-flash', 'Mot de passe modifié avec succes.');
-                return $this->redirectToRoute('app_login');
-            }
-            return $this->render(
-                'security/login-flash.html.twig',
-                [
-                    'pswdForm' => $form->createView()
-                ]
-            );
-        }
-        $this->addFlash('login-flash', 'Ah, bah ça n\'a pas marché. Recommencez.');
-        return $this->redirectToRoute('app_login');
-    }
-     */
 }

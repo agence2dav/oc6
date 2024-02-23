@@ -5,18 +5,45 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Comment;
+use App\Entity\Trick;
 use App\Entity\User;
 
 class CommentRepository extends ServiceEntityRepository
 {
+
+    public const PAGINATOR_PER_PAGE = 2;
+
     public function __construct(
         ManagerRegistry $registry,
         private EntityManagerInterface $manager
     ) {
         parent::__construct($registry, Comment::class);
+    }
+
+    public function getCommentPaginator(Trick $trick, int $offset): Paginator
+    {
+        $query = $this->createQueryBuilder('c')
+            ->select('c.id')
+            ->addSelect('u.user')
+            ->addSelect('c.content')
+            ->addSelect('c.date')
+            //->innerjoin(User::class, 'u', 'ON', 'u.id = c.user')
+            //->innerjoin(User::class, 'u')
+            //->andWhere('u.id = c.user')
+            ->andWhere('c.trick = :trick')
+            ->setParameter('trick', $trick)
+            ->andWhere('c.status = 1')
+            ->orderBy('c.id', 'DESC')
+            //->groupBy('c.id')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery()
+        ;
+        return new Paginator($query);
     }
 
     public function findByTrick(int $id): array

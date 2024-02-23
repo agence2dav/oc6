@@ -24,6 +24,18 @@ security:
             logout:
                 path: app_logout
                 target: app_home
+        
+            entry_point: App\Security\AuthenticationEntryPoint
+            access_denied_handler: App\Security\AccessDeniedHandler
+
+    # https://symfony.com/doc/current/security.html#security-securing-controller-attributes
+    access_control:
+        - { path: '^/admin', roles: ROLE_EDIT }
+        - { path: '^/trick/\d+/edit$', roles: ROLE_EDIT }
+    
+    role_hierarchy:
+        ROLE_EDIT: ROLE_USER
+        ROLE_ADMIN: ROLE_EDIT
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -33,11 +45,6 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
-
-    # https://symfony.com/doc/current/security.html#security-securing-controller-attributes
-    access_control:
-        - { path: '^/admin', roles: ROLE_ADMIN }
-        - { path: '^/trick/edit/\d+$', roles: ROLE_ADMIN }
 
 when@test:
     security:

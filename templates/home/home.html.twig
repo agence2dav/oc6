@@ -11,11 +11,13 @@
     {% endfor %}
 
 <div class="example-wrapper">
-    <h1>All of Tricks</h1>
+    <h1>Bienvenue sur SnowTricks</h1>
+    <h4>Partagez, éditer vos Tricks !</h4>
 
     {% for trick in tricks %}
     
-    <article class="card border-light mb-3" style="width: 30rem; float:left; margin:10px;">
+    <article class="col-md-12 col-lg-6" style="float:left; padding:10px;">
+    <div class="card border-light mb-3">
         <div class="card mb-3">
             <h3 class="card-header" style="height:100px;">{{ trick.title | raw}}</h3>
             <div class="card-body">
@@ -23,7 +25,7 @@
                 <h6 class="card-subtitle text-muted">Mis à jour le : {{ trick.updatedAt | date("d/m/Y") }}</h6>
             </div>
             <div class="card-footer text-muted">
-                {% if is_granted('ROLE_EDIT') or is_granted('ROLE_ADMIN') %}
+                {% if is_granted(minRoleToEdit) or trick.username == currentUser.username  %}
                     <a class="card-link" href="{{ path("edit_trick", {id: trick.id}) }}"><i class="bi bi-pencil"></i> Editer</a>
                     {#{% if is_granted('ROLE_ADMIN') %}#}
                         {% if trick.status == 1 %}
@@ -49,6 +51,7 @@
             {% endfor %}
             </div>
             #}
+        </div>
         </div>
     </article>
 

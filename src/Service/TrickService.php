@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
-//use Symfony\Component\Form\Extension\Core\Type\TextType;
-//use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-//use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use App\Repository\TrickTagsRepository;
@@ -44,9 +41,33 @@ class TrickService
         return $this->trickRepository->findAll();
     }
 
+    public function getTricksPaginator(int $offset): array
+    {
+        $tricks = $this->trickRepository->getTricksPaginator($offset);
+        return $this->trickMapper->EntitiesToModels($tricks);
+    }
+
+    public function getAllTricks(): array
+    {
+        $trickModel = $this->trickRepository->findAll();
+        return $this->trickMapper->EntitiesToModels($trickModel);
+    }
+
     public function getAllPublic(): array
     {
         $trickModel = $this->trickRepository->findByStatus();
+        return $this->trickMapper->EntitiesToModels($trickModel);
+    }
+
+    public function getLastsricks(): array
+    {
+        $trickModel = $this->trickRepository->findLastsByStatus();
+        return $this->trickMapper->EntitiesToModels($trickModel);
+    }
+
+    public function getMyTricks(int $uid): array
+    {
+        $trickModel = $this->trickRepository->findMy($uid);
         return $this->trickMapper->EntitiesToModels($trickModel);
     }
 
@@ -139,18 +160,6 @@ class TrickService
                 $this->mediaRepository->delete($media);
             }
         }
-    }
-
-    public function getAllTricks(): array
-    {
-        $trickModel = $this->trickRepository->findAll();
-        return $this->trickMapper->EntitiesToModels($trickModel);
-    }
-
-    public function getMyTricks(int $uid): array
-    {
-        $trickModel = $this->trickRepository->findMy($uid);
-        return $this->trickMapper->EntitiesToModels($trickModel);
     }
 
     public function updateStatus(int $id): void

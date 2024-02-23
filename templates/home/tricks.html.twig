@@ -12,6 +12,15 @@
 
 <div class="example-wrapper">
     <h1>{{ pageTitle }}</h1>
+    <h4>{{ nbOfTricks }} Tricks référencés</h4>
+    <h4>{{ previous }} {{ next }} {{ tricks|length }} </h4>
+    
+    {% if previous >= 0 %}
+        <a href="{{ path('app_tricks') }}">Page précédente</a>
+    {% endif %}
+    {% if next < tricks|length %}
+        <a href="{{ path('app_tricks') }}">Page suivante</a>
+    {% endif %}
 
     {% for trick in tricks %}
     
@@ -26,7 +35,7 @@
             
             <!-- edit buttons -->
             <div class="card-footer">
-                {% if is_granted('ROLE_EDIT') or is_granted('ROLE_ADMIN') %}
+                {% if is_granted(minRoleToEdit) or trick.username == currentUser.username  %}
                     <h6><a class="card-link" href="{{ path("edit_trick", {id: trick.id}) }}"><i class="bi bi-pencil"></i> Editer</a></h6>
                     {#{% if is_granted('ROLE_ADMIN') %}#}
                         {% if trick.status == 1 %}

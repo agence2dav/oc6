@@ -7,6 +7,8 @@ namespace App\Form;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
@@ -27,9 +29,10 @@ use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use App\Repository\UserRepository;
-use App\Service\MediaService;
 use App\Repository\CatRepository;
 use App\Repository\TagRepository;
+use App\Service\MediaService;
+use App\Service\CatService;
 use App\Entity\TrickTags;
 use App\Entity\Trick;
 use App\Entity\Cat;
@@ -42,6 +45,7 @@ class TrickTagsFormType extends AbstractType
         //private AbstractController $abstractController
         private readonly UserRepository $userRepository,
         private readonly MediaService $mediaService,
+        private readonly CatService $catService,
     ) {
 
     }
@@ -115,9 +119,11 @@ class TrickTagsFormType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Tag::class,
-                    //'choice_label' => 'name',
-                    'choice_label' => fn($tag) => $tag->getCat()->getName() . ' : ' . $tag->getName(),//call model
-                    //'query_builder' => fn(TagRepository $tagRepo) => $tagRepo->createQueryBuilder('c')->orderBy('c.name', 'ASC'),
+                    //'choice_label' => ['name'],
+                    //'choice_label' => $this->catService->getAll(),
+                    //'choice_label' => fn($tag) => $this->catService->getAll(),
+                    'query_builder' => fn(TagRepository $tagRepo) => $tagRepo->createQueryBuilder('c')->orderBy('c.name', 'ASC'),
+                    //'query_builder' => fn(CatService $catService) => $catService->getAll(),
                     'label' => 'Selectionnez un tag',
                     'placeholder' => 'Choisissez un tag',//not works
                     //'disabled' => true,
@@ -129,9 +135,34 @@ class TrickTagsFormType extends AbstractType
                 ]
             )*/
 
-            /* */
+            /* 
+                        new NotBlank([
+                            'message' => 'Une image est obligatoire',
+                        ]),
+                        */
             ->add('tagId')
-            ->add('Enregistrer', SubmitType::class)
+            /* */
+            ->add('save', SubmitType::class, [
+                'label' => 'Enregistrer',
+                'disabled' => false,
+            ])
+            /* */
+            ->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) {
+                    $tagId = $event->getData()['tagId'] ?? null;
+                    //$event->setData(['save' => 'false']);
+                    //$event->getForm()->add('newField',TextType::class);
+                    //dd($tagId);
+                    if ($tagId) {
+                        $event->getForm()->add('save', SubmitType::class, [
+                            'label' => 'Enregistrer',
+                            'disabled' => false,
+                        ]);
+                    }
+                    //$event->getForm()->remove('save');
+                }
+            )
             ->getForm();
     }
 

@@ -17,6 +17,7 @@
                 <th>Voir</td>
             </tr>
         {% for trick in tricks %}
+            {% if is_granted(minRoleToEdit) or trick.username == currentUser.username  %}
             <tr class="table-dark">
                 <td>{{trick.id}}</td>
                 <td>{{trick.username}}</td>
@@ -34,6 +35,7 @@
                 <a class="btn btn-primary" href="{{ path("show_trick", {"slug": trick.slug }) }}">Afficher</a>
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
         </table>
 

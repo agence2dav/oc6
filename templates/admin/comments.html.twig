@@ -17,6 +17,7 @@
                 <th>Voir</td>
             </tr>
         {% for comment in comments %}
+            {% if is_granted(minRoleToEdit) or comment.username == currentUser.username  %}
             <tr class="table-dark">
                 <td>{{comment.id}}</td>
                 <td>{{comment.username}}</td>
@@ -34,6 +35,7 @@
                 <a class="btn btn-primary" href="{{ path("show_trick", {"slug": comment.trickSlug }) }}">Afficher</a>
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
         </table>
 

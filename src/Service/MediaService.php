@@ -5,21 +5,16 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
-//use Symfony\Component\Form\Extension\Core\Type\TextType;
-//use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-//use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use App\Repository\MediaTypeRepository;
 use App\Repository\MediaRepository;
 use App\Repository\TrickRepository;
+use App\Service\TrickService;
 use App\Service\FileUploader;
 use App\Mapper\TrickMapper;
 use App\Model\TrickModel;
@@ -36,6 +31,7 @@ class MediaService extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $manager,
         private readonly SluggerInterface $slugger,
+        //private readonly TrickService $trickService,
         private readonly TrickRepository $trickRepository,
         private readonly TrickMapper $trickMapper,
         private readonly MediaRepository $mediaRepository,
@@ -55,6 +51,11 @@ class MediaService extends AbstractController
         $media->setType($mediaTypeEntity);
         $media->setTrick($trick);
         $this->mediaRepository->saveMedia($media);
+        //if first image
+        //$catalog = $this->getCatalog($trick);
+        //if (count($catalog) == 1) {
+        //$this->trickService->setAsFirstImage($trick, $media->getId());
+        //}
     }
 
     public function getMediaType(string $mediaType): MediaType|null
@@ -62,9 +63,9 @@ class MediaService extends AbstractController
         return $this->mediaTypeRepository->findOneByType($mediaType);
     }
 
-    public function catalog($imageUrl)
+    public function getCatalog(Trick $trick): Collection|null
     {
-        return $imageUrl;
+        return $this->mediaRepository->findByTrick($trick);
     }
 
     public function image(string $url): string

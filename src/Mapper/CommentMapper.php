@@ -21,6 +21,7 @@ class CommentMapper
         $commentModel->setStatus($commentEntity->getStatus());
         $commentModel->setTrickSlug($commentEntity->getTrick()->getSlug());
         $commentModel->setTrickTitle($commentEntity->getTrick()->getTitle());
+        $commentModel->setAvatar($commentEntity->getUser()->getAvatar());
         return $commentModel;
     }
 
@@ -34,6 +35,15 @@ class CommentMapper
     }
 
     public function EntitiesArrayToModels(array $commentEntities): array
+    {
+        $commentModels = [];
+        foreach ($commentEntities as $commentEntity) {
+            $commentModels[] = $this->EntityToModel($commentEntity);
+        }
+        return $commentModels;
+    }
+
+    public function EntitiesPaginatorToModels(array $commentEntities): array
     {
         $commentModels = [];
         foreach ($commentEntities as $commentEntity) {

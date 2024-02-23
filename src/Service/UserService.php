@@ -5,12 +5,6 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-//use Symfony\Component\Form\Extension\Core\Type\TextType;
-//use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-//use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -53,6 +47,7 @@ class UserService
         $password = $this->userPasswordHasher->hashPassword($user, $plainPassword);
         $user->setPassword($password);
         $user->setRoles(['ROLE_EDIT']);
+        $user->setAvatar($this->chooseRandomAvatar());
         $this->userRepository->saveUser($user);
     }
 
@@ -63,6 +58,17 @@ class UserService
         }
         $this->userRepository->delete($user);
         return true;
+    }
+
+    public function chooseRandomAvatar(): string
+    {
+        echo $dir = '../assets/avatars';
+        $images = scandir($dir);
+        unset($images[0]);
+        unset($images[1]);
+        sort($images);
+        $numberOfFiles = count($images);
+        return $images[mt_rand(0, $numberOfFiles)];
     }
 
     //reset-pswd
