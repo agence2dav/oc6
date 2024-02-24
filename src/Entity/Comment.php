@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTimeInterface;
+use DateTimeImmutable;
 use DateTime;
 use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;

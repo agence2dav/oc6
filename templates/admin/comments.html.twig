@@ -1,4 +1,11 @@
 {% extends 'base.html.twig' %}
+{% if user is defined %}
+{% if user.username is defined %}
+{% set currentUser = user.username %}
+{% else %}
+{% set currentUser = '' %}
+{% endif %}
+{% endif %}
 
 {% block title %}Commentaires{% endblock %}
 
@@ -17,6 +24,7 @@
                 <th>Voir</td>
             </tr>
         {% for comment in comments %}
+            {% if is_granted(minRoleToEdit) or comment.username == currentUser %}
             <tr class="table-dark">
                 <td>{{comment.id}}</td>
                 <td>{{comment.username}}</td>
@@ -34,6 +42,7 @@
                 <a class="btn btn-primary" href="{{ path("show_trick", {"slug": comment.trickSlug }) }}">Afficher</a>
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
         </table>
 

@@ -1,13 +1,11 @@
 {% extends 'base.html.twig' %}
 {% form_theme formTrick 'bootstrap_4_layout.html.twig' %}
 
-{% block title %}
-    {% if edit_mode == true %}Editer un Trick{% else %}Nouveau Trick{% endif %}
-    {% endblock %}
+{% block title %}Editer un Trick{% endblock %}
 
 {% block body %}
 
-    <h1 class="display-5">{% if edit_mode == true %}Editer un Trick{% else %}Nouveau Trick{% endif %}</h1>
+    <h1 class="display-5">Editer un Trick</h1>
     <main role="main">
     <!-- supprimer tags -->
     <div class="card border-light mb-3">
@@ -25,17 +23,8 @@
     <!-- form -->
     {{ form_start(formTrick) }}
 
-    <button type="submit" class="btn btn-success">
-        {% if edit_mode == true %}
-        Modifier
-        {% else %}
-        Enregistrer
-        {% endif %}
-    </button>
-    
-    {% if edit_mode == true %}
+    <button type="submit" class="btn btn-success">Enregistrer</button>
     <a class="btn btn-secondary" href="{{ path("show_trick", {"slug": trick.slug }) }}">Retour à la fiche</a>
-    {% endif %}
 
     {{ form_row(formTrick.title, {"attr":{"placeholder":"Titre"}}) }}
     {{ form_row(formTrick.content, {"attr":{"placeholder":"Contenu"}}) }}
@@ -50,81 +39,80 @@
     </div>
     </div>
 
-    {% if edit_mode == true %}
-        <!-- ajouter tags -->
-        <div class="card border-light mb-3">
-        <div class="card-header">
-        Ajouter des tags
-        </div>
+    <!-- ajouter tags -->
+    <div class="card border-light mb-3">
+        <div class="card-header">Ajouter des tags</div>
         <div class="card-body">
         {{ form_start(formTags) }}
-        <div class="mb-3">
-        <label>Ajouter un tag :
-            <select name="{{ field_name(formTags.tagId) }}" class="form-control">
-                <option value="" selected>Choisissez un tag...</option>
-            {% for cat in cats %}
-                <optgroup label="{{ cat.name }}">
-                {% for tag in cat.tags %}
-                    {% if tag not in trick.trickTags %}
-                    <option value="{{ tag.id }}">{{ tag.name }}</option>
-                    {% endif %}
+            <div class="mb-3">
+                <select name="{{ field_name(formTags.tagId) }}" class="form-control">
+                    <option value="" selected>Choisissez un tag...</option>
+                {% for cat in cats %}
+                    <optgroup label="{{ cat.name }}">
+                    {% for tag in cat.tags %}
+                        {% if tag not in trick.trickTags %}
+                        <option value="{{ tag.id }}">{{ tag.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                    </optgroup>
                 {% endfor %}
-                </optgroup>
-            {% endfor %}
-            </select>
-        </label>
-        </div>
-        {#
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-        #}
+                </select>
+            </div>
+            {#
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            #}
         {{ form_end(formTags) }}
         </div>
-        </div>
+    </div>
 
-        <!-- supprimer tags -->
-        <div class="card border-light mb-3">
-        <div class="card-header">
-        Supprimer des tags
-        </div>
-        <div class="card-body">
+    <!-- supprimer tags -->
+    <div class="card border-light mb-3">
+    <div class="card-header">
+    Supprimer des tags
+    </div>
+    <div class="card-body">
+    {% if trick.trickTags | length > 0 %}
         {% for trickTag in trick.trickTags %}
             <a class="btn btn-danger" href="{{ path("del_tag", {id: trick.id, tagId: trickTag.tag.id}) }}" title="Supprimer ce tag">{{ trickTag.tag.cat.name }} : {{ trickTag.tag.name }} <i class="bi bi-trash"></i></a> 
         {% endfor %}
-        </div>
-        </div>
-        
-        <!-- catalog of images -->
-        <table class="table table-hover">
-            <tr class="table-info">
-                <th>Vignette</td>
-                <th>Intitulé (à mettre dans l'article)</td>
-                <th>Image principale</td>
-                <th>Voir</td>
-                <th>Supprimer</td>
-            </tr>
-            {% for media in trick.media %}
-            <tr class="table-dark">
-                <td>
-                {% if media.type.type == "image" %}
-                <img src="http://oc6.test/public/uploads/{{ media.filename }}" width="240px" />
-                {% elseif media.type.type == "video" %}
-                <img src="http://oc6.test/assets/img/broken_image.webp" width="240px" />
-                {% endif %}
-                {% elseif media.type.type == "youtube" %}
-                <img src="https://img.youtube.com/vi/{{ media.filename | slice(-11) }}/hqdefault.jpg" width="240px" />
-                {% endif %}
-                </td>
-                <td><input type="text" value="{{ media.filename }}" size="44" /></td>
-                <td><a href="http://oc6.test/public/uploads/{{ media.filename }}" target="_blank" class="btn btn-primary"><i class="bi bi-see"></i>Voir</a></td>
-                {% if media.filename == trick.image %}
-                <td><a href="" class="btn btn-primary">Image principale</a></td>
-                {% else %}
-                <td><a href="{{ path("edit_trick_img", {id: trick.id, mediaId: media.id }) }}" class="btn btn-warning">En faire l'image principale</a></td>
-                {% endif %}
-                <td><a href="{{ path("del_media", {id: trick.id, mediaId: media.id}) }}" class="btn btn-danger"><i class="bi bi-trash"></i>Supprimer</a></td>
-            </tr>
-            {% endfor %}
-        </table>
+    {% else %}
+        Aucun Tag n'est actuellement spécifié
     {% endif %}
-        </main>
+    </div>
+    </div>
+    
+    <!-- catalog of images -->
+    {% if trick.media | length > 0 %}
+    <table class="table table-hover">
+        <tr class="table-info">
+            <th>Vignette</td>
+            <th>Intitulé (à mettre dans l'article)</td>
+            <th>Image principale</td>
+            <th>Voir</td>
+            <th>Supprimer</td>
+        </tr>
+        {% for media in trick.media %}
+        <tr class="table-dark">
+            <td>
+            {% if media.type.type == "image" %}
+            <img src="http://oc6.test/public/uploads/{{ media.filename }}" width="240px" />
+            {% elseif media.type.type == "video" %}
+            <img src="http://oc6.test/assets/img/broken_image.webp" width="240px" />
+            {% elseif media.type.type == "youtube" %}
+            <img src="https://img.youtube.com/vi/{{ media.filename | slice(-11) }}/hqdefault.jpg" width="240px" />
+            {% endif %}
+            </td>
+            <td><input type="text" value="{{ media.filename }}" size="44" /></td>
+            <td><a href="http://oc6.test/public/uploads/{{ media.filename }}" target="_blank" class="btn btn-primary"><i class="bi bi-see"></i>Voir</a></td>
+            {% if media.filename == trick.image %}
+            <td><a href="" class="btn btn-primary">Image principale</a></td>
+            {% else %}
+            <td><a href="{{ path("edit_trick_img", {id: trick.id, mediaId: media.id }) }}" class="btn btn-warning">En faire l'image principale</a></td>
+            {% endif %}
+            <td><a href="{{ path("del_media", {id: trick.id, mediaId: media.id}) }}" class="btn btn-danger"><i class="bi bi-trash"></i>Supprimer</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    </main>
 {% endblock %}

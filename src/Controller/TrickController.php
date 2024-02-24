@@ -35,6 +35,7 @@ use App\Entity\Tag;
 
 class TrickController extends AbstractController
 {
+    private string $minRoleToEdit = 'ROLE_USER';
 
     public function __construct(
         private TrickMapper $trickMapper,
@@ -93,7 +94,7 @@ class TrickController extends AbstractController
                 }
             }
             if ($createNew) {
-                return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
+                //return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
             } else {
                 $this->addFlash(
                     'ok_edit',
@@ -113,12 +114,14 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('edit_trick', ['id' => $trick->getId()]);
         }
 
-        return $this->render('home/editTrick.html.twig', [
+        $template = $trick->getId() ? 'editTrick' : 'newTrick';
+        return $this->render('home/' . $template . '.html.twig', [
             'formTrick' => $formTrick->createView(),
             'formTags' => $formTags->createView(),
-            'edit_mode' => $trick->getId() ? true : false,
+            'minRoleToEdit' => $this->minRoleToEdit,
             'trick' => $trick,
             'cats' => $catsModel,
+            'user' => $this->getUser(),
         ]);
     }
 
@@ -138,7 +141,7 @@ class TrickController extends AbstractController
         return $this->redirectToRoute('edit_trick', ['id' => $trick->getId()]);
     }
 
-    //update image
+    //hero image
     #[Route('/trick/{id}/edit/{mediaId}', name: 'edit_trick_img')]
     public function setFirstImage(Trick $trick = null, int $mediaId): Response
     {
@@ -150,7 +153,7 @@ class TrickController extends AbstractController
     #[Route('/trick/{slug}', name: 'show_trick')]
     public function show(Trick $trick, string $slug, Request $request): Response //EntityManagerInterface $manager
     {
-        //$userConnected = $this->getUser();
+        $userConnected = $this->getUser();
         $trickModel = $this->trickService->getBySlug($slug);
         $commentModel = new CommentModel();
 
@@ -158,9 +161,8 @@ class TrickController extends AbstractController
         $formComment->handleRequest($request);
 
         //save comment
-        //$userConnected=$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');//is loged
-        $userConnected = $this->getUser();
         if ($formComment->isSubmitted() && $formComment->isValid() && $userConnected) {
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');//is loged
             $this->commentService->saveComment($formComment, $trick, $this->getUser());
             $this->addFlash(
                 'thanks_comment',
@@ -170,7 +172,6 @@ class TrickController extends AbstractController
 
         $root_img = $this->getParameter('trick_medias');
         $trickModel->setContent($this->trickService->formatContent($trickModel->getContent()));
-        //dd($trickModel);
 
         if ($trick->getStatus() == 1) {
             $template = 'home/trick.html.twig';
@@ -182,18 +183,50 @@ class TrickController extends AbstractController
             [
                 'trick' => $trickModel,
                 'formComment' => $formComment->createView(),
+                'minRoleToEdit' => $this->minRoleToEdit,
                 'root_img' => $root_img,
+                'user' => $this->getUser(),
             ]
         );
     }
 
     #[Route('/tricks', name: 'app_tricks')]
-    public function index(): Response
+    public function home(Request $request): Response
     {
-        $tricks = $this->trickService->getAllPublic();
+        $limit = $this->trickRepository::PAGINATOR_PER_PAGE;
+        $offset = max(0, $request->query->getInt('offset', 0));
+        //$tricks = $this->trickService->getAllPublic();
+        $tricks = $this->trickService->getTricksPaginator($offset);
+        $nbOfTricks = $this->trickRepository->countByStatus();
+        $nbOfPages = ceil($nbOfTricks / $limit);
+        $arrayPages = array_map(fn($i) => $limit * $i++, range(1, $nbOfPages - 1));
+        //for ($i = 0; $i < $nbOfPages; $i++)
+        //  $arrayPages[$i] = $i * $limit;
         return $this->render('home/tricks.html.twig', [
             'pageTitle' => 'All of Tricks',
+            'minRoleToEdit' => $this->minRoleToEdit,
             'tricks' => $tricks,
+            'user' => $this->getUser(),
+            'previous' => $offset - $limit,
+            'next' => $offset + $limit,
+            'arrayPages' => $arrayPages,
+            'nbOfTricks' => $nbOfTricks,
+            'pages' => $nbOfPages,
+            'page' => $offset,
+        ]);
+    }
+
+    #[Route('', name: 'app_empty')]
+    #[Route('/', name: 'app_empty')]
+    #[Route('/home', name: 'app_home')]
+    public function index(): Response
+    {
+        $tricks = $this->trickService->getLastsTricks();
+        return $this->render('home/home.html.twig', [
+            'controller_name' => 'HomeController',
+            'minRoleToEdit' => $this->minRoleToEdit,
+            'tricks' => $tricks,
+            'user' => $this->getUser(),
         ]);
     }
 

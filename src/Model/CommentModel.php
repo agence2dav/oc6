@@ -20,6 +20,7 @@ class CommentModel
     private ?int $status = null;
     private ?string $trickSlug = null;
     private ?string $trickTitle = null;
+    private ?string $avatar = null;
 
     public function getId(): ?int
     {
@@ -117,6 +118,18 @@ class CommentModel
     public function setTrickTitle(?string $trickTitle): static
     {
         $this->trickTitle = $trickTitle;
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(string $avatar): static
+    {
+        $this->avatar = $avatar;
+
         return $this;
     }
 

@@ -20,7 +20,7 @@ class Tag
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tag')]
+    #[ORM\ManyToOne(inversedBy: 'tags')]
     private ?Cat $cat = null;
 
     #[ORM\OneToMany(targetEntity: TrickTags::class, mappedBy: 'tag')]

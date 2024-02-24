@@ -1,4 +1,11 @@
 {% extends 'base.html.twig' %}
+{% if user is defined %}
+{% if user.username is defined %}
+{% set currentUser = user.username %}
+{% else %}
+{% set currentUser = '' %}
+{% endif %}
+{% endif %}
 
 {% block title %}{{ trick.title | raw}}{% endblock %}
 
@@ -19,7 +26,7 @@
         
         <!-- edit buttons -->
         <div class="card-footer">
-            {% if is_granted('ROLE_EDIT') or is_granted('ROLE_ADMIN') %}
+            {% if is_granted(minRoleToEdit) or trick.username == currentUser %}
                 <h6><a class="card-link" href="{{ path("edit_trick", {id: trick.id}) }}"><i class="bi bi-pencil"></i> Editer</a></h6>
                 {#{% if is_granted('ROLE_ADMIN') %}#}
                     {% if trick.status == 1 %}
@@ -33,7 +40,7 @@
         
         <div class="card-boby">
             <!-- hero image -->
-            {% if trick.image %}
+            {% if trick.image and trick.image != "http://placehold.it/600x200" %}
             <div class="image">
                 <img src="http://oc6.test/public/uploads/{{ trick.image }}" width="100%"/>
             </div>
@@ -72,7 +79,7 @@
     {% for message in app.flashes('thanks_comment') %}
     <div class="alert alert-success">
         <p>{{ message }}</p>
-    <a class="btn btn-secondary" href="{{ path("show_trick", {"slug": trick.slug }) }}">De rien.</a>
+    <a class="btn btn-secondary" href="{{ path("show_trick", {"slug": trick.slug }) }}">De rien</a>
     </div> 
     {% endfor %}
 
@@ -83,9 +90,8 @@
         <button type="submit" class="btn btn-success">Envoyer</button>
         {{ form_end(formComment) }}
     </div>
-
     {% else %}
-        <div class="text-body-primary alert alert-primary">
+        <div class="text-body-primary alert alert-secondary">
             Vous devez être logué pour poster un commentaire. 
             <a class="nav-link" href="{{ path("app_login") }}">Connexion</a> 
             {# //come-back to this page after login
@@ -99,8 +105,9 @@
 
     <section class="card text-white bg-primary mb-3">
         <div class="card-header">
-            <strong>{{ comment.username | raw}}</strong>
-            <div class="metadata">{{ comment.date | date("d/m/Y") }}</div>
+            <img src="http://oc6.test/assets/avatars/{{ comment.avatar }}" width="48px"/>
+            <strong>{{ comment.username | raw}}</strong> - 
+            <small>{{ comment.date | date("d/m/Y") }}</small>
         </div>
         <div class="card-boby">
             <div class="content">

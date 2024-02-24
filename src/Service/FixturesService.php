@@ -7,6 +7,8 @@ namespace App\Service;
 //composer require fakerphp/faker
 use Faker\Factory;
 use Faker\Generator;
+use DateTimeInterface;
+use DateTimeImmutable;
 use DateTime;
 
 class FixturesService
@@ -22,7 +24,7 @@ class FixturesService
     private string $adminName = 'd';
     private string $adminMail = 'd@d.d';
     private string $password = 'd';
-    private int $numberOfTricks = 10;
+    private int $numberOfTricks = 44;
     private int $numberOfUsers = 4;
     public array $users = [];
     public array $tricks = [];

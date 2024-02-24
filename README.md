@@ -119,6 +119,16 @@
 - presentation of medias in article
 - ehance homepage
 
-### 11 pagination
+### 11 pagination #37
 
-- todo: make bypages
+- throw error 403 on bad pages
+- implements hierarchy of roles
+- prepare to switch between all rights for edituser or adminuser in admin and editbuttons
+- add newtrick page different from edittrick
+- try again to fix enable save button on formtag
+- update fixtures to produce more articles and reshape how works randomobjects
+- make bypages using paginator
+
+### 12 recover password
+- todo: make workin mail
+- todo: cleanup code

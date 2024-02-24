@@ -102,7 +102,7 @@ class TrickFormType extends AbstractType
                 HiddenType::class,
                 [
                     'attr' => [
-                        'value' => ''
+                        'value' => 'http://placehold.it/600x200'
                     ],
                 ]
             )
@@ -157,8 +157,8 @@ class TrickFormType extends AbstractType
                                     'maxHeightMessage' => 'Hauteur max : {{ max_height }}',
                                 ]
                             )
-                        )
-                    ]
+                        ),
+                    ],
                 ]
             )
 

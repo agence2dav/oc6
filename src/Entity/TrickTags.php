@@ -15,7 +15,7 @@ class TrickTags
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tag')]
+    #[ORM\ManyToOne(inversedBy: 'trickTags')]
     private ?Trick $trick = null;
 
     #[ORM\ManyToOne(inversedBy: 'trickTags')]
@@ -36,7 +36,6 @@ class TrickTags
     public function setTrick(?Trick $trick): static
     {
         $this->trick = $trick;
-
         return $this;
     }
 
@@ -48,7 +47,6 @@ class TrickTags
     public function setTag(?Tag $tag): static
     {
         $this->tag = $tag;
-
         return $this;
     }
 
@@ -60,7 +58,6 @@ class TrickTags
     public function setCat(?Cat $cat): static
     {
         $this->cat = $cat;
-
         return $this;
     }
 }

@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\PersistentCollection;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-//use Symfony\Component\Form\Extension\Core\Type\TextType;
-//use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-//use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\User;
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
@@ -33,13 +31,11 @@ class CommentService
     ) {
     }
 
-    public function getByTrick(int $id): array
+    public function getCommentsPaginator(Trick $trick, int $offset): array
     {
-        //return $this->commentRepository->find($id);
-        //return $this->commentRepository->findById($id);
-        //$trick = $this->trickRepository->findOneById($id); //
-        //$entities = $this->commentRepository->findByTrick0($id);//old
-        return $this->commentRepository->findByTrick($id); //ok
+        $paginator = $this->commentRepository->getCommentsPaginator($trick, $offset);
+        $commentsEntities = $paginator->getQuery()->getResult();
+        return $this->commentMapper->EntitiesArrayToModels($commentsEntities);
     }
 
     public function getComments(Trick $trick): array
