@@ -129,6 +129,6 @@
 - update fixtures to produce more articles and reshape how works randomobjects
 - make bypages using paginator
 
-### 12 recover password
+### 12 recover password #39
 - todo: make workin mail
 - todo: cleanup code
