@@ -12,14 +12,14 @@ use App\Entity\Trick;
 class TrickRepository extends ServiceEntityRepository
 {
 
-    public const PAGINATOR_PER_PAGE = 2;
+    public const PAGINATOR_PER_PAGE = 10;
     public function __construct(
         ManagerRegistry $registry
     ) {
         parent::__construct($registry, Trick::class);
     }
 
-    public function getTricksPaginator(int $offset): array
+    public function getTricksPaginator(int $offset): Paginator
     {
         $query = $this->createQueryBuilder('t')
             ->andWhere('t.status = 1')
@@ -27,8 +27,7 @@ class TrickRepository extends ServiceEntityRepository
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset)
         ;
-        $paginator = new Paginator($query);
-        return $paginator->getQuery()->getResult();
+        return new Paginator($query);
     }
 
     public function countByStatus(): int

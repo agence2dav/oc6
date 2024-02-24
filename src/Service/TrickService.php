@@ -43,7 +43,8 @@ class TrickService
 
     public function getTricksPaginator(int $offset): array
     {
-        $tricks = $this->trickRepository->getTricksPaginator($offset);
+        $paginator = $this->trickRepository->getTricksPaginator($offset);
+        $tricks = $paginator->getQuery()->getResult();
         return $this->trickMapper->EntitiesToModels($tricks);
     }
 
@@ -59,7 +60,7 @@ class TrickService
         return $this->trickMapper->EntitiesToModels($trickModel);
     }
 
-    public function getLastsricks(): array
+    public function getLastsTricks(): array
     {
         $trickModel = $this->trickRepository->findLastsByStatus();
         return $this->trickMapper->EntitiesToModels($trickModel);

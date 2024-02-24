@@ -54,7 +54,7 @@ class UserFormType extends AbstractType //AbstractType
                     'label' => 'Username',
                     'constraints' => [
                         new Length([
-                            'min' => 2,
+                            'min' => 4,
                             'minMessage' => 'Le nom d\'utilisateur doit faire au moins {{ limit }} caractères',
                             // max length allowed by Symfony for security reasons
                             'max' => 4096,

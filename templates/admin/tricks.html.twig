@@ -1,4 +1,11 @@
 {% extends 'base.html.twig' %}
+{% if user is defined %}
+{% if user.username is defined %}
+{% set currentUser = user.username %}
+{% else %}
+{% set currentUser = '' %}
+{% endif %}
+{% endif %}
 
 {% block title %}Tricks!{% endblock %}
 
@@ -17,7 +24,7 @@
                 <th>Voir</td>
             </tr>
         {% for trick in tricks %}
-            {% if is_granted(minRoleToEdit) or trick.username == currentUser.username  %}
+            {% if is_granted(minRoleToEdit) or trick.username == currentUser  %}
             <tr class="table-dark">
                 <td>{{trick.id}}</td>
                 <td>{{trick.username}}</td>

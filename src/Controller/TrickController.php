@@ -118,10 +118,10 @@ class TrickController extends AbstractController
         return $this->render('home/' . $template . '.html.twig', [
             'formTrick' => $formTrick->createView(),
             'formTags' => $formTags->createView(),
+            'minRoleToEdit' => $this->minRoleToEdit,
             'trick' => $trick,
             'cats' => $catsModel,
-            'currentUser' => $this->getUser(),
-            'minRoleToEdit' => $this->minRoleToEdit,
+            'user' => $this->getUser(),
         ]);
     }
 
@@ -183,31 +183,36 @@ class TrickController extends AbstractController
             [
                 'trick' => $trickModel,
                 'formComment' => $formComment->createView(),
-                'root_img' => $root_img,
-                'currentUser' => $this->getUser(),
                 'minRoleToEdit' => $this->minRoleToEdit,
+                'root_img' => $root_img,
+                'user' => $this->getUser(),
             ]
         );
     }
 
     #[Route('/tricks', name: 'app_tricks')]
-    #[Route('/tricks/page/{offset}', name: 'app_tricks_pages')]
-    public function home(Request $request, TrickRepository $repo, int $offset): Response
+    public function home(Request $request): Response
     {
-        $limit = $repo::PAGINATOR_PER_PAGE;
+        $limit = $this->trickRepository::PAGINATOR_PER_PAGE;
         $offset = max(0, $request->query->getInt('offset', 0));
-        $nbOfTricks = $repo->countByStatus();
-        $tricks = $this->trickService->getTricksPaginator($offset);
         //$tricks = $this->trickService->getAllPublic();
+        $tricks = $this->trickService->getTricksPaginator($offset);
+        $nbOfTricks = $this->trickRepository->countByStatus();
+        $nbOfPages = ceil($nbOfTricks / $limit);
+        $arrayPages = array_map(fn($i) => $limit * $i++, range(1, $nbOfPages - 1));
+        //for ($i = 0; $i < $nbOfPages; $i++)
+        //  $arrayPages[$i] = $i * $limit;
         return $this->render('home/tricks.html.twig', [
             'pageTitle' => 'All of Tricks',
-            'tricks' => $tricks,
-            'currentUser' => $this->getUser(),
             'minRoleToEdit' => $this->minRoleToEdit,
-            'previous' => $offset - $repo::PAGINATOR_PER_PAGE,
-            'next' => min($nbOfTricks, $offset + $limit),
-            'pages' => ceil($nbOfTricks / $limit),
+            'tricks' => $tricks,
+            'user' => $this->getUser(),
+            'previous' => $offset - $limit,
+            'next' => $offset + $limit,
+            'arrayPages' => $arrayPages,
             'nbOfTricks' => $nbOfTricks,
+            'pages' => $nbOfPages,
+            'page' => $offset,
         ]);
     }
 
@@ -216,12 +221,12 @@ class TrickController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(): Response
     {
-        $tricks = $this->trickService->getLastsricks();
+        $tricks = $this->trickService->getLastsTricks();
         return $this->render('home/home.html.twig', [
             'controller_name' => 'HomeController',
-            'tricks' => $tricks,
-            'currentUser' => $this->getUser(),
             'minRoleToEdit' => $this->minRoleToEdit,
+            'tricks' => $tricks,
+            'user' => $this->getUser(),
         ]);
     }
 

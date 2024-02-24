@@ -31,12 +31,11 @@ class CommentService
     ) {
     }
 
-    public function getCommentPaginator(Request $request, Trick $trick): Paginator
+    public function getCommentsPaginator(Trick $trick, int $offset): array
     {
-        $offset = max(0, $request->query->getInt('offset', 0));
-        $commentsEntities = $this->commentRepository->getCommentPaginator($trick, $offset);
-        //return $this->commentMapper->EntitiesArrayToModels($commentsEntities);
-        return $commentsEntities;
+        $paginator = $this->commentRepository->getCommentsPaginator($trick, $offset);
+        $commentsEntities = $paginator->getQuery()->getResult();
+        return $this->commentMapper->EntitiesArrayToModels($commentsEntities);
     }
 
     public function getComments(Trick $trick): array

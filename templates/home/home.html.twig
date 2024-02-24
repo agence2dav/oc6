@@ -10,13 +10,13 @@
 </div>
     {% endfor %}
 
-<div class="example-wrapper">
+<div class="example-wrapper row">
     <h1>Bienvenue sur SnowTricks</h1>
     <h4>Partagez, éditer vos Tricks !</h4>
 
     {% for trick in tricks %}
     
-    <article class="col-md-12 col-lg-6" style="float:left; padding:10px;">
+    <article class="col col-lg-6 col-md-12 col-sm-12 col-xs-12" style="float:left; padding:10px;">
     <div class="card border-light mb-3">
         <div class="card mb-3">
             <h3 class="card-header" style="height:100px;">{{ trick.title | raw}}</h3>

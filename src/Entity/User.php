@@ -78,8 +78,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     //relations
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Trick::class)]
+    #[ORM\OneToMany(targetEntity: Trick::class, mappedBy: 'user')]
     private Collection $tricks;
+
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
+    private Collection $comments;
 
     #[ORM\Column(type: 'boolean')]
     private ?bool $isVerified = false;
@@ -205,6 +208,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($trick->getUser() === $this) {
                 $trick->setUser(null);
+            }
+        }
+        return $this;
+    }
+
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComments(Comment $comments): static
+    {
+        if (!$this->comments->contains($comments)) {
+            $this->comments->add($comments);
+            $comments->setUser($this);
+        }
+        return $this;
+    }
+
+    public function removeComments(Comment $comments): static
+    {
+        if ($this->comments->removeElement($comments)) {
+            // set the owning side to null (unless already changed)
+            if ($comments->getUser() === $this) {
+                $comments->setUser(null);
             }
         }
         return $this;
