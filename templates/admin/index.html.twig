@@ -18,9 +18,10 @@
             <div class="metadata">Vous devez être connecté pour accéder à cette page.</div>
             <a class="btn btn-secondary" href="{{ path("app_login") }}">Connexion</a>
             {% elseif is_granted('ROLE_ADMIN') or is_granted('ROLE_EDIT') %}
-            <a class="btn btn-secondary" href="{{ path("new_trick") }}">Nouveau Trick</a>
-            <a class="btn btn-secondary" href="{{ path("admin_tricks") }}">Voir les Tricks</a>
-            <a class="btn btn-secondary" href="{{ path("admin_comments") }}">Voir les commentaires</a>
+            <a class="btn btn-secondary" href="{{ path("new_trick") }}"><i class="bi bi-pencil"></i> Nouveau Trick</a>
+            <a class="btn btn-secondary" href="{{ path("admin_tricks") }}"><i class="bi bi-card-checklist"></i> Voir les Tricks</a>
+            <a class="btn btn-secondary" href="{{ path("admin_comments") }}"><i class="bi bi-chat-left-text"></i> Voir les commentaires</a>
+            <a class="btn btn-secondary" href="{{ path("admin_avatar") }}"><i class="bi bi-person-badge"></i> Modifier son avatar</a>
             {% endif %}
             </ul>
         </div>

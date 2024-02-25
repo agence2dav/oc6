@@ -73,6 +73,8 @@ class TrickFormType extends AbstractType
                         new Length([
                             'min' => 4,
                             'minMessage' => 'mini {{ limit }} caractères',
+                            'max' => 44,
+                            'maxMessage' => 'max {{ limit }} caractères',
                         ]),
                     ]
                 ]

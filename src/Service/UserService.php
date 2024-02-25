@@ -60,15 +60,36 @@ class UserService
         return true;
     }
 
-    public function chooseRandomAvatar(): string
+    //avatar
+    public function getAvatars(): array
     {
-        echo $dir = '../assets/avatars';
+        $dir = '../assets/avatars/';
+        //$dir = getcwd() . '/assets/avatars/';
         $images = scandir($dir);
         unset($images[0]);
         unset($images[1]);
         sort($images);
-        $numberOfFiles = count($images);
-        return $images[mt_rand(0, $numberOfFiles)];
+        return $images;
+    }
+
+    public function chooseAvatar(): array
+    {
+        return array_map(fn($avatar) => substr(strchr($avatar, '/'), 1, -4), $this->getAvatars());
+    }
+
+    public function chooseRandomAvatar(): string
+    {
+        $avatars = $this->getAvatars();
+        $numberOfFiles = count($avatars);
+        return $avatars[mt_rand(0, $numberOfFiles)];
+    }
+
+    public function saveAvatar(User $user, string $avatarKey): void
+    {
+        $avatars = $this->getAvatars();
+        $avatar = $avatars[$avatarKey];
+        $user->setAvatar($avatar);
+        $this->userRepository->saveUser($user);
     }
 
     //reset-pswd

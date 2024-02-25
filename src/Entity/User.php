@@ -18,7 +18,7 @@ use App\Entity\Trick;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[Broadcast]
-#[UniqueEntity(fields: ['username'], message: 'Cet e-mail est déjà utilisé')]
+#[UniqueEntity(fields: ['username'], message: 'Cet pseudo est déjà utilisé')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
 

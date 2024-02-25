@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\SecurityBundle\Security;
+use App\Form\AvatarFormType;
+use App\Service\UserService;
 use App\Service\TrickService;
 use App\Service\CommentService;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminController extends AbstractController
 {
@@ -17,6 +20,7 @@ class AdminController extends AbstractController
 
     public function __construct(
         private Security $security,
+        private UserService $userService,
         private TrickService $trickService,
         private CommentService $commentService,
     ) {
@@ -60,6 +64,38 @@ class AdminController extends AbstractController
                 'minRoleToEdit' => $this->minRoleToEdit,
             ]
         );
+    }
+
+    //avatar
+    #[Route('/avatar/{avatar}', name: 'admin_avatar_select')]
+    public function avatar(int $avatar): Response
+    {
+        $this->userService->saveAvatar(
+            $this->getUser(),
+            $avatar,
+        );
+        return $this->redirectToRoute('app_user');
+    }
+
+    #[Route('/avatar', name: 'admin_avatar')]
+    public function userAvatar(Request $request): Response
+    {
+        $formUser = $this->createForm(AvatarFormType::class);
+        $avatars = $this->userService->getAvatars();
+        $formUser->handleRequest($request);
+
+        //update
+        if ($formUser->isSubmitted() && $formUser->isValid()) {
+            $this->userService->saveAvatar(
+                $this->getUser(),
+                $formUser->get('avatar')->getData(),
+            );
+            //return $this->redirectToRoute('admin_user');
+        }
+        return $this->render('admin/avatar.html.twig', [
+            'formUser' => $formUser->createView(),
+            'avatars' => $avatars,
+        ]);
     }
 
     #[Route('/admin', name: 'app_admin')]

@@ -119,7 +119,7 @@ class TrickService
                 if (in_array($extension, ['.jpg', '.png', '.webp'])) {
                     $paragraphArray[] = $this->mediaService->image($word);
                 } elseif (strpos($word, 'youtu')) {
-                    $paragraphArray[] = $this->mediaService->youtube($word);
+                    $paragraphArray[] = $this->mediaService->youtubeIframe($word);
                 } else {
                     $paragraphArray[] = $word;
                 }

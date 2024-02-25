@@ -31,6 +31,8 @@ security:
     # https://symfony.com/doc/current/security.html#security-securing-controller-attributes
     access_control:
         - { path: '^/admin', roles: ROLE_EDIT }
+        - { path: '^/user', roles: ROLE_EDIT }
+        - { path: '^/avatar', roles: ROLE_EDIT }
         - { path: '^/trick/\d+/edit$', roles: ROLE_EDIT }
     
     role_hierarchy:

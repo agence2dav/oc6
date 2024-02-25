@@ -73,6 +73,7 @@ class TrickController extends AbstractController
         $formTrick = $this->createForm(TrickFormType::class, $trick);
         $formTrick->handleRequest($request);
 
+        //update
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $this->trickService->saveTrick(
                 $trick,
@@ -82,6 +83,21 @@ class TrickController extends AbstractController
                 $formTrick->get('video')->getData(),
             );
 
+            //flashes
+            if ($createNew) {
+                $this->addFlash(
+                    'updated',
+                    'Le nouveau Trick a été enregistré. Il reste à ajouter une image de garde, et à le publier depuis l\'admin'
+                );
+                //return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
+            } else {
+                $this->addFlash(
+                    'updated',
+                    'Les modifications ont "été prises en compte.'
+                );
+            }
+
+            //medias
             $mediaFiles = $formTrick->get('media')->getData();//UploadedFile
             if ($mediaFiles) {
                 foreach ($mediaFiles as $mediaFile) {
@@ -91,18 +107,15 @@ class TrickController extends AbstractController
                         $mediaFileName,
                         'image'
                     );
+                    $this->addFlash(
+                        'updated',
+                        'L`\'image ' . $mediaFileName . ' a été ajoutée au catalogue.'
+                    );
                 }
-            }
-            if ($createNew) {
-                //return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
-            } else {
-                $this->addFlash(
-                    'ok_edit',
-                    'Les modifications ont "été prises en compte.'
-                );
             }
         }
 
+        //tags
         $formTags = $this->createForm(TrickTagsFormType::class);
         $catsModel = $this->catService->getAll();
         $formTags->handleRequest($request);
@@ -114,6 +127,7 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('edit_trick', ['id' => $trick->getId()]);
         }
 
+        //render
         $template = $trick->getId() ? 'editTrick' : 'newTrick';
         return $this->render('home/' . $template . '.html.twig', [
             'formTrick' => $formTrick->createView(),

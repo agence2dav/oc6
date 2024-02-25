@@ -16,6 +16,7 @@ return [
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
         '/admin/tricks' => [[['_route' => 'admin_tricks', '_controller' => 'App\\Controller\\AdminController::showTricks'], null, null, null, true, false, null]],
         '/admin/comments' => [[['_route' => 'admin_comments', '_controller' => 'App\\Controller\\AdminController::showComments'], null, null, null, false, false, null]],
+        '/avatar' => [[['_route' => 'admin_avatar', '_controller' => 'App\\Controller\\AdminController::userAvatar'], null, null, null, false, false, null]],
         '/admin' => [[['_route' => 'app_admin', '_controller' => 'App\\Controller\\AdminController::index'], null, null, null, false, false, null]],
         '/register' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegisterController::register'], null, null, null, false, false, null]],
         '/verify/email' => [[['_route' => 'app_register_verif', '_controller' => 'App\\Controller\\RegisterController::verifyUserEmail'], null, null, null, false, false, null]],
@@ -26,7 +27,7 @@ return [
         '/' => [[['_route' => 'app_empty', '_controller' => 'App\\Controller\\TrickController::index'], null, null, null, false, false, null]],
         '/home' => [[['_route' => 'app_home', '_controller' => 'App\\Controller\\TrickController::index'], null, null, null, false, false, null]],
         '/login' => [[['_route' => 'app_login', '_controller' => 'App\\Controller\\UserController::login'], null, null, null, false, false, null]],
-        '/user' => [[['_route' => 'app_userPage', '_controller' => 'App\\Controller\\UserController::userPage'], null, null, null, false, false, null]],
+        '/user' => [[['_route' => 'app_user', '_controller' => 'App\\Controller\\UserController::user'], null, null, null, false, false, null]],
         '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\UserController::logout'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
@@ -49,28 +50,31 @@ return [
                         .')'
                     .')'
                 .')'
-                .'|/admin/(?'
-                    .'|tricks(?:/([^/]++))?(*:232)'
-                    .'|comments(?:/([^/]++))?(*:262)'
+                .'|/a(?'
+                    .'|dmin/(?'
+                        .'|tricks(?:/([^/]++))?(*:235)'
+                        .'|comments(?:/([^/]++))?(*:265)'
+                    .')'
+                    .'|vatar/([^/]++)(*:288)'
                 .')'
-                .'|/reset\\-password/reset(?:/([^/]++))?(*:307)'
+                .'|/reset\\-password/reset(?:/([^/]++))?(*:333)'
                 .'|/t(?'
                     .'|rick/([^/]++)(?'
                         .'|/(?'
                             .'|edit(?'
-                                .'|(*:347)'
-                                .'|/([^/]++)(*:364)'
+                                .'|(*:373)'
+                                .'|/([^/]++)(*:390)'
                             .')'
                             .'|del(?'
-                                .'|tag/([^/]++)(*:391)'
-                                .'|media/([^/]++)(*:413)'
+                                .'|tag/([^/]++)(*:417)'
+                                .'|media/([^/]++)(*:439)'
                             .')'
                         .')'
-                        .'|(*:423)'
+                        .'|(*:449)'
                     .')'
                     .'|ag/([^/]++)(?'
-                        .'|(*:446)'
-                        .'|/edit(*:459)'
+                        .'|(*:472)'
+                        .'|/edit(*:485)'
                     .')'
                 .')'
             .')/?$}sDu',
@@ -84,16 +88,17 @@ return [
         168 => [[['_route' => '_profiler_exception', '_controller' => 'web_profiler.controller.exception_panel::body'], ['token'], null, null, false, false, null]],
         181 => [[['_route' => '_profiler_exception_css', '_controller' => 'web_profiler.controller.exception_panel::stylesheet'], ['token'], null, null, false, false, null]],
         191 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
-        232 => [[['_route' => 'admin_tricksId', 'id' => null, '_controller' => 'App\\Controller\\AdminController::showTricks'], ['id'], null, null, false, true, null]],
-        262 => [[['_route' => 'admin_commentsId', 'id' => null, '_controller' => 'App\\Controller\\AdminController::showComments'], ['id'], null, null, false, true, null]],
-        307 => [[['_route' => 'app_reset_password', 'token' => null, '_controller' => 'App\\Controller\\ResetPasswordController::reset'], ['token'], null, null, false, true, null]],
-        347 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
-        364 => [[['_route' => 'edit_trick_img', '_controller' => 'App\\Controller\\TrickController::setFirstImage'], ['id', 'mediaId'], null, null, false, true, null]],
-        391 => [[['_route' => 'del_tag', '_controller' => 'App\\Controller\\TrickController::delTag'], ['id', 'tagId'], null, null, false, true, null]],
-        413 => [[['_route' => 'del_media', '_controller' => 'App\\Controller\\TrickController::delMedia'], ['id', 'mediaId'], null, null, false, true, null]],
-        423 => [[['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null]],
-        446 => [[['_route' => 'show_tag', '_controller' => 'App\\Controller\\TrickTagsController::show'], ['id'], null, null, false, true, null]],
-        459 => [
+        235 => [[['_route' => 'admin_tricksId', 'id' => null, '_controller' => 'App\\Controller\\AdminController::showTricks'], ['id'], null, null, false, true, null]],
+        265 => [[['_route' => 'admin_commentsId', 'id' => null, '_controller' => 'App\\Controller\\AdminController::showComments'], ['id'], null, null, false, true, null]],
+        288 => [[['_route' => 'admin_avatar_select', '_controller' => 'App\\Controller\\AdminController::avatar'], ['avatar'], null, null, false, true, null]],
+        333 => [[['_route' => 'app_reset_password', 'token' => null, '_controller' => 'App\\Controller\\ResetPasswordController::reset'], ['token'], null, null, false, true, null]],
+        373 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
+        390 => [[['_route' => 'edit_trick_img', '_controller' => 'App\\Controller\\TrickController::setFirstImage'], ['id', 'mediaId'], null, null, false, true, null]],
+        417 => [[['_route' => 'del_tag', '_controller' => 'App\\Controller\\TrickController::delTag'], ['id', 'tagId'], null, null, false, true, null]],
+        439 => [[['_route' => 'del_media', '_controller' => 'App\\Controller\\TrickController::delMedia'], ['id', 'mediaId'], null, null, false, true, null]],
+        449 => [[['_route' => 'show_trick', '_controller' => 'App\\Controller\\TrickController::show'], ['slug'], null, null, false, true, null]],
+        472 => [[['_route' => 'show_tag', '_controller' => 'App\\Controller\\TrickTagsController::show'], ['id'], null, null, false, true, null]],
+        485 => [
             [['_route' => 'edit_tag', '_controller' => 'App\\Controller\\TrickTagsController::form'], ['id'], null, null, false, false, null],
             [null, null, null, null, false, false, 0],
         ],

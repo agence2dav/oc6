@@ -1,134 +1,146 @@
-# oc6
+# Oc6 - project for openclassroom
 
-## Issues
+## Mission
 
-### 1 - install symfony
+Create a website for SnowTricks, using the framework Symfony 7.0. <img src="https://img.shields.io/badge/symfony-7-0" alt="symfony 7.0">
+The project will let the users create and edit some Tricks, the name given to some figures of snowboard.
 
-- install composer
-- install scoop
-- install symfony-cli
-- install symfony project "surf"
-- test on symfony server: ok
-- install debug-bundle
-- install profiler
+## Requirements
 
-### 1.2 firstpage #10
+Based on the last Php-8.2 <img src="https://img.shields.io/badge/php-8.2-%23777BB4?logo=php" alt="php banner">, the architecture of the software is oriented <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a>, in respect of the segregation of the functions, recommended by the <a href="https://fr.wikipedia.org/wiki/SOLID_(informatique)">SOLID principle</a>.
 
-- install first page: lucky/number
-- install first page: home
-- navbar in base1.html.twig
+## Uml Graphics
+The UML for this project are in the directory `/_docs/uml`.
+You can see :
+- the diagram of use
+- the diagram of sequence
+- the classes diagram
+- the model of datas, with all the relations between the tables
 
-### 2 - database
+## Components
 
-- install doctrine
-- flush fixtures
+We use <a href="https://www.dotenv.org/docs/languages/php.html">Dotenv</a> to store the access for the Odbc. Use Composer to install it :
 
-### 3 - contents
+We use the templater <a href="https://twig.symfony.com/doc/3.x/tags/extends.html">Twig</a> to dissociate the front-end from the back-end.
 
-- read articles
-- build routes
+We use <a href="https://github.com/squizlabs/PHP_CodeSniffer">PhpCs</a> as a linter in the <a href="https://fr.wikipedia.org/wiki/Environnement_de_d%C3%A9veloppement">EDI</a> <a href="https://code.visualstudio.com/">VsCode</a> for the respect of the standard <a href="https://www.php-fig.org/psr/psr-12/">Psr-12</a>.
 
-### 4 - forms
+Le list of the components used in this project is :
+    "php": ">=8.2",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "fakerphp/faker": "*",
+    "symfony/console": "7.0.*",
+    "symfony/debug-bundle": "7.0.*",
+    "symfony/dotenv": "7.0.*",
+    "symfony/filesystem": "7.0.*",
+    "symfony/finder": "7.0.*",
+    "symfony/flex": "^2",
+    "symfony/framework-bundle": "7.0.*",
+    "symfony/mailer": "7.0.*",
+    "symfony/runtime": "7.0.*",
+    "symfony/security-bundle": "7.0.*",
+    "symfony/sendgrid-mailer": "7.0.*",
+    "symfony/string": "7.0.*",
+    "symfony/validator": "7.0.*",
+    "symfony/webapp-pack": "*",
+    "symfony/yaml": "7.0.*",
+    "symfonycasts/reset-password-bundle": "*",
+    "symfonycasts/verify-email-bundle": "*",
+    "vich/uploader-bundle": "*"
 
-- install forms
-- save new article
-- update article
-- use validators
+The css used for this project is from <a href="https://bootswatch.com/5/darkly/bootstrap.min.css/startbootstrap-freelancer/">Bootstrap</a>. And the FontFaces are from https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css.
 
-### 5 - comments
-- rename articles by tricks
-- create table comment
-- create form using cli
-- create table designation and trick_designations
-- create table users
-- create mysql request
-- learn how works the orm to update tables
-- separation of tasks in services an repository
-- display article with related validated comments
+## Installation
 
-### 5.1 - forms2 #15
+You will need a Webserver Apache2 using Php 8.2+, and an <a href="https://fr.wikipedia.org/wiki/Open_Database_Connectivity">ODBC</a> like Mysql. We prefer to use MariaDb which is open source and built in opposition of the buyback of Mysql by Oracle.
 
-- todo: forms of comments
-- separate tasks in Service and Form
-- propose form of tricks
-- save comment
-- redicrect correctly to the same page with 2 parameters
+Supposing you have <a href="https://git-scm.com/">GIT</a> installed, clone this repository :
 
-### 5.2 - relations #17
+    git clone https://github.com/agence2dav/oc6
 
-- rename columns
-- make relations in entities
-- create fixtures with dependancies
+Then, let <a href="https://getcomposer.org/">Composer</a> install the components from the `composer.json`:
 
-### 5.3 - relationship working good (#21) #17
+    composer install
 
-- call of $trick->getComment() trough the associated requests from the Orm
-- use mapping of models
+Then, follow this sequence :
 
-### 5.4 - slug #19
+    scoop install symfony-cli
+    symfony check:requirements
+    symfony new SnowTricks --version="7.0.*" --webapp
 
-- url lisibles
-- edit slug from title and redirect with new slug
+Security Audit
+    composer audit
 
-### 6 - login #6 #24
+Now it's time to :
+    composer install
 
-- pose des bases techniques, controller, form, model, mapper, twig...
-- register : create new user
-- login user
-- update post comment while being loged, and attach user to it
-- adapt menus and templates for adminuser ou logeduser
+In localhosting, you can using the server of Symfony :
+    symfony server:start -d
 
-### 7 - admin
+Debug Bundle
+    composer require symfony/debug-bundle 
 
-- access to admin
-- edit status of posts
-- edit status of comments
-- repair solid concepts of register, tricks and comments
+Profiler, to follow the errors
+    composer require --dev symfony/profiler-pack
 
-### 6.1 login2 #26
-- verif user by token sent by mail (add column is user)
-- reset password
+Then, set the DATABASE_URL in your .ENV, and install the database
+    php bin/console doctrine:database:create
 
-### 8 - upload images #29
-- todo: use models for saving
-- add upload
-- add entity media (img, video)
-- let choose first image of article
-- add medias in articles : images, youtube
+No databe is given with this project.
+You can load the Fixture to create random Datas :
+    php bin/console doctrine:fixtures:load
 
-### 9 - designations #31
-- current set is not performant (Designation and TrickDesignations)
-- add new set of tables tags, cats and trackTags
-- update fixtures for medias and tags
+## Usage
 
-### 10 - tags #33
-- delete all things about designations
-- use multiple tags in tricks
-- find tricks by tags
-- edit tags
-- add tags
+The user can :
+- create new Tricks
+- import and use images
+- set a serie of Tags for his Trick
+- set the Home prevalent image for the Trick
+- publish some commentarieson all Tricks
+- edit or unpublish a Trick
+- publish or unpublish some comments
+- choose an avatar for his profile
+- change his password
+- recover his account
 
-### 10 - video #35
-- add table MediaType linked to table Media
-- upgrade save media by type
-- upgrade fixtures
-- update uml of models
-- add delete media
-- preview thumb of youtube video
-- update mediaMapper
-- presentation of medias in article
-- ehance homepage
+### Roles
 
-### 11 pagination #37
+In this configuration, two roles are set hierarchically, `ROLE_EDIT` and `ROLE_ADMIN`.
+All two can edit ALL the datas of the site (as required). If you yant to let this privilege to the USER_ADMIN alone, and let user can only edit their own Tricks, you can change the parameter `$minRoleToEdit` to `ROLE_ADMIN` in `Controllers/TricksControllers.php` and in `Controllers/AdminControllers.php`. In this case the user will only able to edit or change his own Tricks.
 
-- throw error 403 on bad pages
-- implements hierarchy of roles
-- prepare to switch between all rights for edituser or adminuser in admin and editbuttons
-- add newtrick page different from edittrick
-- try again to fix enable save button on formtag
-- update fixtures to produce more articles and reshape how works randomobjects
-- make bypages using paginator
+## Learnt
 
-### 12 recover password #39
-- todo: make workin mail
-- todo: cleanup code
+This is our first project in Symfony, so be kind with me :)
+There is a lot of ways to perform the chooses taken. 
+Most of time theses ways are let in comments in the code.
+
+We ave learnt :
+- to init a blank project
+- to use the .ENV files
+- to use the CLI instead of try to do all itself :)
+- to know concepts of autowiring
+- to understand concepts of HttpKernel and HttpFundation, and how the Url are made
+- to understand concepts of ObjectManager and AbstractController
+- to use the ORM, create entities, and "migrate" the table from them (because the config know how it is, but not again the Database).
+- to make associations between tables without errors (because that can works with errors)
+- to understand the principle of lazy datas, who are called from the template if necessary only. That's why errors in the bottom of the code are warning first.
+- to separate the code following the SOLID precepts, using Mapping and Models, some times recursively.
+- to build Fixtures with the bundle Faker
+- to create and understand how works the Forms (and it's a big thing) :
+-- to createForm from a specific class
+-- to know and use all the options of all the types of fields
+-- to understand the EventListeners
+-- to manage the savings in services
+- to customize error pages
+- to hierarchize the Roles
+- to config correctly the config.yaml, in general term
+- to apply some principles of security
+- to better use Twig
+
+## Conclusion
+
+Symfony is a big thing, and it let create some projects understandable for whose know Symfony, of course.
+Most of classical parts of a software are industrialized in some trademarks processes, with common ways to use them and to combine them.
+

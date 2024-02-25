@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\TrickRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\UX\Turbo\Attribute\Broadcast;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
+use DateTime;
+use App\Entity\User;
+use DateTimeImmutable;
+use DateTimeInterface;
+use App\Entity\Comment;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TrickRepository;
+use Symfony\UX\Turbo\Attribute\Broadcast;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Type;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use App\Entity\Comment;
-use App\Entity\User;
-use DateTimeInterface;
-use DateTimeImmutable;
-use DateTime;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[Broadcast]
+#[UniqueEntity(fields: ['title'], message: 'Cet titre est déjà utilisé')]
 class Trick
 {
 
