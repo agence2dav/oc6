@@ -18,6 +18,8 @@ return [
         '/admin/comments' => [[['_route' => 'admin_comments', '_controller' => 'App\\Controller\\AdminController::showComments'], null, null, null, false, false, null]],
         '/avatar' => [[['_route' => 'admin_avatar', '_controller' => 'App\\Controller\\AdminController::userAvatar'], null, null, null, false, false, null]],
         '/admin' => [[['_route' => 'app_admin', '_controller' => 'App\\Controller\\AdminController::index'], null, null, null, false, false, null]],
+        '/testmail0' => [[['_route' => 'test_mail0', '_controller' => 'App\\Controller\\MailController::test0'], null, null, null, false, false, null]],
+        '/testmail' => [[['_route' => 'test_mail', '_controller' => 'App\\Controller\\MailController::test'], null, null, null, false, false, null]],
         '/register' => [[['_route' => 'app_register', '_controller' => 'App\\Controller\\RegisterController::register'], null, null, null, false, false, null]],
         '/verify/email' => [[['_route' => 'app_register_verif', '_controller' => 'App\\Controller\\RegisterController::verifyUserEmail'], null, null, null, false, false, null]],
         '/reset-password' => [[['_route' => 'app_forgot_password_request', '_controller' => 'App\\Controller\\ResetPasswordController::request'], null, null, null, false, false, null]],

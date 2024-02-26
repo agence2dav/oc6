@@ -12,7 +12,7 @@
 - let choose his avatar in /admin
 
 ### 12 recover password #39
-- todo: make workin mail
+- make workin mail
 
 ### 11 pagination #37
 

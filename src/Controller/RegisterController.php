@@ -2,24 +2,26 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mime\Address;
+use App\Entity\User;
+use App\Service\MailService;
+use App\Service\UserService;
 use App\Form\RegisterFormType;
 use App\Security\EmailVerifier;
-use App\Service\UserService;
-use App\Entity\User;
+use Symfony\Component\Mime\Address;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegisterController extends AbstractController
 {
     public function __construct(
         private readonly UserService $userService,
         private readonly EmailVerifier $emailVerifier,
+        private MailService $mailService,
     ) {
     }
 
@@ -37,7 +39,7 @@ class RegisterController extends AbstractController
                 'app_register_verif',
                 $user,
                 (new TemplatedEmail())
-                    ->from(new Address('admin@mailhog.local', 'dav'))
+                    ->from(new Address('users@snowtricks.com', 'snowtricks'))
                     ->to($user->getEmail())
                     ->subject('SnowTricks : confirmez votre Email')
                     ->htmlTemplate('security/confirmation_email.html.twig')
