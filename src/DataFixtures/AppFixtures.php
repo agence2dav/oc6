@@ -39,77 +39,6 @@ class AppFixtures extends Fixture
         return $this->objects[$object][$randomKey];
     }
 
-    public function tags(ObjectManager $manager): void
-    {
-        foreach ($this->fixturesService->tags() as $key => $categories) {
-            foreach ($categories as $category => $tags) {
-                $cat = new Cat();
-                $cat->setName($category);
-                $manager->persist($cat);
-                foreach ($tags as $tagname) {
-                    $tag = new Tag();
-                    $tag->setName($tagname);
-                    $tag->setCat($cat);
-                    $this->objects['tag'][] = $tag;
-                    $manager->persist($tag);
-                }
-            }
-        }
-        $manager->flush();
-    }
-
-    public function trick_tags(ObjectManager $manager): void
-    {
-        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
-            for ($j = 0; $j < 4; $j++) {
-                $trickTags = new TrickTags();
-                $trickTags
-                    ->setTrick($this->randomObject('trick'))
-                    ->setTag($this->randomObject('tag'));
-                $manager->persist($trickTags);
-            }
-        }
-        $manager->flush();
-    }
-
-    public function comments(ObjectManager $manager): void
-    {
-        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
-            for ($j = 0; $j < 4; $j++) {
-                $comments = new Comment();
-                $comments
-                    ->setTrick($this->objects['trick'][$i])
-                    ->setUser($this->objects['user'][$j])
-                    ->setContent($this->fixturesService->faker->paragraphs(mt_rand(1, 3), true))
-                    ->setStatus(rand(0, 1))
-                    ->setDate($this->fixturesService->generateRandomDateFrom());
-                $manager->persist($comments);
-            }
-        }
-        $manager->flush();
-    }
-
-    public function tricks(ObjectManager $manager): void
-    {
-        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
-            $trick = new Trick();
-            $title = $this->fixturesService->faker->sentence($nbWords = 4, $variableNbWords = true);
-            $slug = $this->slugger->slug($title);
-            $trick
-                ->setUser($this->randomObject('user'))
-                ->setTitle($title)
-                ->setSlug($slug->__toString())
-                ->setContent($this->fixturesService->faker->paragraphs(mt_rand(4, 7), true))
-                ->setImage($this->randomObject('image'))
-                ->setCreatedAt($this->fixturesService->generateDateInPast())
-                ->setUpdatedAt($this->fixturesService->generateRandomDateFrom())
-                ->setStatus(1);
-            $this->objects['trick'][] = $trick;
-            $manager->persist($trick);
-        }
-        $manager->flush();
-    }
-
     public function images(): void
     {
         $dir = getcwd() . '/public/uploads/';
@@ -117,17 +46,7 @@ class AppFixtures extends Fixture
         unset($images[0]);
         unset($images[1]);
         sort($images);
-        $this->objects['image'] = $images;
-    }
-
-    public function avatars(): void
-    {
-        $dir = getcwd() . '/assets/avatars/';
-        $images = scandir($dir);
-        unset($images[0]);
-        unset($images[1]);
-        sort($images);
-        $this->objects['avatar'] = $images;
+        $this->objects['images'] = $images;
     }
 
     public function videos(): void
@@ -146,36 +65,14 @@ class AppFixtures extends Fixture
         ];
     }
 
-    public function mediaTypes(ObjectManager $manager): void
+    public function avatars(): void
     {
-        foreach (['image', 'video', 'avatar', 'youtube'] as $type) {
-            $mediaType = new MediaType();
-            $mediaType->setType($type);
-            $manager->persist($mediaType);
-            $this->objects['mediaType'][] = $mediaType;
-        }
-        $manager->flush();
-    }
-
-    public function medias(ObjectManager $manager): void
-    {
-        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
-            $media = new Media();
-            $media
-                ->setTrick($this->objects['trick'][$i])
-                ->setFilename($this->randomObject('image'))
-                ->setType($this->objects['mediaType'][0]);
-            $this->objects['media'][] = $media;
-            $manager->persist($media);
-            $media = new Media();
-            $media
-                ->setTrick($this->objects['trick'][$i])
-                ->setFilename($this->randomObject('video'))
-                ->setType($this->objects['mediaType'][3]);
-            $this->objects['media'][] = $media;
-            $manager->persist($media);
-        }
-        $manager->flush();
+        $dir = getcwd() . '/assets/avatars/';
+        $avatars = scandir($dir);
+        unset($avatars[0]);
+        unset($avatars[1]);
+        sort($avatars);
+        $this->objects['avatar'] = $avatars;
     }
 
     public function users(ObjectManager $manager): void
@@ -195,9 +92,110 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    public function tricks(ObjectManager $manager): void
+    {
+        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
+            $trick = new Trick();
+            $title = $this->fixturesService->faker->sentence($nbWords = 4, $variableNbWords = true);
+            $slug = $this->slugger->slug($title);
+            $trick
+                ->setUser($this->randomObject('user'))
+                ->setTitle($title)
+                ->setSlug($slug->__toString())
+                ->setContent($this->fixturesService->faker->paragraphs(mt_rand(4, 7), true))
+                ->setImage($this->randomObject('images'))
+                ->setCreatedAt($this->fixturesService->generateDateInPast())
+                ->setUpdatedAt($this->fixturesService->generateRandomDateFrom())
+                ->setStatus(1);
+            $this->objects['trick'][] = $trick;
+            $manager->persist($trick);
+        }
+        $manager->flush();
+    }
+
+    public function mediaTypes(ObjectManager $manager): void
+    {
+        foreach (['image', 'video', 'avatar', 'youtube'] as $type) {
+            $mediaType = new MediaType();
+            $mediaType->setType($type);
+            $manager->persist($mediaType);
+            $this->objects['mediaType'][] = $mediaType;
+        }
+        $manager->flush();
+    }
+
+    public function medias(ObjectManager $manager): void
+    {
+        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
+            $media = new Media();
+            $media
+                ->setTrick($this->objects['trick'][$i])
+                ->setFilename($this->randomObject('images'))
+                ->setType($this->objects['mediaType'][0]);
+            $manager->persist($media);
+            $media = new Media();
+            $media
+                ->setTrick($this->objects['trick'][$i])
+                ->setFilename($this->randomObject('video'))
+                ->setType($this->objects['mediaType'][3]);
+            $this->objects['youtube'][$i] = $media;
+            $manager->persist($media);
+        }
+        $manager->flush();
+    }
+
+    public function comments(ObjectManager $manager): void
+    {
+        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
+            for ($j = 0; $j < 14; $j++) {
+                $comments = new Comment();
+                $comments
+                    ->setTrick($this->objects['trick'][$i])
+                    ->setUser($this->randomObject('user'))
+                    ->setContent($this->fixturesService->faker->paragraphs(mt_rand(1, 3), true))
+                    ->setStatus(1)
+                    ->setDate($this->fixturesService->generateRandomDateFrom());
+                $manager->persist($comments);
+            }
+        }
+        $manager->flush();
+    }
+
+    public function tags(ObjectManager $manager): void
+    {
+        foreach ($this->fixturesService->tags() as $key => $categories) {
+            foreach ($categories as $category => $tags) {
+                $cat = new Cat();
+                $cat->setName($category);
+                $manager->persist($cat);
+                foreach ($tags as $tagname) {
+                    $tag = new Tag();
+                    $tag->setName($tagname);
+                    $tag->setCat($cat);
+                    $this->objects['tag'][] = $tag;
+                    $manager->persist($tag);
+                }
+            }
+        }
+        $manager->flush();
+    }
+
+    public function trickTags(ObjectManager $manager): void
+    {
+        for ($i = 0; $i < $this->fixturesService->numberOfTricks(); $i++) {
+            for ($j = 0; $j < 4; $j++) {
+                $trickTags = new TrickTags();
+                $trickTags
+                    ->setTrick($this->randomObject('trick'))
+                    ->setTag($this->randomObject('tag'));
+                $manager->persist($trickTags);
+            }
+        }
+        $manager->flush();
+    }
+
     public function load(ObjectManager $manager): void
     {
-        $faker = Faker\Factory::create('fr_FR');
         $this->images();
         $this->videos();
         $this->avatars();
@@ -207,6 +205,6 @@ class AppFixtures extends Fixture
         $this->medias($manager);
         $this->comments($manager);
         $this->tags($manager);
-        $this->trick_tags($manager);
+        $this->trickTags($manager);
     }
 }

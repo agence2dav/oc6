@@ -73,15 +73,29 @@ class TrickController extends AbstractController
         $formTrick = $this->createForm(TrickFormType::class, $trick);
         $formTrick->handleRequest($request);
 
+        //update
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $this->trickService->saveTrick(
                 $trick,
                 $this->getUser(),
-                $formTrick->get('title')->getData(),
-                $formTrick->get('content')->getData(),
                 $formTrick->get('video')->getData(),
             );
 
+            //flashes
+            if ($createNew) {
+                $this->addFlash(
+                    'updated',
+                    'Le nouveau Trick a été enregistré. Il reste à ajouter une image de garde, et à le publier depuis l\'admin'
+                );
+                //return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
+            } else {
+                $this->addFlash(
+                    'updated',
+                    'Les modifications ont "été prises en compte.'
+                );
+            }
+
+            //medias
             $mediaFiles = $formTrick->get('media')->getData();//UploadedFile
             if ($mediaFiles) {
                 foreach ($mediaFiles as $mediaFile) {
@@ -91,18 +105,15 @@ class TrickController extends AbstractController
                         $mediaFileName,
                         'image'
                     );
+                    $this->addFlash(
+                        'updated',
+                        'L`\'image ' . $mediaFileName . ' a été ajoutée au catalogue.'
+                    );
                 }
-            }
-            if ($createNew) {
-                //return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
-            } else {
-                $this->addFlash(
-                    'ok_edit',
-                    'Les modifications ont "été prises en compte.'
-                );
             }
         }
 
+        //tags
         $formTags = $this->createForm(TrickTagsFormType::class);
         $catsModel = $this->catService->getAll();
         $formTags->handleRequest($request);
@@ -114,6 +125,7 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('edit_trick', ['id' => $trick->getId()]);
         }
 
+        //render
         $template = $trick->getId() ? 'editTrick' : 'newTrick';
         return $this->render('home/' . $template . '.html.twig', [
             'formTrick' => $formTrick->createView(),
@@ -170,8 +182,19 @@ class TrickController extends AbstractController
             );
         }
 
+        //format content
         $root_img = $this->getParameter('trick_medias');
         $trickModel->setContent($this->trickService->formatContent($trickModel->getContent()));
+
+        //comments_pagination
+        $limit = $this->commentRepository::PAGINATOR_PER_PAGE;
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $comments = $this->commentService->getCommentsPaginator($trick, $offset);
+        $nbOfComments = $this->commentService->getNumberOfCommentsByTricks($trick);
+        $nbOfPages = ceil($nbOfComments / $limit);
+        //$arrayPages = array_map(fn($i):int => $limit * $i++, range(1, $nbOfPages - 1));
+        for ($i = 0; $i < $nbOfPages; $i++)
+            $arrayPages[$i] = $i * $limit;
 
         if ($trick->getStatus() == 1) {
             $template = 'home/trick.html.twig';
@@ -182,10 +205,17 @@ class TrickController extends AbstractController
             $template,
             [
                 'trick' => $trickModel,
+                'comments' => $comments,
                 'formComment' => $formComment->createView(),
                 'minRoleToEdit' => $this->minRoleToEdit,
                 'root_img' => $root_img,
                 'user' => $this->getUser(),
+                'previous' => $offset - $limit,
+                'next' => $offset + $limit,
+                'arrayPages' => $arrayPages,
+                'nbOfComments' => $nbOfComments,
+                'pages' => $nbOfPages,
+                'page' => $offset,
             ]
         );
     }
@@ -199,9 +229,9 @@ class TrickController extends AbstractController
         $tricks = $this->trickService->getTricksPaginator($offset);
         $nbOfTricks = $this->trickRepository->countByStatus();
         $nbOfPages = ceil($nbOfTricks / $limit);
-        $arrayPages = array_map(fn($i) => $limit * $i++, range(1, $nbOfPages - 1));
-        //for ($i = 0; $i < $nbOfPages; $i++)
-        //  $arrayPages[$i] = $i * $limit;
+        //$arrayPages = array_map(fn($i):int => $limit * $i++, range(1, $nbOfPages - 1));
+        for ($i = 0; $i < $nbOfPages; $i++)
+            $arrayPages[$i] = $i * $limit;
         return $this->render('home/tricks.html.twig', [
             'pageTitle' => 'All of Tricks',
             'minRoleToEdit' => $this->minRoleToEdit,

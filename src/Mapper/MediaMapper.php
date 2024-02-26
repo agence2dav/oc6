@@ -4,16 +4,23 @@ declare(strict_types=1);
 
 namespace App\Mapper;
 
-use Doctrine\Common\Collections\Collection;
 use App\Model\MediaModel;
+use App\Service\MediaService;
+use Doctrine\Common\Collections\Collection;
 
 class MediaMapper
 {
+    public function __construct(
+        private readonly MediaService $mediaService,
+    ) {
+
+    }
+
     public function EntityToModel(object $mediaEntity): MediaModel
     {
         $mediaModel = new MediaModel();
         $mediaModel->setId($mediaEntity->getId());
-        $mediaModel->setFilename($mediaEntity->getFilename());
+        $mediaModel->setFilename($this->mediaService->goodUrl($mediaEntity->getFilename()));
         $mediaModel->setMediaType($mediaEntity->getType());
         $mediaModel->setTrick($mediaEntity->getTrick());
         return $mediaModel;

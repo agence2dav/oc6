@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-//composer require fakerphp/faker
+use DateTime;
+use DateInterval;
 use Faker\Factory;
 use Faker\Generator;
-use DateTimeInterface;
-use DateTimeImmutable;
-use DateTime;
 
 class FixturesService
 {
@@ -45,7 +43,7 @@ class FixturesService
     {
         $this->month = mt_rand(1, 24);
         $now = new DateTime();
-        $dist = \DateInterval::createFromDateString($this->month . ' months');
+        $dist = DateInterval::createFromDateString($this->month . ' months');
         $now->sub($dist);
         $now->format('Y-m-d H:i:s');
         return $now;
@@ -55,7 +53,7 @@ class FixturesService
     public function generateRandomDateFrom(): DateTime
     {
         $now = new DateTime();
-        $dist = \DateInterval::createFromDateString(mt_rand(1, $this->month) . ' months');
+        $dist = DateInterval::createFromDateString(mt_rand(1, $this->month) . ' months');
         $now->sub($dist);
         $now->format('Y-m-d H:i:s');
         return $now;

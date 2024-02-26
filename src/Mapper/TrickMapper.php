@@ -36,7 +36,7 @@ class TrickMapper
         $trickModel->setImage($trickEntity->getImage());
         $trickModel->setStatus($trickEntity->getStatus());
         $trickModel->setContent($trickEntity->getContent());
-        $trickModel->setComments($this->commentMapper->EntitiesToModels($trickEntity->getComments()));
+        //$trickModel->setComments($this->commentMapper->EntitiesToModels($trickEntity->getComments()));
         $trickModel->setMedia($this->mediaMapper->EntitiesToModels($trickEntity->getMedia()));
         $trickModel->setTrickTags($this->trickTagsMapper->EntitiesToModels($trickEntity->getTrickTags()));
         return $trickModel;

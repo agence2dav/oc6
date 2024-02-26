@@ -6,7 +6,6 @@ namespace App\Mapper;
 
 use Doctrine\Common\Collections\Collection;
 use App\Model\TrickTagsModel;
-use App\Entity\Tag;
 
 class TrickTagsMapper
 {

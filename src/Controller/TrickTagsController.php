@@ -9,25 +9,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Doctrine\Common\Collections\Collection;
 use App\Model\TrickTagsModel;
 use App\Mapper\TrickTagsMapper;
 use App\Service\TrickService;
 use App\Service\TrickTagsService;
-use App\Entity\Trick;
 use App\Entity\Tag;
-use App\Entity\TrickTags;
 
 class TrickTagsController extends AbstractController
 {
 
     public function __construct(
         private TrickService $trickService,
-        //private TagService $tagService,
         private TrickTagsService $trickTagsService,
         private TrickTagsModel $trickTagsModel,
-        //private TagMapper $tagMapper,
         private TrickTagsMapper $trickTagsMapper,
     ) {
 
@@ -38,7 +32,6 @@ class TrickTagsController extends AbstractController
     public function show(Tag $tag = null, int $id): Response
     {
         $trickTagsModel = $this->trickTagsService->getTricksByTag($id);
-        //dd($trickTagsModel);
         $tricks = new ArrayCollection;
         if ($trickTagsModel) {
             foreach ($trickTagsModel as $trickTagsModel) {
@@ -46,12 +39,13 @@ class TrickTagsController extends AbstractController
                 $tricks->add($this->trickService->getById($trickId));
             }
         }
-        //dd($tricks);
         $currentTag = $trickTagsModel->getTag()->getName();
 
-        return $this->render('home/tricks.html.twig', [
+        return $this->render('home/tagTricks.html.twig', [
             'pageTitle' => 'Tricks avec le tag ' . $currentTag,
+            'minRoleToEdit' => 'ROLE_USER',
             'tricks' => $tricks,
+            'tag' => $currentTag,
         ]);
     }
 
@@ -60,9 +54,8 @@ class TrickTagsController extends AbstractController
     public function form(Tag $tag = null, int $id, Request $request): Response
     {
         $tricks = $this->trickTagsService->getTricksByTag($id);
-        dump($tricks);
 
-        return $this->render('home/home.html.twig', [
+        return $this->render('home/tagTrickEdit.html.twig', [
             'tricks' => $tricks,
         ]);
     }

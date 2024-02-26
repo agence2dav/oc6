@@ -11,15 +11,11 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Repository\UserRepository;
 use App\Mapper\UserMapper;
 use App\Model\UserModel;
-use App\Entity\Comment;
-use App\Entity\CommentService;
-use App\Entity\CommentRepository;
 use App\Entity\User;
 
 class UserService
 {
     public function __construct(
-        //private readonly EntityManagerInterface $entityManager,
         private readonly EntityManagerInterface $manager,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
         private readonly TokenGeneratorInterface $tokenGenerator,
@@ -60,15 +56,36 @@ class UserService
         return true;
     }
 
-    public function chooseRandomAvatar(): string
+    //avatar
+    public function getAvatars(): array
     {
-        echo $dir = '../assets/avatars';
+        $dir = '../assets/avatars/';
+        //$dir = getcwd() . '/assets/avatars/';
         $images = scandir($dir);
         unset($images[0]);
         unset($images[1]);
         sort($images);
-        $numberOfFiles = count($images);
-        return $images[mt_rand(0, $numberOfFiles)];
+        return $images;
+    }
+
+    public function chooseAvatar(): array
+    {
+        return array_map(fn($avatar) => substr(strchr($avatar, '/'), 1, -4), $this->getAvatars());
+    }
+
+    public function chooseRandomAvatar(): string
+    {
+        $avatars = $this->getAvatars();
+        $numberOfFiles = count($avatars);
+        return $avatars[mt_rand(0, $numberOfFiles)];
+    }
+
+    public function saveAvatar(User $user, string $avatarKey): void
+    {
+        $avatars = $this->getAvatars();
+        $avatar = $avatars[$avatarKey];
+        $user->setAvatar($avatar);
+        $this->userRepository->saveUser($user);
     }
 
     //reset-pswd

@@ -38,10 +38,12 @@ class CommentRepository extends ServiceEntityRepository
         return new Paginator($query);
     }
 
-    public function countByStatus(): int
+    public function countByTricks(Trick $trick): int
     {
         return $this->createQueryBuilder('c')
             ->select('count(c.id)')
+            ->andWhere('c.trick = :trick')
+            ->setParameter('trick', $trick)
             ->andWhere('c.status = 1')
             ->getQuery()
             ->getSingleScalarResult()
@@ -56,7 +58,6 @@ class CommentRepository extends ServiceEntityRepository
             ->addSelect('u.user')
             ->addSelect('c.content')
             ->addSelect('c.date')
-            //->innerjoin(User::class, 'u', 'ON', 'u.id = c.user')
             ->innerjoin(User::class, 'u')
             ->andWhere('u.id = c.user')
             ->andWhere('c.trick = :id')
@@ -74,7 +75,6 @@ class CommentRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->orderBy('t.id', 'DESC')
-            //->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
@@ -86,7 +86,6 @@ class CommentRepository extends ServiceEntityRepository
             ->andWhere('t.user = :uid')
             ->setParameter('uid', $uid)
             ->orderBy('t.id', 'DESC')
-            //->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;

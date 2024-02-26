@@ -4,26 +4,28 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
+use App\Entity\User;
 use App\Form\UserFormType;
 use App\Service\UserService;
-use App\Service\MailService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 
 class UserController extends AbstractController
 {
+    private string $minRoleToEdit = 'ROLE_USER';
 
     public function __construct(
         private readonly UserPasswordHasherInterface $userPasswordHasher,
         private readonly ResetPasswordHelperInterface $resetPasswordHelper,
         private readonly EntityManagerInterface $entityManager,
-        private readonly MailService $mailService,
         private UserFormType $userFormType,
         private UserService $userService,
         private Security $security,
@@ -37,9 +39,6 @@ class UserController extends AbstractController
     ): Response {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-
-        //$hasAccess = $this->isGranted('ROLE_ADMIN');
-        //$this->denyAccessUnlessGranted('ROLE_EDIT');
         if ($this->security->isGranted('ROLE_USER')) {
             $this->addFlash('home-flash', 'Vous êtes connecté avec succès.');
         }
@@ -50,10 +49,13 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user', name: 'app_userPage')]
-    public function userPage()
+    #[Route('/user', name: 'app_user')]
+    public function user(): Response
     {
-        return $this->render('home/userpage.html.twig', []);
+        return $this->render('admin/user.html.twig', [
+            'minRoleToEdit' => $this->minRoleToEdit,
+            'edit_avatar' => ''
+        ]);
     }
 
     #[Route('/logout', name: 'app_logout')]

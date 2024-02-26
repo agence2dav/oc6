@@ -5,26 +5,20 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\Pagination\Paginator;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 use App\Repository\TrickTagsRepository;
 use App\Repository\TrickRepository;
 use App\Repository\MediaRepository;
 use App\Service\MediaService;
 use App\Mapper\TrickMapper;
 use App\Model\TrickModel;
-use App\Entity\TrickTags;
 use App\Entity\Trick;
-use App\Entity\Media;
 use App\Entity\User;
 
 class TrickService
 {
 
     public function __construct(
-        //private readonly EntityManagerInterface $entityManager,
         private readonly EntityManagerInterface $manager,
         private readonly SluggerInterface $slugger,
         private readonly TrickTagsRepository $trickTagsRepository,
@@ -87,8 +81,6 @@ class TrickService
     public function saveTrick(
         Trick $trick,
         User $user,
-        string $title,
-        string $content,
         string $video = null,
     ): void {
         if (!$trick->getId()) {
@@ -96,8 +88,6 @@ class TrickService
             $trick->setCreatedAt(new \DateTime());
             $trick->setStatus(1);
         }
-        //$trick->setTitle($title);
-        //$trick->setContent($content);
         $slug = $this->slugger->slug($trick->getTitle());
         $trick->setSlug($slug->toString());
         $trick->setUpdatedAt(new \DateTime());
@@ -119,7 +109,7 @@ class TrickService
                 if (in_array($extension, ['.jpg', '.png', '.webp'])) {
                     $paragraphArray[] = $this->mediaService->image($word);
                 } elseif (strpos($word, 'youtu')) {
-                    $paragraphArray[] = $this->mediaService->youtube($word);
+                    $paragraphArray[] = $this->mediaService->youtubeIframe($word);
                 } else {
                     $paragraphArray[] = $word;
                 }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use DateTimeImmutable;
-use DateTimeInterface;
 use DateTime;
 use App\Entity\User;
 

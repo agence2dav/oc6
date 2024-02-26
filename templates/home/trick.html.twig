@@ -11,7 +11,7 @@
 
 {% block body %}
 
-<div class="example-wrapper mw-80">
+<div class="example-wrapper col-xl-10 col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12">
     <!-- article -->
     <article class="card border-light mb-3">
     
@@ -28,31 +28,23 @@
         <div class="card-footer">
             {% if is_granted(minRoleToEdit) or trick.username == currentUser %}
                 <h6><a class="card-link" href="{{ path("edit_trick", {id: trick.id}) }}"><i class="bi bi-pencil"></i> Editer</a></h6>
-                {#{% if is_granted('ROLE_ADMIN') %}#}
-                    {% if trick.status == 1 %}
-                    <h6><a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-trash"></i> Supprimer</a></h6>
-                    {% else %}
-                    <h6><a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i> Publier</a></h6>
-                    {% endif %}
-                {#{% endif %}#}
+                {% if trick.status == 1 %}
+                <h6><a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-trash"></i> Supprimer</a></h6>
+                {% else %}
+                <h6><a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i> Publier</a></h6>
+                {% endif %}
             {% endif %}
         </div>
         
         <div class="card-boby">
-            <!-- hero image -->
-            {% if trick.image and trick.image != "http://placehold.it/600x200" %}
-            <div class="image">
-                <img src="http://oc6.test/public/uploads/{{ trick.image }}" width="100%"/>
-            </div>
-            {% endif %}
-        
+
             <!-- catalog images -->
             {% for media in trick.media %}
             <div class="image">
                 {% if media.mediatype.type == "image" %}
-                <img src="http://oc6.test/public/uploads/{{ media.filename }}" width="240px" />
+                <img src="http://oc6.test/public/uploads/{{ media.filename }}" width="100%" />
                 {% elseif media.mediatype.type == "youtube" %}
-                <iframe src="{{ media.filename }}" width="350px" allowfullscreen="true"></iframe>
+                <iframe width="100%" height="315" src="{{ media.filename }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 {% endif %}
                 </td>
             </div>
@@ -74,7 +66,7 @@
     </article>
 
     <!-- comments -->
-    <h3>Commentaires</h3>
+    <h3>{{ nbOfComments }} Commentaires</h3>
 
     {% for message in app.flashes('thanks_comment') %}
     <div class="alert alert-success">
@@ -94,29 +86,54 @@
         <div class="text-body-primary alert alert-secondary">
             Vous devez être logué pour poster un commentaire. 
             <a class="nav-link" href="{{ path("app_login") }}">Connexion</a> 
-            {# //come-back to this page after login
-            <a class="nav-link" href="/login?_target_path=/trick/{{ trick.slug }}">Connexion</a>
-            #}
         </div>
     {% endif %}
 
-    {% for comment in trick.comments %}
-    {% if comment.status == 1 %}
+    {% for comment in comments %}
+        {#% if comment.status == 1 %#}
 
-    <section class="card text-white bg-primary mb-3">
-        <div class="card-header">
-            <img src="http://oc6.test/assets/avatars/{{ comment.avatar }}" width="48px"/>
-            <strong>{{ comment.username | raw}}</strong> - 
-            <small>{{ comment.date | date("d/m/Y") }}</small>
-        </div>
-        <div class="card-boby">
-            <div class="content">
-                <div class="text-body-primary">{{ comment.content | raw}}</div>
+        <section class="card text-white bg-primary mb-3">
+            <div class="card-header">
+                <img src="http://oc6.test/assets/avatars/{{ comment.avatar }}" width="48px"/>
+                <strong>{{ comment.username | raw}}</strong> - 
+                <small>{{ comment.date | date("d/m/Y") }}</small>
             </div>
-        </div>
-    </section>
-    {% endif %}
+            <div class="card-boby">
+                <div class="content">
+                    <div class="text-body-primary">{{ comment.content | raw}}</div>
+                </div>
+            </div>
+        </section>
+        {#% endif %#}
     {% endfor %}
+    
+    <div>
+        <ul class="pagination align-center">
+            <li class="page-item">
+        {% if previous >= 0 %}
+            <a class="page-link" href="{{ path("show_trick", {"slug": trick.slug, 'offset': previous }) }}">&laquo;</a>
+        {% else %}
+            <a class="page-link disabled" href="#">&laquo;</a>
+        {% endif %}
+            </li>
+            {% for key,numPage in arrayPages %}
+                {% if numPage == page %}
+            <li class="page-item active">
+                {% else %}
+            <li class="page-item">
+                {% endif %}
+            <a class="page-link" href="{{ path("show_trick", {"slug": trick.slug, 'offset': numPage }) }}">{{ key+1 }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item">
+        {% if next < nbOfComments %}
+            <a class="page-link" href="{{ path("show_trick", {"slug": trick.slug, 'offset': next }) }}">&raquo;</a>
+        {% else %}
+            <a class="page-link disabled" href="#">&raquo;</a>
+        {% endif %}
+            </li>
+        </ul>
+    </div>
 
 </div>
 {% endblock %}

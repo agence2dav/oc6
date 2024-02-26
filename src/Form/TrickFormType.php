@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,19 +18,10 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
-use Symfony\Component\Form\ChoiceList\ChoiceList;
-use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Repository\UserRepository;
-use App\Repository\CatRepository;
 use App\Service\MediaService;
-use App\Model\TrickModel;
 use App\Entity\Trick;
-use App\Entity\Cat;
-use App\Entity\Tag;
 
 class TrickFormType extends AbstractType
 {
@@ -73,6 +60,8 @@ class TrickFormType extends AbstractType
                         new Length([
                             'min' => 4,
                             'minMessage' => 'mini {{ limit }} caractères',
+                            'max' => 255,
+                            'maxMessage' => 'max {{ limit }} caractères',
                         ]),
                     ]
                 ]
@@ -164,7 +153,6 @@ class TrickFormType extends AbstractType
 
             ->add('Enregistrer', SubmitType::class)
             ->getForm();
-        //$builder->get('image')->setData('http://placehold.it/600x200');
     }
 
 }

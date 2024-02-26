@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\TrickTags;
 use App\Entity\Trick;
-use App\Entity\Cat;
-use App\Entity\Tag;
 
 class CatModel
 {
@@ -18,7 +15,6 @@ class CatModel
     private ?TrickTags $trickTags = null;
     private ?Trick $trick = null;
     private Collection $tags;
-    private ?Tag $tag = null;
 
     public function getId(): ?int
     {

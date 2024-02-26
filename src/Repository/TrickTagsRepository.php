@@ -5,8 +5,6 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\TrickTags;
-use App\Entity\Trick;
-use App\Entity\Tag;
 
 class TrickTagsRepository extends ServiceEntityRepository
 {
@@ -19,14 +17,7 @@ class TrickTagsRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('td')
             ->andWhere('td.tag = :id')
-            //->innerjoin(Tag::class, 'd')
-            //->andWhere('d.id = td.tag')
-            //->innerjoin(Trick::class, 't')
-            //->andWhere('t.id = td.trick')
             ->setParameter('id', $id)
-            //->orderBy('d.id', 'ASC')
-            //->groupBy('t')
-            //->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
