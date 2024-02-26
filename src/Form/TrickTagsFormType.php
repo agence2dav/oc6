@@ -37,18 +37,12 @@ class TrickTagsFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add(
-                'trick',
-                HiddenType::class,
-                [
-                ]
-            )
             ->add('tagId')
+            /* 
             ->add('save', SubmitType::class, [
-                'label' => 'Enregistrer',
-                'disabled' => false,
+                'label' => 'Ajouter',
+                'disabled' => true,
             ])
-            /* */
             ->addEventListener(
                 FormEvents::PRE_SET_DATA,
                 function (FormEvent $event) {
@@ -60,7 +54,7 @@ class TrickTagsFormType extends AbstractType
                         ]);
                     }
                 }
-            )
+            )*/
             ->getForm();
     }
 

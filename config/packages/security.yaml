@@ -24,9 +24,18 @@ security:
             logout:
                 path: app_logout
                 target: app_home
+            pattern: ^/
+ #           user_checker: App\Security\UserChecker
         
             entry_point: App\Security\AuthenticationEntryPoint
             access_denied_handler: App\Security\AccessDeniedHandler
+        
+ #       pattern: ^/
+ #       user_checker: security.user_checker.chain.main
+
+ #   api:
+ #       pattern: ^/api
+ #       user_checker: security.user_checker.chain.api
 
     # https://symfony.com/doc/current/security.html#security-securing-controller-attributes
     access_control:

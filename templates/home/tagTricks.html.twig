@@ -5,18 +5,20 @@
 {% block body %}
 
 <div class="example-wrapper">
-    <h1>Tricks contenant le tag {{ tag }}</h1>
+    <h1 class="display-5">Tricks contenant le tag {{ tag }}</h1>
     <table class="table table-hover">
         <tr class="table-info">
-            <th>auteur</td>
+            <th>Image</td>
             <th>titre</td>
+            <th>auteur</td>
             <th>Dernière modification</td>
             <th>Voir</td>
         </tr>
     {% for trick in tricks %}
         <tr class="table-dark">
-            <td>{{trick.title | raw}}</td>
+            <td><img src="http://oc6.test/public/uploads/{{ trick.image }}" width="220px" /></td>
             <td>{{trick.username}}</td>
+            <td>{{trick.title | raw}}</td>
             <td>{{trick.UpdatedAt | date("d/m/Y")}}</td>
             <td>
             <a class="btn btn-primary" href="{{ path("show_trick", {"slug": trick.slug }) }}">Afficher</a>

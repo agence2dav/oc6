@@ -27,6 +27,15 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%trick_medias%'
+    
+#    App\Security\AccountEnabledUserChecker:
+#        tags:
+#            - { name: security.user_checker.api, priority: 10 }
+#            - { name: security.user_checker.main, priority: 10 }
+
+#    App\Security\APIAccessAllowedUserChecker:
+#    tags:
+#        - { name: security.user_checker.api, priority: 5 }
 
 #Doctrine\Persistence\ObjectManager: 
 #App\Controller\HomeController: '@doctrine.orm.default_entity_manager'
