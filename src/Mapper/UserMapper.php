@@ -10,7 +10,6 @@ use App\Entity\User;
 
 class UserMapper
 {
-    private static $instance;
 
     public function __construct(
         private CommentMapper $commentMapper

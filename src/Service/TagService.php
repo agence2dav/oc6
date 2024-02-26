@@ -6,7 +6,6 @@ namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TrickRepository;
-use App\Repository\TrickTagRepository;
 use App\Repository\TagRepository;
 use App\Mapper\TagMapper;
 use App\Entity\Trick;
@@ -15,7 +14,6 @@ class TagService
 {
 
     public function __construct(
-        //private readonly EntityManagerInterface $entityManager,
         private TrickRepository $TrickRepo,
         private TagRepository $TagRepo,
         private TagRepository $tagsRepo,

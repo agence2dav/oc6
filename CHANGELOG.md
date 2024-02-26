@@ -2,10 +2,10 @@
 
 ## Issues
 
-### 15 avatar
+### 15 cleanup
 - cleanup and ehance
 
-### 14 avatar
+### 14 videos
 - make working videos
 
 ### 13 avatar

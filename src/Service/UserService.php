@@ -11,15 +11,11 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use App\Repository\UserRepository;
 use App\Mapper\UserMapper;
 use App\Model\UserModel;
-use App\Entity\Comment;
-use App\Entity\CommentService;
-use App\Entity\CommentRepository;
 use App\Entity\User;
 
 class UserService
 {
     public function __construct(
-        //private readonly EntityManagerInterface $entityManager,
         private readonly EntityManagerInterface $manager,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
         private readonly TokenGeneratorInterface $tokenGenerator,

@@ -5,45 +5,43 @@
 
 {% block body %}
 
-    <h1 class="display-5">Editer un Trick</h1>
-    <main role="main">
+<h1 class="display-5">Editer un Trick</h1>
+<main role="main">
     <!-- supprimer tags -->
     <div class="card border-light mb-3">
-    <div class="card-header">
-    Edition du contenu
-    </div>
-    <div class="card-body">
+        <div class="card-header"> Edition du contenu</div>
+        <div class="card-body">
 
-    {% for message in app.flashes('updated') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
-    {% endfor %}
+        {% for message in app.flashes('updated') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+        {% endfor %}
 
-    <!-- form -->
-    {{ form_start(formTrick) }}
+        <!-- form -->
+        {{ form_start(formTrick) }}
 
-    <button type="submit" class="btn btn-success">Enregistrer</button>
-    <a class="btn btn-secondary" href="{{ path("show_trick", {"slug": trick.slug }) }}">Retour à la fiche</a>
-    {% if is_granted(minRoleToEdit) or trick.username == currentUser %}
-        {% if trick.status == 1 %}
-        <a class="btn btn-danger" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-trash"></i> Supprimer</a>
-        {% else %}
-        <a class="btn btn-secondary" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i> Publier</a>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <a class="btn btn-secondary" href="{{ path("show_trick", {"slug": trick.slug }) }}">Retour à la fiche</a>
+        {% if is_granted(minRoleToEdit) or trick.username == currentUser %}
+            {% if trick.status == 1 %}
+            <a class="btn btn-danger" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-trash"></i> Supprimer</a>
+            {% else %}
+            <a class="btn btn-secondary" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i> Publier</a>
+            {% endif %}
         {% endif %}
-    {% endif %}
 
-    {{ form_row(formTrick.title, {"attr":{"placeholder":"Titre"}}) }}
-    {{ form_row(formTrick.content, {"attr":{"placeholder":"Contenu"}}) }}
-    {{ form_row(formTrick.image, {"attr":{"placeholder":"Image (Url)"}}) }}
-    {{ form_row(formTrick.video) }}
-    {{ form_row(formTrick.media) }}
-    {# Can't get a way to read the property "cat" in class "App\Entity\Trick".
-    {{ form_row(formTrick.cat) }}
-    {{ form_row(formTrick.tag) }}
-    #}
-    {{ form_end(formTrick) }}
-    </div>
+        {{ form_row(formTrick.title, {"attr":{"placeholder":"Titre"}}) }}
+        {{ form_row(formTrick.content, {"attr":{"placeholder":"Contenu"}}) }}
+        {{ form_row(formTrick.image, {"attr":{"placeholder":"Image (Url)"}}) }}
+        {{ form_row(formTrick.video) }}
+        {{ form_row(formTrick.media) }}
+        {# Can't get a way to read the property "cat" in class "App\Entity\Trick".
+        {{ form_row(formTrick.cat) }}
+        {{ form_row(formTrick.tag) }}
+        #}
+        {{ form_end(formTrick) }}
+        </div>
     </div>
 
     <!-- ajouter tags -->
@@ -121,5 +119,5 @@
         {% endfor %}
     </table>
     {% endif %}
-    </main>
+</main>
 {% endblock %}

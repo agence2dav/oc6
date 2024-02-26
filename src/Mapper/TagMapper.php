@@ -6,7 +6,6 @@ namespace App\Mapper;
 
 use Doctrine\Common\Collections\Collection;
 use App\Model\TagModel;
-use App\Entity\Tag;
 
 class TagMapper
 {

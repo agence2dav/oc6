@@ -51,7 +51,7 @@ class MediaService extends AbstractController
         $media->setType($mediaTypeEntity);
         $media->setTrick($trick);
         $this->mediaRepository->saveMedia($media);
-        //if first image
+        //if first image we try to add it as main image
         //$catalog = $this->getCatalog($trick);
         //if (count($catalog) == 1) {
         //$this->trickService->setAsFirstImage($trick, $media->getId());
@@ -103,7 +103,7 @@ class MediaService extends AbstractController
 
     public function youtubeIframe(string $url): string
     {
-        return '<iframe width="560" height="315" src="' . $this->youtubeEmbedUrl($url) . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
+        return '<iframe width="100%" height="315" src="' . $this->youtubeEmbedUrl($url) . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
     }
 
 }

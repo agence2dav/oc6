@@ -5,25 +5,17 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\Pagination\Paginator;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\PersistentCollection;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use App\Mapper\CommentMapper;
-use App\Model\CommentModel;
 use App\Entity\Trick;
 
 class CommentService
 {
 
     public function __construct(
-        //private readonly EntityManagerInterface $entityManager,
         private CommentRepository $commentRepository,
         private EntityManagerInterface $manager,
         private CommentMapper $commentMapper,
@@ -38,6 +30,17 @@ class CommentService
         return $this->commentMapper->EntitiesArrayToModels($commentsEntities);
     }
 
+    /* 
+    public function getCommentsPaginator2(Trick $trick, int $offset): Collection
+    {
+        return array_slice($trick->getComments(),$offset,10);
+    }*/
+
+    public function getNumberOfCommentsByTricks(Trick $trick): int
+    {
+        return $this->commentRepository->countByTricks($trick);
+    }
+
     public function getComments(Trick $trick): array
     {
         $commentsEntities = $trick->getComments();
@@ -46,13 +49,12 @@ class CommentService
 
     public function saveComment($form, Trick $trick, User $user): void
     {
-        //$commentModel = new CommentModel(); //The class 'App\Model\CommentModel' was not found in the chain configured namespaces App\Entity
         $commentModel = new Comment();
         $commentModel->setTrick($trick);
         $commentModel->setUser($user);
         $commentModel->setDate(new \DateTime());
         $commentModel->setContent($form->get("content")->getData());
-        $commentModel->setStatus(0); //by default
+        $commentModel->setStatus(1); //by default
         $this->commentRepository->saveComment($commentModel);
     }
 

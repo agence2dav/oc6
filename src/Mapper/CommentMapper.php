@@ -10,7 +10,6 @@ use App\Model\CommentModel;
 class CommentMapper
 {
 
-    //public function EntityToModel(Comment $commentEntity): CommentModel
     public function EntityToModel(object $commentEntity): CommentModel
     {
         $commentModel = new CommentModel();

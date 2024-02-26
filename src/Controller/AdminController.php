@@ -10,7 +10,6 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminController extends AbstractController
@@ -90,7 +89,6 @@ class AdminController extends AbstractController
                 $this->getUser(),
                 $formUser->get('avatar')->getData(),
             );
-            //return $this->redirectToRoute('admin_user');
         }
         return $this->render('admin/avatar.html.twig', [
             'formUser' => $formUser->createView(),

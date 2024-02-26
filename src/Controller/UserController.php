@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Form\UserFormType;
-use App\Form\AvatarFormType;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,9 +36,6 @@ class UserController extends AbstractController
     ): Response {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
-
-        //$hasAccess = $this->isGranted('ROLE_ADMIN');
-        //$this->denyAccessUnlessGranted('ROLE_EDIT');
         if ($this->security->isGranted('ROLE_USER')) {
             $this->addFlash('home-flash', 'Vous êtes connecté avec succès.');
         }

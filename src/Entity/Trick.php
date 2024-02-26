@@ -6,8 +6,6 @@ namespace App\Entity;
 
 use DateTime;
 use App\Entity\User;
-use DateTimeImmutable;
-use DateTimeInterface;
 use App\Entity\Comment;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,9 +13,7 @@ use App\Repository\TrickRepository;
 use Symfony\UX\Turbo\Attribute\Broadcast;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints\Type;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -34,7 +30,6 @@ class Trick
         $this->trickTags = new ArrayCollection();
     }
 
-    //https://symfony.com/doc/current/reference/constraints/Collection.html
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
         $metadata->addPropertyConstraint('title', new NotBlank());
