@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,42 +16,25 @@ use App\Service\MediaService;
 use App\Service\FileUploader;
 use App\Service\CatService;
 use App\Model\CommentModel;
-use App\Repository\TrickRepository;
-use App\Repository\CommentRepository;
-use App\Repository\MediaRepository;
-use App\Repository\CatRepository;
-use App\Mapper\TrickMapper;
-use App\Mapper\CommentMapper;
 use App\Form\TrickFormType;
 use App\Form\TrickTagsFormType;
 use App\Form\CommentFormType;
-use App\Entity\TrickTags;
 use App\Entity\Trick;
-use App\Entity\Cat;
-use App\Entity\Tag;
 
 class TrickController extends AbstractController
 {
     private string $minRoleToEdit = 'ROLE_USER';
 
     public function __construct(
-        private TrickMapper $trickMapper,
-        private TrickService $trickService,
-        private TrickRepository $trickRepository,
-        private TrickFormType $trickFormType,
-        private MediaService $mediaService,
-        private MediaRepository $mediaRepository,
-        private TrickTagsService $trickTagsService,
-        private TrickTagsFormType $trickTagsFormType,
         private CatService $catService,
-        private CatRepository $catRepository,
-        private CommentMapper $commentMapper,
+        private TrickService $trickService,
+        private MediaService $mediaService,
         private CommentService $commentService,
+        private TrickTagsService $trickTagsService,
+        private TrickFormType $trickFormType,
         private CommentFormType $commentFormType,
-        private CommentRepository $commentRepository,
+        private TrickTagsFormType $trickTagsFormType,
         private SluggerInterface $slugger,
-        //private AsciiSlugger $asciiSlugger,
-        //private UploadedFile $uploadedFile,
     ) {
 
     }
@@ -87,7 +67,6 @@ class TrickController extends AbstractController
                     'updated',
                     'Le nouveau Trick a été enregistré. Il reste à ajouter une image de garde, et à le publier depuis l\'admin'
                 );
-                //return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
             } else {
                 $this->addFlash(
                     'updated',
@@ -167,9 +146,7 @@ class TrickController extends AbstractController
     {
         $userConnected = $this->getUser();
         $trickModel = $this->trickService->getBySlug($slug);
-        $commentModel = new CommentModel();
-
-        $formComment = $this->createForm(CommentFormType::class, $commentModel);
+        $formComment = $this->createForm(CommentFormType::class, new CommentModel());
         $formComment->handleRequest($request);
 
         //save comment
@@ -178,8 +155,9 @@ class TrickController extends AbstractController
             $this->commentService->saveComment($formComment, $trick, $this->getUser());
             $this->addFlash(
                 'thanks_comment',
-                'Merci pour votre commentaire. Il sera publié après validation.'
+                'Votre commentaire est publié ! Merci.'
             );
+            return $this->redirectToRoute('show_trick', ['slug' => $trick->getSlug()]);
         }
 
         //format content
@@ -187,15 +165,12 @@ class TrickController extends AbstractController
         $trickModel->setContent($this->trickService->formatContent($trickModel->getContent()));
 
         //comments_pagination
-        $limit = $this->commentRepository::PAGINATOR_PER_PAGE;
+        $limit = $this->commentService::PAGINATOR_PER_PAGE;
         $offset = max(0, $request->query->getInt('offset', 0));
         $comments = $this->commentService->getCommentsPaginator($trick, $offset);
         $nbOfComments = $this->commentService->getNumberOfCommentsByTricks($trick);
-        $nbOfPages = ceil($nbOfComments / $limit);
-        //$arrayPages = array_map(fn($i):int => $limit * $i++, range(1, $nbOfPages - 1));
-        for ($i = 0; $i < $nbOfPages; $i++)
-            $arrayPages[$i] = $i * $limit;
-
+        $nbOfPages = (int) ceil($nbOfComments / $limit);
+        $arrayPages = $this->commentService->getPaginationArrayButtons($nbOfPages);
         if ($trick->getStatus() == 1) {
             $template = 'home/trick.html.twig';
         } else {
@@ -223,15 +198,12 @@ class TrickController extends AbstractController
     #[Route('/tricks', name: 'app_tricks')]
     public function home(Request $request): Response
     {
-        $limit = $this->trickRepository::PAGINATOR_PER_PAGE;
+        $limit = $this->trickService::PAGINATOR_PER_PAGE;
         $offset = max(0, $request->query->getInt('offset', 0));
-        //$tricks = $this->trickService->getAllPublic();
         $tricks = $this->trickService->getTricksPaginator($offset);
-        $nbOfTricks = $this->trickRepository->countByStatus();
-        $nbOfPages = ceil($nbOfTricks / $limit);
-        //$arrayPages = array_map(fn($i):int => $limit * $i++, range(1, $nbOfPages - 1));
-        for ($i = 0; $i < $nbOfPages; $i++)
-            $arrayPages[$i] = $i * $limit;
+        $nbOfTricks = $this->trickService->countTrickPublished();
+        $nbOfPages = (int) ceil($nbOfTricks / $limit);
+        $arrayPages = $this->trickService->getPaginationArrayButtons($nbOfPages);
         return $this->render('home/tricks.html.twig', [
             'pageTitle' => 'All of Tricks',
             'minRoleToEdit' => $this->minRoleToEdit,

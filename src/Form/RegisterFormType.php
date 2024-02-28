@@ -40,7 +40,8 @@ class RegisterFormType extends AbstractType
                             'min' => 2,
                             'minMessage' => 'Le nom d\'utilisateur doit faire au moins {{ limit }} caractères',
                             // max length allowed by Symfony for security reasons
-                            'max' => 4096,
+                            'max' => 100,
+                            'maxMessage' => 'Le mot de passe doit faire moins de {{ limit }} caractères',
                         ]),
                     ],
                 ]
@@ -59,6 +60,12 @@ class RegisterFormType extends AbstractType
                                 'message' => 'Vous devez entrer un email valide.'
                             ]
                         ),
+                        new Length([
+                            'min' => 8,
+                            'minMessage' => 'Le nom d\'utilisateur doit faire au moins {{ limit }} caractères',
+                            // max length allowed by Symfony for security reasons
+                            'max' => 100,
+                        ]),
                     ],
                 ]
             )

@@ -29,6 +29,7 @@ class TrickService
     ) {
 
     }
+    public const PAGINATOR_PER_PAGE = 10;
 
     public function getAll(): Trick|array
     {
@@ -37,9 +38,18 @@ class TrickService
 
     public function getTricksPaginator(int $offset): array
     {
-        $paginator = $this->trickRepository->getTricksPaginator($offset);
-        $tricks = $paginator->getQuery()->getResult();
+        $tricks = $this->trickRepository->getTricksPaginator($offset, self::PAGINATOR_PER_PAGE)->getQuery()->getResult();
         return $this->trickMapper->EntitiesToModels($tricks);
+    }
+
+    public function countTrickPublished(): int
+    {
+        return $this->trickRepository->countByStatus();
+    }
+
+    public function getPaginationArrayButtons(int $nbOfPages): array
+    {
+        return array_map(fn($i = 0): int => (int) self::PAGINATOR_PER_PAGE * $i++, range(0, $nbOfPages - 1));
     }
 
     public function getAllTricks(): array

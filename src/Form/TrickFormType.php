@@ -140,9 +140,9 @@ class TrickFormType extends AbstractType
                         new All(
                             new Image(
                                 [
-                                    'maxWidth' => 4096,
+                                    'maxWidth' => 8192,
                                     'maxWidthMessage' => 'Largeur max : {{ max_width }}',
-                                    'maxHeight' => 4096,
+                                    'maxHeight' => 8192,
                                     'maxHeightMessage' => 'Hauteur max : {{ max_height }}',
                                 ]
                             )

@@ -28,7 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $metadata->addPropertyConstraint('username', new Assert\Required([
             new Assert\NotBlank(),
             new Assert\Length([
-                'min' => 2,
+                'min' => 8,
                 'maxMessage' => 'Nom d\'utilisateur trop court',
             ]),
             new Assert\Length([

@@ -71,7 +71,6 @@
     {% for message in app.flashes('thanks_comment') %}
     <div class="alert alert-success">
         <p>{{ message }}</p>
-    <a class="btn btn-secondary" href="{{ path("show_trick", {"slug": trick.slug }) }}">De rien</a>
     </div> 
     {% endfor %}
 

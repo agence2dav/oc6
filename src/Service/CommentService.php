@@ -14,6 +14,7 @@ use App\Entity\Trick;
 
 class CommentService
 {
+    public const PAGINATOR_PER_PAGE = 10;
 
     public function __construct(
         private CommentRepository $commentRepository,
@@ -25,16 +26,14 @@ class CommentService
 
     public function getCommentsPaginator(Trick $trick, int $offset): array
     {
-        $paginator = $this->commentRepository->getCommentsPaginator($trick, $offset);
-        $commentsEntities = $paginator->getQuery()->getResult();
+        $commentsEntities = $this->commentRepository->getCommentsPaginator($trick, $offset, self::PAGINATOR_PER_PAGE)->getQuery()->getResult();
         return $this->commentMapper->EntitiesArrayToModels($commentsEntities);
     }
 
-    /* 
-    public function getCommentsPaginator2(Trick $trick, int $offset): Collection
+    public function getPaginationArrayButtons(int $nbOfPages): array
     {
-        return array_slice($trick->getComments(),$offset,10);
-    }*/
+        return array_map(fn($i = 0): int => (int) self::PAGINATOR_PER_PAGE * $i++, range(0, $nbOfPages - 1));
+    }
 
     public function getNumberOfCommentsByTricks(Trick $trick): int
     {

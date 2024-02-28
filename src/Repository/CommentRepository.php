@@ -15,8 +15,6 @@ use App\Entity\User;
 class CommentRepository extends ServiceEntityRepository
 {
 
-    public const PAGINATOR_PER_PAGE = 10;
-
     public function __construct(
         ManagerRegistry $registry,
         private EntityManagerInterface $manager
@@ -24,14 +22,14 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function getCommentsPaginator(Trick $trick, int $offset): Paginator
+    public function getCommentsPaginator(Trick $trick, int $offset, int $maxResults): Paginator
     {
         $query = $this->createQueryBuilder('c')
             ->andWhere('c.trick = :trick')
             ->setParameter('trick', $trick)
             ->andWhere('c.status = 1')
             ->orderBy('c.id', 'DESC')
-            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setMaxResults($maxResults)
             ->setFirstResult($offset)
             ->getQuery()
         ;
