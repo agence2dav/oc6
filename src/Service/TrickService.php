@@ -107,28 +107,6 @@ class TrickService
         }
     }
 
-    public function formatContent($content): string
-    {
-        $paragraphs = explode("\n", $content);
-        $contentArray = [];
-        foreach ($paragraphs as $paragraph) {
-            $paragraphArray = [];
-            $words = explode(' ', $paragraph);
-            foreach ($words as $word) {
-                $extension = strrchr(trim($word), '.');
-                if (in_array($extension, ['.jpg', '.png', '.webp'])) {
-                    $paragraphArray[] = $this->mediaService->image($word);
-                } elseif (strpos($word, 'youtu')) {
-                    $paragraphArray[] = $this->mediaService->youtubeIframe($word);
-                } else {
-                    $paragraphArray[] = $word;
-                }
-            }
-            $contentArray[] = '<p class="card-text">' . implode(' ', $paragraphArray) . '</p>';
-        }
-        return implode("\n", $contentArray);
-    }
-
     public function setAsFirstImage(Trick $trick, int $mediaId): void
     {
         $medias = $trick->getMedia();
@@ -172,14 +150,4 @@ class TrickService
         $this->trickRepository->saveTrick($trick);
     }
 
-    /* unused 
-    public function deleteTrick(Trick $trickModel): bool
-    {
-        if ($this->trickRepository->findOneById($trickModel->getId()) === null) {
-            return false;
-        }
-        $this->trickRepository->delete($trickModel);
-        return true;
-    }
-    */
 }

@@ -89,8 +89,6 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
 
-    //edit
-
     public function saveComment(Comment $comment): void
     {
         $this->getEntityManager()->persist($comment);

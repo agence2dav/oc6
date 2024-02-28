@@ -35,9 +35,7 @@ class ResetPasswordController extends AbstractController
     ) {
     }
 
-    /**
-     * Display & process form to request a password reset.
-     */
+    //Display & process form to request a password reset.
     #[Route('', name: 'app_forgot_password_request')]
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
@@ -154,6 +152,21 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
+        /*
+        //use this on real server, instead of send2()
+        $email = (new TemplatedEmail())
+            ->from(new Address('users@snowtricks.com', 'snowtrick'))
+            ->to($user->getEmail())
+            ->subject('Changement de mot de passe')
+            ->htmlTemplate('reset_password/email.html.twig')
+            ->context([
+                'resetToken' => $resetToken,
+            ])
+        ;
+        $mailer->send($email);
+        */
+
+        //send email
         $this->mailService->send2(
             $from = 'users@snowtricks.com',
             $to = $user->getEmail(),

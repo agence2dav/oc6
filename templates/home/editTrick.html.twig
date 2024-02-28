@@ -1,6 +1,12 @@
 {% extends 'base.html.twig' %}
 {% form_theme formTrick 'bootstrap_4_layout.html.twig' %}
 
+{% set minRoleToEdit = 'ROLE_EDIT' %}
+{% set currentUser = '' %}
+{% if user is defined and user.username is defined %}
+    {% set currentUser = user.username %}
+{% endif %}
+
 {% block title %}Editer un Trick{% endblock %}
 
 {% block body %}
@@ -36,10 +42,6 @@
         {{ form_row(formTrick.image, {"attr":{"placeholder":"Image (Url)"}}) }}
         {{ form_row(formTrick.video) }}
         {{ form_row(formTrick.media) }}
-        {# Can't get a way to read the property "cat" in class "App\Entity\Trick".
-        {{ form_row(formTrick.cat) }}
-        {{ form_row(formTrick.tag) }}
-        #}
         {{ form_end(formTrick) }}
         </div>
     </div>

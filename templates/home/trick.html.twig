@@ -1,10 +1,8 @@
 {% extends 'base.html.twig' %}
-{% if user is defined %}
-{% if user.username is defined %}
-{% set currentUser = user.username %}
-{% else %}
+{% set minRoleToEdit = 'ROLE_EDIT' %}
 {% set currentUser = '' %}
-{% endif %}
+{% if user is defined and user.username is defined %}
+    {% set currentUser = user.username %}
 {% endif %}
 
 {% block title %}{{ trick.title | raw}}{% endblock %}
@@ -30,8 +28,6 @@
                 <h6><a class="card-link" href="{{ path("edit_trick", {id: trick.id}) }}"><i class="bi bi-pencil"></i> Editer</a></h6>
                 {% if trick.status == 1 %}
                 <h6><a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-trash"></i> Supprimer</a></h6>
-                {% else %}
-                <h6><a class="card-link" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i> Publier</a></h6>
                 {% endif %}
             {% endif %}
         </div>
@@ -69,9 +65,7 @@
     <h3>{{ nbOfComments }} Commentaires</h3>
 
     {% for message in app.flashes('thanks_comment') %}
-    <div class="alert alert-success">
-        <p>{{ message }}</p>
-    </div> 
+    <div class="alert alert-success">{{ message }}</div> 
     {% endfor %}
 
     {% if app.user %}
@@ -89,8 +83,6 @@
     {% endif %}
 
     {% for comment in comments %}
-        {#% if comment.status == 1 %#}
-
         <section class="card text-white bg-primary mb-3">
             <div class="card-header">
                 <img src="http://oc6.test/assets/avatars/{{ comment.avatar }}" width="48px"/>
@@ -103,7 +95,6 @@
                 </div>
             </div>
         </section>
-        {#% endif %#}
     {% endfor %}
     
     <div>
@@ -115,15 +106,19 @@
             <a class="page-link disabled" href="#">&laquo;</a>
         {% endif %}
             </li>
-            {% for key,numPage in arrayPages %}
-                {% if numPage == page %}
+        {% for key,numPage in arrayPages %}
+            {% if numPage == page %}
             <li class="page-item active">
-                {% else %}
+            {% else %}
             <li class="page-item">
-                {% endif %}
+            {% endif %}
+            
+            {% if numPage >= 0 %}
             <a class="page-link" href="{{ path("show_trick", {"slug": trick.slug, 'offset': numPage }) }}">{{ key+1 }}</a>
+            {% endif %}
+
             </li>
-            {% endfor %}
+        {% endfor %}
             <li class="page-item">
         {% if next < nbOfComments %}
             <a class="page-link" href="{{ path("show_trick", {"slug": trick.slug, 'offset': next }) }}">&raquo;</a>

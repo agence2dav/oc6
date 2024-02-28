@@ -60,7 +60,6 @@ class UserService
     public function getAvatars(): array
     {
         $dir = '../assets/avatars/';
-        //$dir = getcwd() . '/assets/avatars/';
         $images = scandir($dir);
         unset($images[0]);
         unset($images[1]);
@@ -77,7 +76,7 @@ class UserService
     {
         $avatars = $this->getAvatars();
         $numberOfFiles = count($avatars);
-        return $avatars[mt_rand(0, $numberOfFiles)];
+        return $avatars[mt_rand(0, $numberOfFiles - 1)];
     }
 
     public function saveAvatar(User $user, string $avatarKey): void

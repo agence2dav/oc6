@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Mapper;
 
-use DateTimeInterface;
-use DateTimeImmutable;
-use Doctrine\Common\Collections\Collection;
 use App\Mapper\CommentMapper;
 use App\Mapper\MediaMapper;
 use App\Mapper\TrickTagsMapper;
@@ -36,7 +33,6 @@ class TrickMapper
         $trickModel->setImage($trickEntity->getImage());
         $trickModel->setStatus($trickEntity->getStatus());
         $trickModel->setContent($trickEntity->getContent());
-        //$trickModel->setComments($this->commentMapper->EntitiesToModels($trickEntity->getComments()));
         $trickModel->setMedia($this->mediaMapper->EntitiesToModels($trickEntity->getMedia()));
         $trickModel->setTrickTags($this->trickTagsMapper->EntitiesToModels($trickEntity->getTrickTags()));
         return $trickModel;

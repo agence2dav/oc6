@@ -24,11 +24,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
-        /* */
         $metadata->addPropertyConstraint('username', new Assert\Required([
             new Assert\NotBlank(),
             new Assert\Length([
-                'min' => 8,
+                'min' => 4,
                 'maxMessage' => 'Nom d\'utilisateur trop court',
             ]),
             new Assert\Length([
@@ -41,10 +40,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             new Assert\NotBlank(),
             new Assert\Email(),
         ]));
+
         $metadata->addGetterConstraint('passwordSafe', new Assert\IsTrue([
             'message' => 'Les mots de passes ne correspondent pas',
         ]));
-
     }
 
     public function isPasswordSafe(): bool

@@ -47,7 +47,6 @@ class FixturesService
         $now->sub($dist);
         $now->format('Y-m-d H:i:s');
         return $now;
-        //return DateTime::createFromFormat('Y-m-d H:i:s', $this->faker->dateTimeBetween('-6 months')->format('Y-m-d H:i:s'));
     }
 
     public function generateRandomDateFrom(): DateTime
@@ -57,7 +56,6 @@ class FixturesService
         $now->sub($dist);
         $now->format('Y-m-d H:i:s');
         return $now;
-        //return DateTime::createFromFormat('Y-m-d H:i:s', $this->faker->dateTimeBetween($date->format('Y-m-d H:i:s'))->format('Y-m-d H:i:s'));
     }
 
     public function tags()

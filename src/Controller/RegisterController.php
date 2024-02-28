@@ -8,6 +8,7 @@ use App\Service\UserService;
 use App\Form\RegisterFormType;
 use App\Security\EmailVerifier;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Form\FormError;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,6 +33,13 @@ class RegisterController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegisterFormType::class, $user);
         $form->handleRequest($request);
+
+        $plainPassword = $form->get('plainPassword')->getData();
+        $confirmPassword = $form->get('confirmPassword')->getData();
+
+        if ($plainPassword != $confirmPassword)
+            $form->get('confirmPassword')->addError(new FormError('Les mots de passe ne correspondent pas.'));
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->userService->saveUser($user, $form->get('plainPassword')->getData());
             //send signed email
@@ -45,9 +53,8 @@ class RegisterController extends AbstractController
                     ->htmlTemplate('security/confirmation_email.html.twig')
             );
 
-            $this->addFlash('login-flash', 'Votre inscription est enregistrée. 
-            Veuillez vérifier votre e-mail pour le confirmer.');
-            return $this->redirectToRoute('app_login');
+            $this->addFlash('flash-register', 'Votre inscription est enregistrée. 
+            Veuillez vérifier votre e-mail pour la confirmer.');
         }
         return $this->render('security/register.html.twig', [
             'registerForm' => $form->createView(),
@@ -62,10 +69,10 @@ class RegisterController extends AbstractController
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('login-flash', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
+            $this->addFlash('login-error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
             return $this->redirectToRoute('app_login');
         }
-        $this->addFlash('login-flash', 'Votre Email a été vérifié avec succès.');
+        $this->addFlash('login-success', 'Votre Email a été vérifié avec succès.');
         return $this->redirectToRoute('app_login');
     }
 

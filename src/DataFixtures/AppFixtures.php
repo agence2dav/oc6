@@ -17,8 +17,6 @@ use App\Entity\User;
 use App\Entity\Cat;
 use App\Entity\Tag;
 use App\Entity\TrickTags;
-//use Bar\UserInterface;
-use Faker;
 
 class AppFixtures extends Fixture
 {

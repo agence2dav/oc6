@@ -9,18 +9,15 @@ use App\Service\UserService;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class AvatarFormType extends AbstractType //AbstractType
+class AvatarFormType extends AbstractType
 {
 
     public function __construct(
-        //private AbstractController $abstractController
         private readonly UserRepository $userRepository,
         private readonly SluggerInterface $slugger,
     ) {
@@ -36,13 +33,6 @@ class AvatarFormType extends AbstractType //AbstractType
                     'attr' => [
                         'class' => 'form-control mb-3'
                     ],
-                    /* 
-                    'choices' => [
-                        'Utilisateur' => 'ROLE_USER',
-                        'Editeur' => 'ROLE_EDITOR',
-                        'Administrateur' => 'ROLE_ADMIN'
-                    ],*/
-                    //'choice_name' => ChoiceList::fieldName($this, 'name'),
                     'choice_label' => fn(UserService $userService) => $userService->chooseAvatar(),
                     'expanded' => true,
                     'multiple' => false,
