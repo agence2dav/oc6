@@ -39,7 +39,7 @@ class RegisterFormType extends AbstractType
                         new Length([
                             'min' => 2,
                             'minMessage' => 'Le nom d\'utilisateur doit faire au moins {{ limit }} caractères',
-                            // max length allowed by Symfony for security reasons
+                            // max length allowed by Symfony for security reasons = 4096
                             'max' => 100,
                             'maxMessage' => 'Le mot de passe doit faire moins de {{ limit }} caractères',
                         ]),
@@ -63,7 +63,7 @@ class RegisterFormType extends AbstractType
                         new Length([
                             'min' => 8,
                             'minMessage' => 'Le nom d\'utilisateur doit faire au moins {{ limit }} caractères',
-                            // max length allowed by Symfony for security reasons
+                            // max length allowed by Symfony for security reasons = 4096
                             'max' => 100,
                         ]),
                     ],
