@@ -5505,3 +5505,8 @@ b1e1e6,127.0.0.1,GET,http://localhost:8000/public/uploads/109722-65ddb41db78e6.j
 de2809,127.0.0.1,GET,http://localhost:8000/public/uploads/266312-65ddb41db904d.jpg,1709139764,,404,request
 b35129,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1709139765,7d2a63,404,request
 7d2a63,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1709139765,,404,request
+f0145b,127.0.0.1,GET,http://localhost:8000/trick/Maiores-dolor-non,1709139861,,200,request
+1b6a94,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1709139862,fee7c0,404,request
+fee7c0,127.0.0.1,GET,http://localhost:8000/assets/styles/bootstrap.min.css.map,1709139862,,404,request
+f09c73,127.0.0.1,GET,http://localhost:8000/trick/Maiores-dolor-non,1709155162,,200,request
+286eed,127.0.0.1,GET,http://localhost:8000/trick/Maiores-dolor-non,1709203282,,200,request
