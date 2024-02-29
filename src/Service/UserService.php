@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\User;
+use App\Model\UserModel;
+use App\Mapper\UserMapper;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use App\Repository\UserRepository;
-use App\Mapper\UserMapper;
-use App\Model\UserModel;
-use App\Entity\User;
 
 class UserService
 {
@@ -59,11 +59,12 @@ class UserService
     //avatar
     public function getAvatars(): array
     {
-        $dir = '../assets/avatars/';
+        $dir = 'avatars/';
         $images = scandir($dir);
         unset($images[0]);
         unset($images[1]);
         sort($images);
+        $images = array_map(fn($image) => $dir . $image, $images);
         return $images;
     }
 
@@ -82,7 +83,7 @@ class UserService
     public function saveAvatar(User $user, string $avatarKey): void
     {
         $avatars = $this->getAvatars();
-        $avatar = $avatars[$avatarKey];
+        $avatar = substr(strchr($avatars[$avatarKey], '/'), 1);
         $user->setAvatar($avatar);
         $this->userRepository->saveUser($user);
     }

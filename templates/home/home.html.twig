@@ -43,7 +43,7 @@
                     {#{% endif %}#}
                 {% endif %}
             </div>
-            <div class="thumb" style="background-image:url(http://oc6.test/public/uploads/{{ trick.image }});"> </div>
+            <div class="thumb" style="background-image:url({{ asset(trick.image) }});"> </div>
             <div class="card-footer">
                 <a class="card-link" href="{{ path("show_trick", {slug: trick.slug}) }}">Lire cette fiche</a>
             </div>

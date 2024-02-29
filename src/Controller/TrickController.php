@@ -108,12 +108,14 @@ class TrickController extends AbstractController
             ]);
         }
 
+        $trickModel = $this->trickService->getById($trick->getId());
+
         //render
         $template = $trick->getId() ? 'editTrick' : 'newTrick';
         return $this->render('home/' . $template . '.html.twig', [
             'formTrick' => $formTrick->createView(),
             'formTags' => $formTags->createView(),
-            'trick' => $trick,
+            'trick' => $trickModel,
             'cats' => $catsModel,
             'user' => $this->getUser(),
         ]);

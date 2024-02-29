@@ -65,7 +65,7 @@ class AppFixtures extends Fixture
 
     public function avatars(): void
     {
-        $dir = getcwd() . '/assets/avatars/';
+        $dir = 'avatars/';
         $avatars = scandir($dir);
         unset($avatars[0]);
         unset($avatars[1]);

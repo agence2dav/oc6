@@ -30,7 +30,7 @@ class TrickMapper
         $trickModel->setUpdatedAt($trickEntity->getUpdatedAt());
         $trickModel->setTitle($trickEntity->getTitle());
         $trickModel->setSlug($trickEntity->getSlug());
-        $trickModel->setImage($trickEntity->getImage());
+        $trickModel->setImage('/uploads/' . $trickEntity->getImage());
         $trickModel->setStatus($trickEntity->getStatus());
         $trickModel->setContent($trickEntity->getContent());
         $trickModel->setMedia($this->mediaMapper->EntitiesToModels($trickEntity->getMedia()));

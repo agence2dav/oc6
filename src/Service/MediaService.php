@@ -59,10 +59,17 @@ class MediaService extends AbstractController
         return $url;
     }
 
+    public function youtubeImage(string $url): string
+    {
+        return 'https://img.youtube.com/vi/' . substr(strchr($url, '/'), 1);
+    }
+
     public function goodUrl(string $url): string
     {
         if (strpos($url, 'youtube.com')) {
             $url = $this->youtubeEmbedUrl($url);
+        } else {
+            $url = '/uploads/' . $url;
         }
         return $url;
     }

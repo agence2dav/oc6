@@ -16,7 +16,7 @@
         </tr>
     {% for trick in tricks %}
         <tr class="table-dark">
-            <td><img src="http://oc6.test/public/uploads/{{ trick.image }}" width="220px" /></td>
+            <td><img src="{{ asset(trick.image) }}" width="220px" /></td>
             <td>{{trick.username}}</td>
             <td>{{trick.title | raw}}</td>
             <td>{{trick.UpdatedAt | date("d/m/Y")}}</td>

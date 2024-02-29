@@ -49,7 +49,7 @@ class UserController extends AbstractController
     public function user(): Response
     {
         return $this->render('admin/user.html.twig', [
-            'edit_avatar' => ''
+            'edit_avatar' => '',
         ]);
     }
 

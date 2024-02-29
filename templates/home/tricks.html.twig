@@ -40,7 +40,7 @@
             {% if trick.image == 'http://placehold.it/600x200' %}
             <img src="{{ trick.image }}" width="100%"/>
             {% else %}
-            <img src="http://oc6.test/public/uploads/{{ trick.image }}" width="100%"/>
+            <img src="{{ asset(trick.image) }}" width="100%"/>
             {% endif %}
             
             <!-- goto -->

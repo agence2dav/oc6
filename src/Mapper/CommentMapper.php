@@ -20,7 +20,7 @@ class CommentMapper
         $commentModel->setStatus($commentEntity->getStatus());
         $commentModel->setTrickSlug($commentEntity->getTrick()->getSlug());
         $commentModel->setTrickTitle($commentEntity->getTrick()->getTitle());
-        $commentModel->setAvatar($commentEntity->getUser()->getAvatar());
+        $commentModel->setAvatar('/avatars/' . $commentEntity->getUser()->getAvatar());
         return $commentModel;
     }
 
