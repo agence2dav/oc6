@@ -54,7 +54,9 @@ The css used for this project is from <a href="https://bootswatch.com/5/darkly/b
 
 ## Installation
 
-You will need a Webserver Apache2 using Php 8.2+, and an <a href="https://fr.wikipedia.org/wiki/Open_Database_Connectivity">ODBC</a> like Mysql. We prefer to use MariaDb which is open source and built in opposition of the buyback of Mysql by Oracle.
+You will need a Webserver Apache2 using Php-8+ (we use Php-8.3), and an <a href="https://fr.wikipedia.org/wiki/Open_Database_Connectivity">ODBC</a> like Mysql. We prefer MariaDb which is open source and built in opposition of the buyback of Mysql by Oracle.
+
+### On you local server
 
 Supposing you have <a href="https://git-scm.com/">GIT</a> installed, clone this repository :
 
@@ -70,8 +72,16 @@ Now it's time to :
 
     composer install
 
-Replace the factices informations of the .ENV by yours.
-Once the database informed, it's time to install the database:
+Create your own .env.local, that will replace the default datas from .env.
+Especially the database:
+
+    DATABASE_URL="mysql://{dbname-root}:{password}@127.0.0.1:3306/oc6"
+
+And secondly the mailer: 
+
+    MAILER_DSN=mailgun+smtp://USERNAME:PASSWORD@default?region=eu
+
+Once the database is set, it's time to install it:
 
     php bin/console doctrine:database:create
 
@@ -87,15 +97,24 @@ Your site is now ready. To perform tests we can write a set of false datas:
 
     php bin/console doctrine:fixtures:load
 
-In localhosting, you can using the server of Symfony:
+If you need to redo all that, you can kill the database:
+
+    php bin/console doctrine:database:drop --force
+
+In localhosting only, you can using the server of Symfony:
 
     symfony server:start -d
 
-On a webserver, the root folder is /public.
-The git clone should be loaded from the /repository.
-The created folder, `snowtricks`, should be blank and created before via `adduser`, and obtain it's ftp codes.
+From there, your site will totally be operationnal.
 
-To perform the installation for the virtualhost, follow the instructions from: <a href="https://symfony.com/doc/current/setup/web_server_configuration.html">Symfony Docs</a>
+### On a webserver
+
+Use the root folder /public to perform the git clone. That will create the directory `oc6`.
+You can now do a `adduser oc6`, and obtain it's ftp codes.
+
+Set your virtualhost, following the instructions from: <a href="https://symfony.com/doc/current/setup/web_server_configuration.html">Symfony Docs</a>. You don't need the options of `SetHandler proxy:unix` as it is said.
+
+A very good tutorial for clone a repository on a webserver, tested and it works, is : <a href="http://david-robert.fr/articles/view/deployer-symfony-vps"></a>. You can follow it step by step.
 
 ## Usage
 
