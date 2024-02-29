@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MailController extends AbstractController
 {
-
     public function __construct(
         private MailService $mailService
     ) {

@@ -108,7 +108,7 @@ The user can :
 ### Roles
 
 In this configuration, two roles are set hierarchically, `ROLE_EDIT` and `ROLE_ADMIN`.
-All two can edit ALL the datas of the site (as required). If you yant to let this privilege to the USER_ADMIN alone, and let user can only edit their own Tricks, you can change the parameter `$minRoleToEdit` to `ROLE_ADMIN` in `Controllers/TricksControllers.php` and in `Controllers/AdminControllers.php`. In this case the user will only able to edit or change his own Tricks.
+As required, all two can edit ALL the datas of the site. If you yant to let this privilege to the USER_ADMIN only, and let user edit his own Tricks, you will have to change the variable `ROLE_EDIT` to `ROLE_ADMIN` in the templates `home`, `trick`, `tricks`, `admin/tricks`, `admin/comments`.
 
 ## Learnt
 

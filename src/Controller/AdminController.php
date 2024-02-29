@@ -14,9 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminController extends AbstractController
 {
-    private string $minRoleToEdit = 'ROLE_USER';
-    //private string $minRoleToEdit = 'ROLE_ADMIN';
-
     public function __construct(
         private Security $security,
         private UserService $userService,
@@ -39,14 +36,13 @@ class AdminController extends AbstractController
             [
                 'tricks' => $tricksModel,
                 'currentUser' => $this->getUser(),
-                'minRoleToEdit' => $this->minRoleToEdit,
             ]
         );
     }
 
     #[Route('/admin/comments', name: 'admin_comments')]
     #[Route('/admin/comments/{id}', name: 'admin_commentsId')]
-    public function showComments(int $id = null): Response //, Request $request, EntityManagerInterface $manager
+    public function showComments(int $id = null): Response
     {
         $userConnected = $this->getUser();
         if ($id && $this->security->isGranted('ROLE_ADMIN')) {
@@ -60,7 +56,6 @@ class AdminController extends AbstractController
             [
                 'comments' => $commentsModel,
                 'currentUser' => $this->getUser(),
-                'minRoleToEdit' => $this->minRoleToEdit,
             ]
         );
     }
@@ -101,7 +96,6 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
-            'minRoleToEdit' => $this->minRoleToEdit,
         ]);
     }
 }

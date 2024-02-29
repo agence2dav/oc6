@@ -1,21 +1,20 @@
 {% extends 'base.html.twig' %}
+{% set minRoleToEdit = 'ROLE_EDIT' %}
 {% if user is defined %}
-{% if user.username is defined %}
-{% set currentUser = user.username %}
-{% else %}
-{% set currentUser = '' %}
-{% endif %}
+    {% if user.username is defined %}
+        {% set currentUser = user.username %}
+    {% else %}
+        {% set currentUser = '' %}
+    {% endif %}
 {% endif %}
 
 {% block title %}Tricks!{% endblock %}
 
 {% block body %}
     
-    {% for message in app.flashes('alerts') %}
-<div class="alert alert-success">
-    {{ message | raw }}
-</div>
-    {% endfor %}
+{% for message in app.flashes('home-flash') %}
+<div class="alert alert-success">{{ message | raw }}</div>
+{% endfor %}
 
 <div class="example-wrapper row">
     <h1>Bienvenue sur SnowTricks</h1>

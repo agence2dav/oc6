@@ -26,7 +26,7 @@ class MailService extends AbstractController
             ->from($from)
             ->to($to)
             ->subject($subject)
-            ->htmlTemplate("emails/$template.html.twig")
+            ->htmlTemplate($template . '.html.twig')
             ->context($context);
         $this->mailer->send($email);
     }

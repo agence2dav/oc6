@@ -28,8 +28,6 @@ class UserFormType extends AbstractType //AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            /* 
-             */
             ->add(
                 '_username',
                 TextType::class,
@@ -42,8 +40,7 @@ class UserFormType extends AbstractType //AbstractType
                         new Length([
                             'min' => 4,
                             'minMessage' => 'Le nom d\'utilisateur doit faire au moins {{ limit }} caractères',
-                            // max length allowed by Symfony for security reasons
-                            'max' => 4096,
+                            'max' => 100,
                         ]),
                     ],
                 ]

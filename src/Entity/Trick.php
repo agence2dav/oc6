@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[Broadcast]
-#[UniqueEntity(fields: ['title'], message: 'Cet titre est déjà utilisé')]
+#[UniqueEntity(fields: ['title'], message: 'Ce titre est déjà utilisé')]
 class Trick
 {
 

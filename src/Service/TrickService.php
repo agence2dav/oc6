@@ -29,6 +29,7 @@ class TrickService
     ) {
 
     }
+    public const PAGINATOR_PER_PAGE = 10;
 
     public function getAll(): Trick|array
     {
@@ -37,9 +38,18 @@ class TrickService
 
     public function getTricksPaginator(int $offset): array
     {
-        $paginator = $this->trickRepository->getTricksPaginator($offset);
-        $tricks = $paginator->getQuery()->getResult();
+        $tricks = $this->trickRepository->getTricksPaginator($offset, self::PAGINATOR_PER_PAGE)->getQuery()->getResult();
         return $this->trickMapper->EntitiesToModels($tricks);
+    }
+
+    public function countTrickPublished(): int
+    {
+        return $this->trickRepository->countByStatus();
+    }
+
+    public function getPaginationArrayButtons(int $nbOfPages): array
+    {
+        return array_map(fn($i = 0): int => (int) self::PAGINATOR_PER_PAGE * $i++, range(0, $nbOfPages - 1));
     }
 
     public function getAllTricks(): array
@@ -97,28 +107,6 @@ class TrickService
         }
     }
 
-    public function formatContent($content): string
-    {
-        $paragraphs = explode("\n", $content);
-        $contentArray = [];
-        foreach ($paragraphs as $paragraph) {
-            $paragraphArray = [];
-            $words = explode(' ', $paragraph);
-            foreach ($words as $word) {
-                $extension = strrchr(trim($word), '.');
-                if (in_array($extension, ['.jpg', '.png', '.webp'])) {
-                    $paragraphArray[] = $this->mediaService->image($word);
-                } elseif (strpos($word, 'youtu')) {
-                    $paragraphArray[] = $this->mediaService->youtubeIframe($word);
-                } else {
-                    $paragraphArray[] = $word;
-                }
-            }
-            $contentArray[] = '<p class="card-text">' . implode(' ', $paragraphArray) . '</p>';
-        }
-        return implode("\n", $contentArray);
-    }
-
     public function setAsFirstImage(Trick $trick, int $mediaId): void
     {
         $medias = $trick->getMedia();
@@ -162,14 +150,4 @@ class TrickService
         $this->trickRepository->saveTrick($trick);
     }
 
-    /* unused 
-    public function deleteTrick(Trick $trickModel): bool
-    {
-        if ($this->trickRepository->findOneById($trickModel->getId()) === null) {
-            return false;
-        }
-        $this->trickRepository->delete($trickModel);
-        return true;
-    }
-    */
 }

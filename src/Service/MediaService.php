@@ -4,23 +4,11 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 use App\Repository\MediaTypeRepository;
 use App\Repository\MediaRepository;
 use App\Repository\TrickRepository;
-use App\Service\TrickService;
-use App\Service\FileUploader;
-use App\Mapper\TrickMapper;
-use App\Model\TrickModel;
-use App\Entity\Comment;
-use App\Entity\CommentService;
-use App\Entity\CommentRepository;
 use App\Entity\Trick;
 use App\Entity\Media;
 use App\Entity\MediaType;
@@ -29,11 +17,7 @@ class MediaService extends AbstractController
 {
 
     public function __construct(
-        //private readonly EntityManagerInterface $manager,
-        //private readonly SluggerInterface $slugger,
-        //private readonly TrickService $trickService,
         private readonly TrickRepository $trickRepository,
-        //private readonly TrickMapper $trickMapper,
         private readonly MediaRepository $mediaRepository,
         private readonly MediaTypeRepository $mediaTypeRepository,
     ) {
@@ -51,11 +35,7 @@ class MediaService extends AbstractController
         $media->setType($mediaTypeEntity);
         $media->setTrick($trick);
         $this->mediaRepository->saveMedia($media);
-        //if first image we try to add it as main image
-        //$catalog = $this->getCatalog($trick);
-        //if (count($catalog) == 1) {
-        //$this->trickService->setAsFirstImage($trick, $media->getId());
-        //}
+        //could assign first uploaded image to hero image
     }
 
     public function getMediaType(string $mediaType): MediaType|null
@@ -68,27 +48,13 @@ class MediaService extends AbstractController
         return $this->mediaRepository->findByTrick($trick);
     }
 
-    public function image(string $url): string
-    {
-        if (!str_starts_with($url, 'http')) {
-            //$url = getcwd() . DIRECTORY_SEPARATOR . $url;
-            $url = 'http://oc6.test/public/uploads/' . $url;
-        }
-        /* 
-        if (!is_link($url)) {
-            $url = 'http://oc6.test/assets/img/broken_image.webp';
-            return '<img src="' . $url . '" alt="file not exists" width="40px" />';
-        }*/
-        return '<img src="' . $url . '" alt="' . strrchr($url, '/') . '" />';
-    }
-
     public function youtubeEmbedUrl(string $url): string
     {
         //input: https://youtu.be/hW_RhD0D-Ew
-        //input: https://www.youtube.com/watch?v=hW_RhD0D-Ew
-        //outpu: https://www.youtube.com/embed/hW_RhD0D-Ew
         $url = str_replace('youtu.be', 'youtube.com', $url);
+        //input: https://www.youtube.com/watch?v=hW_RhD0D-Ew
         $url = str_replace('watch?v=', '', $url);
+        //output: https://www.youtube.com/embed/hW_RhD0D-Ew
         $url = str_replace('youtube.com/', 'youtube.com/embed/', $url);
         return $url;
     }
@@ -99,11 +65,6 @@ class MediaService extends AbstractController
             $url = $this->youtubeEmbedUrl($url);
         }
         return $url;
-    }
-
-    public function youtubeIframe(string $url): string
-    {
-        return '<iframe width="100%" height="315" src="' . $this->youtubeEmbedUrl($url) . '" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
     }
 
 }

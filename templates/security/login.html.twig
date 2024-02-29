@@ -3,26 +3,25 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
 
-    <h1>Connection</h1>
+    <h1>Connexion</h1>
 
     <div class="form-group">
-
-    {% if error %}
-        <div class="alert alert-success">
-        {{ error.messageKey|trans(error.messageData, 'security') }}
-        </div>
-    {% endif %}
     
-    {% for message in app.flashes('login-flash') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
+    <!-- flash from register -->
+    {% for message in app.flashes('flash-register') %}
+    <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    <!-- flash from verify email -->
+    {% for flash_valid in app.flashes('login-error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_valid }}</div>
+    {% endfor %}
+    {% for flash_valid in app.flashes('login-success') %}
+        <div class="alert alert-success" role="alert">{{ flash_valid }}</div>
     {% endfor %}
     
+    <!-- success login -->
     {% if app.user %}
         <div class="alert alert-success">
             <p>Vous êtes connecté en tant que : {{ app.user.username }}</p>
@@ -43,7 +42,7 @@
 
         <button type="submit" class="btn btn-secondary">Se connecter</button>
         
-        <a href="{{ path('app_register') }}" class="btn btn-primary">S'enregistrer</a>
+        <a href="{{ path('app_register') }}" class="btn btn-primary">Nouvel utilisateur</a>
         <a href="{{ path('app_forgot_password_request') }}" class="btn btn-primary">Mot de passe oublié</a>
 
     </form>

@@ -1,10 +1,8 @@
 {% extends 'base.html.twig' %}
-{% if user is defined %}
-{% if user.username is defined %}
-{% set currentUser = user.username %}
-{% else %}
+{% set minRoleToEdit = 'ROLE_EDIT' %}
 {% set currentUser = '' %}
-{% endif %}
+{% if user is defined and user.username is defined %}
+    {% set currentUser = user.username %}
 {% endif %}
 
 {% block title %}Tricks!{% endblock %}
