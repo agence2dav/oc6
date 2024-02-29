@@ -1,0 +1,219 @@
+>useful
+symfony server:start -d
+php bin/console make:entity
+php bin/console make:controller
+php bin/console make:migration
+php bin/console doctrine:migrations:diff
+php bin/console doctrine:migration:migrate
+php bin/console doctrine:fixtures:load --purge-with-truncate
+
+>tout refaire
+php bin/console doctrine:database:drop --force
+php bin/console doctrine:database:create
+php bin/console make:migration
+php bin/console doctrine:migration:migrate
+php bin/console doctrine:fixtures:load
+
+>scoop
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+
+>symfony-cli
+scoop install symfony-cli
+
+>symfony
+symfony check:requirements
+symfony new surf --version="7.0.*" --webapp
+
+>rename project
+>rename my_project_directory -> surf
+composer create-project symfony/website-skeleton 
+
+>security audit
+composer audit
+
+> create composer.json
+> see https://getcomposer.org/basic-usage
+
+> install composer
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('sha384', 'composer-setup.php') === 'e21205b207c3ff031906575712edab6f13eb0b361f2085f1f1237b7126d785e826a450292b6cfd1d64d92e6563bbde02') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+
+> after install project
+composer install
+
+> load server
+symfony server:start
+> start in background
+symfony server:start -d
+
+> debug-bundle
+composer require symfony/debug-bundle 
+
+> profiler
+composer require --dev symfony/profiler-pack
+
+> install controller
+php bin/console make:controller
+//name of controller
+
+--
+
+> install database
+- in env:
+DATABASE_URL="mysql://root:dev@oc6.test/oc6"
+- in console:
+php bin/console doctrine:database:create
+
+> create table
+php bin/console make:entity
+> precise name
+Article
+> fill columns
+> display options
+?
+title
+
+>add columns
+php bin/console make:entity
+
+>update from entity
+php bin/console doctrine:migrations:diff
+php app/console doctrine:schema:update --force
+
+>create/modif table from entity
+php bin/console make:migration
+yes
+
+>exec
+php bin/console doctrine:migration:migrate
+
+>rename table in mysql and
+php bin/console doctrine:schema:update --dump-sql --force
+
+>display cols of a table
+Doctrine_Core::getTable('tatable')->getColumns();
+
+--
+
+> fixture
+composer require orm-fixtures --dev
+> name it:
+ArticleFixtures
+
+> insert code to flush
+
+> flush articles from AppFixtures
+php bin/console doctrine:fixtures:load
+
+>add service to autowire for objectmanager
+>see services
+php bin/console debug:autowiring
+
+--
+
+>forms
+- usage of EntityManagerInterface instead of ManagerRegistry
+- usage of a bootstrap theme in config/packages/twig.yalm :
+twig:
+    form_themes: ['bootstrap_4_layout.html.twig']
+
+- and in the template 'create' :
+{% form_theme formArticle 'bootstrap_4_layout.html.twig' %}
+
+>create form from cli
+php bin/console make:form
+ArticleType
+Article
+
+>constraints in vars of entity:
+use Symfony\Component\Validator\Constraints as Assert;
+#[Assert\Length(["min"=>5,"max"=>255])]
+
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+    public static function loadValidatorMetadata(ClassMetadata $metadata): void
+    {
+        $metadata->addPropertyConstraint('bioUrl', new Assert\Url([
+            'message' => 'The url "{{ value }}" is not a valid url.',
+        ]));
+    }
+
+--
+
+>route 2 params
+#[Route('/trick/{id}/{commentId}', name: 'show_trick2')]
+return $this->redirect($this->generateUrl('show_trick2', ['id' => $id, 'commentId' => $comment->getId()]));
+
+>fixture with purge
+php bin/console doctrine:fixtures:load --purge-exclusions=trick
+
+fixture truncate
+php bin/console doctrine:fixtures:load --purge-with-truncate=trick --purge-with-truncate=comment --purge-with-truncate=user --purge-with-truncate=designations --purge-with-truncate=trick_designations
+
+>group
+php bin/console doctrine:fixtures:load --group=GroupFixtures
+
+>faker (false datas)
+composer require fakerphp/faker
+
+$faker = Faker\Factory::create();
+echo $faker->name();
+echo $faker->email();
+echo $faker->text();
+
+>slug
+composer require symfony/string
+
+>cacheclear
+php bin/console cache:clear
+php bin/console cache:clear --help
+
+>login
+composer require symfony/security-bundle
+php bin/console make:user
+
+>hash pswd
+php bin/console security:hash-password
+
+>email
+composer require symfonycasts/verify-email-bundle
+php bin/console make:registration-form
+composer require symfony/mailer
+composer require symfony/mailgun-mailer
+composer require symfony/sendgrid-mailer
+composer require php-http/httplug-bundle
+
+>validator used for validate forms
+composer require symfony/validator
+
+>reset pasword
+composer require symfonycasts/reset-password-bundle
+php bin/console make:reset-password
+
+ created: src/Controller/ResetPasswordController.php
+ created: src/Entity/ResetPasswordRequest.php
+ updated: src/Entity/ResetPasswordRequest.php
+ created: src/Repository/ResetPasswordRequestRepository.php
+ updated: src/Repository/ResetPasswordRequestRepository.php
+ updated: config/packages/reset_password.yaml
+ created: src/Form/ResetPasswordRequestFormType.php
+ created: src/Form/ChangePasswordFormType.php
+ created: templates/reset_password/check_email.html.twig
+ created: templates/reset_password/email.html.twig
+ created: templates/reset_password/request.html.twig
+ created: templates/reset_password/reset.html.twig
+
+>upload (unused)
+composer require vich/uploader-bundle
+
+>files
+composer require symfony/filesystem
+
+>finder
+composer require symfony/finder
+
+>locate images
+composer require symfony/asset
+

@@ -2,6 +2,13 @@
 
 ## Issues
 
+### 15 toprod #44
+
+- resolve url via asset()
+- fix mediaServices to prepare the urls
+- corrections of fixtures
+- test migration on a webserver
+
 ### 15 cleanup #41
 - cleanup and ehance
 

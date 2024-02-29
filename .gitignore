@@ -45,14 +45,13 @@ Temporary Items
 _bckp
 _sql
 _old
-_docs
 _notes
 _trash.php
-cnfg/oc5.test.php
+cnfg
 settings.json
 *.sh
 .vscode
- .env.local
+.env.local
 .php-cs-fixer.cache
 .gitignore
 installer.php
