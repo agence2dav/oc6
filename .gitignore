@@ -52,7 +52,7 @@ cnfg/oc5.test.php
 settings.json
 *.sh
 .vscode
-.env.*
+# .env.*
 .php-cs-fixer.cache
 .gitignore
 installer.php

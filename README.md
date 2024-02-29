@@ -10,6 +10,7 @@ The project will let the users create and edit some Tricks, the name given to so
 Based on the last Php-8.2 <img src="https://img.shields.io/badge/php-8.2-%23777BB4?logo=php" alt="php banner">, the architecture of the software is oriented <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a>, in respect of the segregation of the functions, recommended by the <a href="https://fr.wikipedia.org/wiki/SOLID_(informatique)">SOLID principle</a>.
 
 ## Uml Graphics
+
 The UML for this project are in the directory `/_docs/uml`.
 You can see :
 - the diagram of use
@@ -61,35 +62,40 @@ Supposing you have <a href="https://git-scm.com/">GIT</a> installed, clone this 
 
 Then, let <a href="https://getcomposer.org/">Composer</a> install the components from the `composer.json`:
 
-    composer install
-
-Then, follow this sequence :
-
-    scoop install symfony-cli
-    symfony check:requirements
-    symfony new SnowTricks --version="7.0.*" --webapp
-
 Security Audit
+
     composer audit
 
 Now it's time to :
+
     composer install
 
-In localhosting, you can using the server of Symfony :
-    symfony server:start -d
+Replace the factices informations of the .ENV by yours.
+Once the database informed, it's time to install the database:
 
-Debug Bundle
-    composer require symfony/debug-bundle 
-
-Profiler, to follow the errors
-    composer require --dev symfony/profiler-pack
-
-Then, set the DATABASE_URL in your .ENV, and install the database
     php bin/console doctrine:database:create
 
-No databe is given with this project.
-You can load the Fixture to create random Datas :
+Migrate the schema of the databases for Symfony:
+
+    php bin/console make:migration
+
+Now persist this schema on the database (that create the tables) :
+
+    php bin/console doctrine:migration:migrate
+
+Your site is now ready. To perform tests we can write a set of false datas:
+
     php bin/console doctrine:fixtures:load
+
+In localhosting, you can using the server of Symfony:
+
+    symfony server:start -d
+
+On a webserver, the root folder is /public.
+The git clone should be loaded from the /repository.
+The created folder, `snowtricks`, should be blank and created before via `adduser`, and obtain it's ftp codes.
+
+To perform the installation for the virtualhost, follow the instructions from: <a href="https://symfony.com/doc/current/setup/web_server_configuration.html">Symfony Docs</a>
 
 ## Usage
 
@@ -110,9 +116,9 @@ The user can :
 In this configuration, two roles are set hierarchically, `ROLE_EDIT` and `ROLE_ADMIN`.
 As required, all two can edit ALL the datas of the site. If you yant to let this privilege to the USER_ADMIN only, and let user edit his own Tricks, you will have to change the variable `ROLE_EDIT` to `ROLE_ADMIN` in the templates `home`, `trick`, `tricks`, `admin/tricks`, `admin/comments`.
 
-## Learnt
+## What we have learnt
 
-This is our first project in Symfony, so be kind with me :)
+This is our first project in Symfony, so be indulgent :)
 There is a lot of ways to perform the chooses taken. 
 Most of time theses ways are let in comments in the code.
 
@@ -122,20 +128,24 @@ We ave learnt :
 - to use the CLI instead of try to do all itself :)
 - to know concepts of autowiring
 - to understand concepts of HttpKernel and HttpFundation, and how the Url are made
-- to understand concepts of ObjectManager and AbstractController
+- to understand concepts of AbstractController and EntityManager
+- to understand the annotations
 - to use the ORM, create entities, and "migrate" the table from them (because the config know how it is, but not again the Database).
-- to make associations between tables without errors (because that can works with errors)
+- to draw associations between tables without errors (because that can works with errors)
 - to understand the principle of lazy datas, who are called from the template if necessary only. That's why errors in the bottom of the code are warning first.
+- to understand the magical functions given by Symfony, according to the orm.
 - to separate the code following the SOLID precepts, using Mapping and Models, some times recursively.
 - to build Fixtures with the bundle Faker
 - to create and understand how works the Forms (and it's a big thing) :
 -- to createForm from a specific class
+-- to understand how works the requests
 -- to know and use all the options of all the types of fields
 -- to understand the EventListeners
 -- to manage the savings in services
+-- to manage the constraints
 - to customize error pages
 - to hierarchize the Roles
-- to config correctly the config.yaml, in general term
+- to config correctly the config.yaml and security.yaml
 - to apply some principles of security
 - to better use Twig
 
@@ -143,4 +153,3 @@ We ave learnt :
 
 Symfony is a big thing, and it let create some projects understandable for whose know Symfony, of course.
 Most of classical parts of a software are industrialized in some trademarks processes, with common ways to use them and to combine them.
-
