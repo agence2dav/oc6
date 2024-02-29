@@ -5584,3 +5584,10 @@ c47a10,127.0.0.1,GET,http://localhost:8000/avatar/9,1709211548,,302,request
 7bf20e,127.0.0.1,GET,http://localhost:8000/tricks,1709211550,,200,request
 b213db,127.0.0.1,GET,http://localhost:8000/trick/Maiores-dolor-non,1709211553,,200,request
 7c080b,127.0.0.1,GET,http://localhost:8000/trick/Maiores-dolor-non?offset=10,1709211558,,200,request
+37837d,127.0.0.1,GET,http://localhost:8000/trick/Maiores-dolor-non?offset=10,1709212868,4c01bc,404,request
+4c01bc,127.0.0.1,GET,http://localhost:8000/trick/Maiores-dolor-non?offset=10,1709212868,,404,request
+384021,127.0.0.1,GET,http://localhost:8000/t,1709212891,13774e,404,request
+13774e,127.0.0.1,GET,http://localhost:8000/t,1709212891,,404,request
+f0b95c,127.0.0.1,GET,http://localhost:8000/,1709212894,,200,request
+cf163b,127.0.0.1,GET,http://localhost:8000/tricks,1709212898,,200,request
+fb42c4,127.0.0.1,GET,http://localhost:8000/trick/Autem-facilis-magni-sunt-quaerat,1709212902,,200,request

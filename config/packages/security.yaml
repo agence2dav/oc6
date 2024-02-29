@@ -10,7 +10,6 @@ security:
             entity:
                 class: App\Entity\User
                 property: username
-        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -26,17 +25,16 @@ security:
                 path: app_logout
                 target: app_home
             pattern: ^/
- #           user_checker: App\Security\UserChecker
-        
-            entry_point: App\Security\AuthenticationEntryPoint
+            #user_checker: App\Security\UserChecker
+            #entry_point: App\Security\AuthenticationEntryPoint
             access_denied_handler: App\Security\AccessDeniedHandler
         
- #       pattern: ^/
- #       user_checker: security.user_checker.chain.main
+        #pattern: ^/
+        #user_checker: security.user_checker.chain.main
 
- #   api:
- #       pattern: ^/api
- #       user_checker: security.user_checker.chain.api
+    #api:
+        #pattern: ^/api
+        #user_checker: security.user_checker.chain.api
 
     # https://symfony.com/doc/current/security.html#security-securing-controller-attributes
     access_control:
