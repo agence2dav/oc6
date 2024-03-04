@@ -42,21 +42,6 @@ class TrickTagsService
         }
     }
 
-    public function getAll(): Trick|array
-    {
-        return $this->tagRepo->findAll();
-    }
-
-    public function getAllCatTags(): Trick|array
-    {
-        $cats = $this->catRepo->findAll();
-        $catTags = [];
-        foreach ($cats as $cat) {
-            $catTags[$cat->getName()] = $cat->getTags();
-        }
-        return $catTags;
-    }
-
     public function getTricksByTag(int $id): Trick|array
     {
         $trickTagsModel = $this->trickTagsRepo->findBy(['tag' => $id], ['id' => 'ASC']);

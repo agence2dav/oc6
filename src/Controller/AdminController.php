@@ -26,7 +26,7 @@ class AdminController extends AbstractController
     #[Route('/admin/tricks/{id}', name: 'admin_tricksId')]
     public function showTricks(int $id = null): Response //, Request $request, EntityManagerInterface $manager
     {
-        if ($id && $this->security->isGranted('ROLE_ADMIN')) {
+        if ($id && $this->security->isGranted('ROLE_USER')) {
             $this->trickService->updateStatus($id);
         }
         $tricksModel = $this->trickService->getAllTricks();

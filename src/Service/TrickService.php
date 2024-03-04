@@ -58,21 +58,9 @@ class TrickService
         return $this->trickMapper->EntitiesToModels($trickModel);
     }
 
-    public function getAllPublic(): array
-    {
-        $trickModel = $this->trickRepository->findByStatus();
-        return $this->trickMapper->EntitiesToModels($trickModel);
-    }
-
     public function getLastsTricks(): array
     {
         $trickModel = $this->trickRepository->findLastsByStatus();
-        return $this->trickMapper->EntitiesToModels($trickModel);
-    }
-
-    public function getMyTricks(int $uid): array
-    {
-        $trickModel = $this->trickRepository->findMy($uid);
         return $this->trickMapper->EntitiesToModels($trickModel);
     }
 

@@ -54,11 +54,30 @@ class TrickController extends AbstractController
 
         //update
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
+
+            //trick
             $this->trickService->saveTrick(
                 $trick,
                 $this->getUser(),
                 $formTrick->get('video')->getData(),
             );
+
+            //medias
+            $mediaFiles = $formTrick->get('media')->getData();
+            if ($mediaFiles) {
+                foreach ($mediaFiles as $mediaFile) {
+                    $mediaFileName = $fileUploader->upload($mediaFile);
+                    $this->mediaService->saveMedia(
+                        $trick,
+                        $mediaFileName,
+                        'image'
+                    );
+                    $this->addFlash(
+                        'updated',
+                        'L`\'image ' . $mediaFileName . ' a été ajoutée au catalogue.'
+                    );
+                }
+            }
 
             //flashes
             if ($createNew) {
@@ -76,22 +95,6 @@ class TrickController extends AbstractController
                 );
             }
 
-            //medias
-            $mediaFiles = $formTrick->get('media')->getData();//UploadedFile
-            if ($mediaFiles) {
-                foreach ($mediaFiles as $mediaFile) {
-                    $mediaFileName = $fileUploader->upload($mediaFile);
-                    $this->mediaService->saveMedia(
-                        $trick,
-                        $mediaFileName,
-                        'image'
-                    );
-                    $this->addFlash(
-                        'updated',
-                        'L`\'image ' . $mediaFileName . ' a été ajoutée au catalogue.'
-                    );
-                }
-            }
         }
 
         //tags
@@ -108,17 +111,26 @@ class TrickController extends AbstractController
             ]);
         }
 
-        $trickModel = $this->trickService->getById($trick->getId());
-
         //render
-        $template = $trick->getId() ? 'editTrick' : 'newTrick';
-        return $this->render('home/' . $template . '.html.twig', [
-            'formTrick' => $formTrick->createView(),
-            'formTags' => $formTags->createView(),
-            'trick' => $trickModel,
-            'cats' => $catsModel,
-            'user' => $this->getUser(),
-        ]);
+        if ($createNew) {
+            return $this->render('home/newTrick.html.twig', [
+                'formTrick' => $formTrick->createView(),
+                'formTags' => $formTags->createView(),
+                'trick' => $trick,
+                'cats' => $catsModel,
+                'user' => $this->getUser(),
+            ]);
+        } else {
+            $trickModel = $this->trickService->getById($trick->getId());
+            return $this->render('home/editTrick.html.twig', [
+                'formTrick' => $formTrick->createView(),
+                'formTags' => $formTags->createView(),
+                'trick' => $trickModel,
+                'cats' => $catsModel,
+                'user' => $this->getUser(),
+            ]);
+        }
+
     }
 
     //delete tag

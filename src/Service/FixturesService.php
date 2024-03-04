@@ -22,7 +22,7 @@ class FixturesService
     private string $adminName = 'd';
     private string $adminMail = 'd@d.d';
     private string $password = 'd';
-    private int $numberOfTricks = 44;
+    private int $numberOfTricks = 22;
     private int $numberOfUsers = 4;
     public array $users = [];
     public array $tricks = [];

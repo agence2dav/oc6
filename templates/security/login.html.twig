@@ -24,7 +24,7 @@
     <!-- success login -->
     {% if app.user %}
         <div class="alert alert-success">
-            <p>Vous êtes connecté en tant que : {{ app.user.username }}</p>
+            <p>Bienvenue {{ app.user.username }}</p>
             <a class="btn btn-primary" href="{{ path("app_logout") }}">Déconnexion</a>
         </div>
 

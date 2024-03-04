@@ -27,7 +27,7 @@ class CommentService
     public function getCommentsPaginator(Trick $trick, int $offset): array
     {
         $commentsEntities = $this->commentRepository->getCommentsPaginator($trick, $offset, self::PAGINATOR_PER_PAGE)->getQuery()->getResult();
-        return $this->commentMapper->EntitiesArrayToModels($commentsEntities);
+        return $this->commentMapper->EntitiesToModels($commentsEntities);
     }
 
     public function getPaginationArrayButtons(int $nbOfPages): array
@@ -38,12 +38,6 @@ class CommentService
     public function getNumberOfCommentsByTricks(Trick $trick): int
     {
         return $this->commentRepository->countByTricks($trick);
-    }
-
-    public function getComments(Trick $trick): array
-    {
-        $commentsEntities = $trick->getComments();
-        return $this->commentMapper->EntitiesToModels($commentsEntities);
     }
 
     public function saveComment($form, Trick $trick, User $user): void
@@ -57,27 +51,12 @@ class CommentService
         $this->commentRepository->saveComment($commentModel);
     }
 
-    public function deleteComment(Comment $comment): bool
-    {
-        if ($this->commentRepository->findOneById($comment->getId())) {
-            $this->commentRepository->delete($comment);
-            return true;
-        }
-        return false;
-    }
-
     //admin
 
     public function getAllComments(): array
     {
         $commentModel = $this->commentRepository->findAll();
-        return $this->commentMapper->EntitiesArrayToModels($commentModel);
-    }
-
-    public function getMyComments(int $uid): array
-    {
-        $commentModel = $this->commentRepository->findMy($uid);
-        return $this->commentMapper->EntitiesArrayToModels($commentModel);
+        return $this->commentMapper->EntitiesToModels($commentModel);
     }
 
     public function updateStatus(int $id): void

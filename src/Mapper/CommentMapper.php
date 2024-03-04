@@ -24,25 +24,7 @@ class CommentMapper
         return $commentModel;
     }
 
-    public function EntitiesToModels(Collection $commentEntities): array
-    {
-        $commentModels = [];
-        foreach ($commentEntities as $commentEntity) {
-            $commentModels[] = $this->EntityToModel($commentEntity);
-        }
-        return $commentModels;
-    }
-
-    public function EntitiesArrayToModels(array $commentEntities): array
-    {
-        $commentModels = [];
-        foreach ($commentEntities as $commentEntity) {
-            $commentModels[] = $this->EntityToModel($commentEntity);
-        }
-        return $commentModels;
-    }
-
-    public function EntitiesPaginatorToModels(array $commentEntities): array
+    public function EntitiesToModels(array $commentEntities): array
     {
         $commentModels = [];
         foreach ($commentEntities as $commentEntity) {

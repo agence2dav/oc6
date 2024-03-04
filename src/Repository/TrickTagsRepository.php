@@ -13,16 +13,6 @@ class TrickTagsRepository extends ServiceEntityRepository
         parent::__construct($registry, TrickTags::class);
     }
 
-    public function findByTagId(int $id): array
-    {
-        return $this->createQueryBuilder('td')
-            ->andWhere('td.tag = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
     public function saveTrickTags(TrickTags $trickTag): void
     {
         $this->getEntityManager()->persist($trickTag);

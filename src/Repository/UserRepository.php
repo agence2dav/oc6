@@ -26,41 +26,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    public function findById(int $id): ?User
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-
-    public function findByRole(int $role): ?array
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.role = :role')
-            ->setParameter('role', $role)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-
     public function saveUser(User $user): void
     {
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
-    }
-
-    public function UserRole(int $id): ?array
-    {
-        return $this->createQueryBuilder('t')
-            ->addSelect('t.role')
-            ->andWhere('t.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
     }
 
     public function updateIsVerify(User $user): User

@@ -54,7 +54,7 @@ class CatModel
         return $this->tags;
     }
 
-    //invented
+    //added
     public function setTags(Collection $tags): CatModel
     {
         $this->tags = $tags;

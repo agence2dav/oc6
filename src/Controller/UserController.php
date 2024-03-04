@@ -48,9 +48,7 @@ class UserController extends AbstractController
     #[Route('/user', name: 'app_user')]
     public function user(): Response
     {
-        return $this->render('admin/user.html.twig', [
-            'edit_avatar' => '',
-        ]);
+        return $this->render('admin/user.html.twig', []);
     }
 
     #[Route('/logout', name: 'app_logout')]

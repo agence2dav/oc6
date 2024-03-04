@@ -19,16 +19,7 @@ class TagMapper
         return $tagModel;
     }
 
-    public function EntitiesToModels(Collection $tagEntities): array
-    {
-        $tagModels = [];
-        foreach ($tagEntities as $tagEntity) {
-            $tagModels[] = $this->EntityToModel($tagEntity);
-        }
-        return $tagModels;
-    }
-
-    public function EntitiesArrayToModels(array $tagEntities): array
+    public function EntitiesToModels(array $tagEntities): array
     {
         $tagModels = [];
         foreach ($tagEntities as $tagEntity) {

@@ -64,7 +64,7 @@ class UserService
         unset($images[0]);
         unset($images[1]);
         sort($images);
-        $images = array_map(fn($image) => $dir . $image, $images);
+        $images = array_map(fn($image) => $image, $images);
         return $images;
     }
 
@@ -86,22 +86,6 @@ class UserService
         $avatar = substr(strchr($avatars[$avatarKey], '/'), 1);
         $user->setAvatar($avatar);
         $this->userRepository->saveUser($user);
-    }
-
-    //reset-pswd
-
-    public function getUser(string $email): User
-    {
-        return $this->userRepository->findOneByEmail($email);
-    }
-
-    public function getUserVerified(int $uid): ?User
-    {
-        $user = $this->userRepository->find($uid);
-        if ($user && !$user->getIsVerified()) {
-            return $this->userRepository->updateIsVerify($user);
-        }
-        return null;
     }
 
     public function isUserVerifiedYet(User $user): bool
@@ -130,40 +114,4 @@ class UserService
         return $this->userModel;
     }
 
-    public function isUserKnown(string $email): ?UserModel
-    {
-        $user = $this->userRepository->findOneByEmail($email);
-        if (!$user) {
-            return null;
-        }
-        return $this->getUserModel($user);
-    }
-
-    public function setToken(UserModel $userModel): string
-    {
-        $token = $this->tokenGenerator->generateToken();
-        $user = $this->userRepository->find($userModel->getId());
-        $user->setResetToken($token);
-        $this->userRepository->saveUser($user);
-        return $token;
-    }
-
-    public function findUserByResetToken(string $token): UserModel
-    {
-        $user = $this->userRepository->findOneByResetToken($token);
-        return $this->getUserModel($user);
-    }
-
-    public function setNewPassword(UserModel $userModel, string $password): void
-    {
-        $user = $this->userRepository->find($userModel->getId());
-        $user->setResetToken('');
-        $user->setPassword(
-            $this->userPasswordHasher->hashPassword(
-                $user,
-                $password
-            )
-        );
-        $this->userRepository->saveUser($user);
-    }
 }

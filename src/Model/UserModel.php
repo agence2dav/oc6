@@ -12,6 +12,7 @@ class UserModel
     private string $username;
     private string $email;
     private string $password;
+    private string $avatar;
     private array $roles;
     private User $user;
 
@@ -56,6 +57,17 @@ class UserModel
     public function setPassword(string $password): static
     {
         $this->password = $password;
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(string $avatar): static
+    {
+        $this->avatar = $avatar;
         return $this;
     }
 

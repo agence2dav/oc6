@@ -35,13 +35,4 @@ class MediaMapper
         return $mediaModels;
     }
 
-    public function EntitiesArrayToModels(array $mediaEntities): array
-    {
-        $mediaModels = [];
-        foreach ($mediaEntities as $mediaEntity) {
-            $mediaModels[] = $this->EntityToModel($mediaEntity);
-        }
-        return $mediaModels;
-    }
-
 }

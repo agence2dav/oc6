@@ -26,13 +26,7 @@ class CatService
     public function getAll(): Collection|array
     {
         $catModel = $this->catRepo->findAll();
-        return $this->catMapper->EntitiesArrayToModels($catModel);
-    }
-
-    public function getTricksByCat(int $id): Trick|array
-    {
-        $catsModel = $this->catRepo->findByCatId($id);
-        return $this->catMapper->EntitiesArrayToModels($catsModel);
+        return $this->catMapper->EntitiesToModels($catModel);
     }
 
 }

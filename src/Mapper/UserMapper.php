@@ -25,16 +25,8 @@ class UserMapper
         $userModel->setEmail($userEntity->getEmail());
         $userModel->setPassword($userEntity->getPassword());
         $userModel->setRole($userEntity->getRoles());
+        $userModel->setAvatar($userEntity->getAvatar());
         return $userModel;
-    }
-
-    public function EntitiesToModels(array $userEntities): array
-    {
-        $userModels = [];
-        foreach ($userEntities as $userEntity) {
-            $userModels[] = $this->EntityToModel($userEntity);
-        }
-        return $userModels;
     }
 
 }

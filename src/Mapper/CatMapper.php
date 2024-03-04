@@ -18,16 +18,7 @@ class CatMapper
         return $catModel;
     }
 
-    public function EntitiesToModels(Collection $catEntities): array
-    {
-        $catModels = [];
-        foreach ($catEntities as $catEntity) {
-            $catModels[] = $this->EntityToModel($catEntity);
-        }
-        return $catModels;
-    }
-
-    public function EntitiesArrayToModels(array $catEntities): array
+    public function EntitiesToModels(array $catEntities): array
     {
         $catModels = [];
         foreach ($catEntities as $catEntity) {
