@@ -17,13 +17,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# =========================
-# Operating System Files
-# =========================
-
 # OSX
-# =========================
-
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -79,10 +73,6 @@ var
 !var/logs/.gitkeep
 !var/sessions/.gitkeep
 
-# Logs (Symfony4)
-/var/log/*
-!var/log/.gitkeep
-
 # Parameters
 /app/config/parameters.yml
 /app/config/parameters.ini
@@ -99,10 +89,6 @@ var
 /web/bundles/
 /web/uploads/
 
-# PHPUnit
-/app/phpunit.xml
-/phpunit.xml
-
 # Build data
 /build/
 
@@ -115,24 +101,21 @@ var
 # Embedded web-server pid file
 /.web-server-pid
 
-### Symfony Patch ###
+# Symfony Patch
 /web/css/
 /web/js/
 
 # End of https://www.toptal.com/developers/gitignore/api/symfony
 
 
-###> phpunit/phpunit ###
+# phpunit/phpunit
+/app/phpunit.xml
 /phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
 
-###> symfony/phpunit-bridge ###
+# symfony/phpunit-bridge
 .phpunit.result.cache
 /phpunit.xml
-###< symfony/phpunit-bridge ###
 
-###> symfony/asset-mapper ###
+# symfony/asset-mapper
 /public/assets/
 /assets/vendor/
-###< symfony/asset-mapper ###
