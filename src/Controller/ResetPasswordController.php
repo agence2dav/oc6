@@ -4,11 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Service\MailService;
-use Symfony\Component\Mime\Address;
 use App\Form\ChangePasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\ResetPasswordRequestFormType;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,16 +41,16 @@ class ResetPasswordController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash(
+                'reset_password_valid',
+                sprintf('Connectez-vous pour terminer l\'opération')
+            );
             return $this->processSendingPasswordResetEmail(
                 $form->get('email')->getData(),
                 $mailer,
                 $translator
             );
         }
-        $this->addFlash(
-            'reset_password_valid',
-            sprintf('Connectez-vous pour terminer l\'opération')
-        );
 
         return $this->render('reset_password/request.html.twig', [
             'requestForm' => $form->createView(),

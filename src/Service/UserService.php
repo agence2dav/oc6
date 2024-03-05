@@ -83,9 +83,11 @@ class UserService
     public function saveAvatar(User $user, string $avatarKey): void
     {
         $avatars = $this->getAvatars();
-        $avatar = substr(strchr($avatars[$avatarKey], '/'), 1);
-        $user->setAvatar($avatar);
-        $this->userRepository->saveUser($user);
+        $avatar = $avatars[$avatarKey] ?? '';
+        if ($avatar) {
+            $user->setAvatar($avatar);
+            $this->userRepository->saveUser($user);
+        }
     }
 
     public function isUserVerifiedYet(User $user): bool

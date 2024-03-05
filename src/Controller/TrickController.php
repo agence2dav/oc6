@@ -39,15 +39,75 @@ class TrickController extends AbstractController
     }
 
     //edit
-    #[Route('/trick/new', name: 'new_trick')]
     #[Route('/trick/{id}/edit', name: 'edit_trick')]
+    public function formEdit(Trick $trick = null, Request $request, FileUploader $fileUploader): Response
+    {
+        $formTrick = $this->createForm(TrickFormType::class, $trick);
+        $formTrick->handleRequest($request);
+
+        //update
+        if ($formTrick->isSubmitted() && $formTrick->isValid()) {
+
+            //trick
+            $this->trickService->saveTrick(
+                $trick,
+                $this->getUser(),
+                $formTrick->get('video')->getData(),
+            );
+
+            //medias
+            $mediaFiles = $formTrick->get('media')->getData();
+            if ($mediaFiles) {
+                foreach ($mediaFiles as $mediaFile) {
+                    $mediaFileName = $fileUploader->upload($mediaFile);
+                    $this->mediaService->saveMedia(
+                        $trick,
+                        $mediaFileName,
+                    );
+                    $this->addFlash(
+                        'updated',
+                        'Le média ' . $mediaFileName . ' a été ajouté au catalogue.'
+                    );
+                }
+            }
+
+            $this->addFlash(
+                'updated',
+                'Les modifications ont "été prises en compte.'
+            );
+
+        }
+
+        //tags
+        $formTags = $this->createForm(TrickTagsFormType::class);
+        $catsModel = $this->catService->getAll();
+        $formTags->handleRequest($request);
+        if ($formTags->isSubmitted() && $formTags->isValid()) {
+            $this->trickTagsService->saveTrickTag(
+                $trick,
+                $formTags->get('tagId')->getData(),
+            );
+            return $this->redirectToRoute('edit_trick', [
+                'id' => $trick->getId(),
+            ]);
+        }
+        //render
+        $trickModel = $this->trickService->getById($trick->getId());
+        //dd($trickModel);
+        return $this->render('home/trickEdit.html.twig', [
+            'formTrick' => $formTrick->createView(),
+            'formTags' => $formTags->createView(),
+            'trick' => $trickModel,
+            'cats' => $catsModel,
+            'user' => $this->getUser(),
+        ]);
+    }
+
+    //edit
+    #[Route('/trick/new', name: 'new_trick')]
     public function form(Trick $trick = null, Request $request, FileUploader $fileUploader): Response
     {
-        $createNew = 0;
-        if (!$trick) {
-            $trick = new Trick();
-            $createNew = 1;
-        }
+        $trick = new Trick();
 
         $formTrick = $this->createForm(TrickFormType::class, $trick);
         $formTrick->handleRequest($request);
@@ -79,58 +139,22 @@ class TrickController extends AbstractController
                 }
             }
 
-            //flashes
-            if ($createNew) {
-                $this->addFlash(
-                    'updated',
-                    'Le nouveau Trick a été enregistré. Il reste à ajouter une image de garde, et des tags.'
-                );
-                return $this->redirectToRoute('edit_trick', [
-                    'id' => $trick->getId(),
-                ]);
-            } else {
-                $this->addFlash(
-                    'updated',
-                    'Les modifications ont "été prises en compte.'
-                );
-            }
-
-        }
-
-        //tags
-        $formTags = $this->createForm(TrickTagsFormType::class);
-        $catsModel = $this->catService->getAll();
-        $formTags->handleRequest($request);
-        if ($formTags->isSubmitted() && $formTags->isValid()) {
-            $this->trickTagsService->saveTrickTag(
-                $trick,
-                $formTags->get('tagId')->getData(),
+            $this->addFlash(
+                'updated',
+                'Le nouveau Trick a été enregistré. Il reste à ajouter une image de garde, et des tags.'
             );
             return $this->redirectToRoute('edit_trick', [
                 'id' => $trick->getId(),
             ]);
+
         }
 
         //render
-        if ($createNew) {
-            return $this->render('home/newTrick.html.twig', [
-                'formTrick' => $formTrick->createView(),
-                'formTags' => $formTags->createView(),
-                'trick' => $trick,
-                'cats' => $catsModel,
-                'user' => $this->getUser(),
-            ]);
-        } else {
-            $trickModel = $this->trickService->getById($trick->getId());
-            return $this->render('home/editTrick.html.twig', [
-                'formTrick' => $formTrick->createView(),
-                'formTags' => $formTags->createView(),
-                'trick' => $trickModel,
-                'cats' => $catsModel,
-                'user' => $this->getUser(),
-            ]);
-        }
-
+        return $this->render('home/trickNew.html.twig', [
+            'formTrick' => $formTrick->createView(),
+            'trick' => $trick,
+            'user' => $this->getUser(),
+        ]);
     }
 
     //delete tag

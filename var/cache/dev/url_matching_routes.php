@@ -94,7 +94,7 @@ return [
         265 => [[['_route' => 'admin_commentsId', 'id' => null, '_controller' => 'App\\Controller\\AdminController::showComments'], ['id'], null, null, false, true, null]],
         288 => [[['_route' => 'admin_avatar_select', '_controller' => 'App\\Controller\\AdminController::avatar'], ['avatar'], null, null, false, true, null]],
         333 => [[['_route' => 'app_reset_password', 'token' => null, '_controller' => 'App\\Controller\\ResetPasswordController::reset'], ['token'], null, null, false, true, null]],
-        373 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::form'], ['id'], null, null, false, false, null]],
+        373 => [[['_route' => 'edit_trick', '_controller' => 'App\\Controller\\TrickController::formEdit'], ['id'], null, null, false, false, null]],
         390 => [[['_route' => 'edit_trick_img', '_controller' => 'App\\Controller\\TrickController::setFirstImage'], ['id', 'mediaId'], null, null, false, true, null]],
         417 => [[['_route' => 'del_tag', '_controller' => 'App\\Controller\\TrickController::delTag'], ['id', 'tagId'], null, null, false, true, null]],
         439 => [[['_route' => 'del_media', '_controller' => 'App\\Controller\\TrickController::delMedia'], ['id', 'mediaId'], null, null, false, true, null]],

@@ -91,7 +91,7 @@ class TrickService
         $trick->setUpdatedAt(new \DateTime());
         $this->trickRepository->saveTrick($trick);
         if ($video) {
-            $this->mediaService->saveMedia($trick, $video, 'image');
+            $this->mediaService->saveMedia($trick, $video);
         }
     }
 

@@ -2,6 +2,14 @@
 
 ## Issues
 
+### 16 Fixs
+
+- inappropriate display of a flash when changing password
+- the token error was due to copying the wrong url
+- separation of edit and create functions in TrickController
+- fixed display of avatars when edited
+- fixed mediaType detection when recording a video
+
 ### 15 toprod #44
 
 - resolve url via asset()
@@ -10,15 +18,19 @@
 - test migration on a webserver
 
 ### 15 cleanup #41
+
 - cleanup and ehance
 
 ### 14 videos
+
 - make working videos
 
 ### 13 avatar
+
 - let choose his avatar in /admin
 
 ### 12 recover password #39
+
 - make workin mail
 
 ### 11 pagination #37
@@ -32,6 +44,7 @@
 - make bypages using paginator
 
 ### 10 - video #35
+
 - add table MediaType linked to table Media
 - upgrade save media by type
 - upgrade fixtures
@@ -43,6 +56,7 @@
 - ehance homepage
 
 ### 10 - tags #33
+
 - delete all things about designations
 - use multiple tags in tricks
 - find tricks by tags
@@ -50,11 +64,13 @@
 - add tags
 
 ### 9 - designations #31
+
 - current set is not performant (Designation and TrickDesignations)
 - add new set of tables tags, cats and trackTags
 - update fixtures for medias and tags
 
 ### 8 - upload images #29
+
 - todo: use models for saving
 - add upload
 - add entity media (img, video)
@@ -69,6 +85,7 @@
 - repair solid concepts of register, tricks and comments
 
 ### 6.1 login2 #26
+
 - verif user by token sent by mail (add column is user)
 - reset password
 
@@ -105,6 +122,7 @@
 - redicrect correctly to the same page with 2 parameters
 
 ### 5 - comments
+
 - rename articles by tricks
 - create table comment
 - create form using cli

@@ -27,10 +27,11 @@ class MediaService extends AbstractController
     public function saveMedia(
         Trick $trick,
         string $mediaFileName,
-        string $mediaType = 'image'
     ): void {
         $media = new Media();
         $media->setFilename($mediaFileName);
+        //other types availables but unused: video, avatar, et so on
+        $mediaType = strpos($mediaFileName, 'youtube.com') ? 'youtube' : 'image';
         $mediaTypeEntity = $this->getMediaType($mediaType);
         $media->setType($mediaTypeEntity);
         $media->setTrick($trick);

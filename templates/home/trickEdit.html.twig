@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+{% form_theme formTrick 'bootstrap_4_layout.html.twig' %}
+
+{% set minRoleToEdit = 'ROLE_EDIT' %}
+{% set currentUser = '' %}
+{% if user is defined and user.username is defined %}
+    {% set currentUser = user.username %}
+{% endif %}
+
+{% block title %}Editer un Trick{% endblock %}
+
+{% block body %}
+
+<h1 class="display-5">Editer un Trick</h1>
+<main role="main">
+    <!-- supprimer tags -->
+    <div class="card border-light mb-3">
+        <div class="card-header"> Edition du contenu</div>
+        <div class="card-body">
+
+        {% for message in app.flashes('updated') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+        {% endfor %}
+
+        <!-- form -->
+        {{ form_start(formTrick) }}
+
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <a class="btn btn-secondary" href="{{ path("show_trick", {"slug": trick.slug }) }}">Retour à la fiche</a>
+        {% if is_granted(minRoleToEdit) or trick.username == currentUser %}
+            {% if trick.status == 1 %}
+            <a class="btn btn-danger" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-trash"></i> Supprimer</a>
+            {% else %}
+            <a class="btn btn-secondary" href="{{ path("admin_tricksId", {id: trick.id}) }}"><i class="bi bi-eraser"></i> Publier</a>
+            {% endif %}
+        {% endif %}
+
+        {{ form_row(formTrick.title, {"attr":{"placeholder":"Titre"}}) }}
+        {{ form_row(formTrick.content, {"attr":{"placeholder":"Contenu"}}) }}
+        {{ form_row(formTrick.image, {"attr":{"placeholder":"Image (Url)"}}) }}
+        {{ form_row(formTrick.video) }}
+        {{ form_row(formTrick.media) }}
+        {{ form_end(formTrick) }}
+        </div>
+    </div>
+
+    <!-- ajouter tags -->
+    <div class="card border-light mb-3">
+        <div class="card-header">Ajouter des tags</div>
+        <div class="card-body">
+        {{ form_start(formTags) }}
+            <div class="mb-3">
+                <select name="{{ field_name(formTags.tagId) }}" class="form-control">
+                    <option value="" selected>Choisissez un tag...</option>
+                {% for cat in cats %}
+                    <optgroup label="{{ cat.name }}">
+                    {% for tag in cat.tags %}
+                        {% if tag not in trick.trickTags %}
+                        <option value="{{ tag.id }}">{{ tag.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                    </optgroup>
+                {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Ajouter</button>
+        {{ form_end(formTags) }}
+        </div>
+    </div>
+
+    <!-- supprimer tags -->
+    <div class="card border-light mb-3">
+    <div class="card-header">
+    Supprimer des tags
+    </div>
+    <div class="card-body">
+    {% if trick.trickTags | length > 0 %}
+        {% for trickTag in trick.trickTags %}
+            <a class="btn btn-danger" href="{{ path("del_tag", {id: trick.id, tagId: trickTag.tag.id}) }}" title="Supprimer ce tag">{{ trickTag.tag.cat.name }} : {{ trickTag.tag.name }} <i class="bi bi-trash"></i></a> 
+        {% endfor %}
+    {% else %}
+        Aucun Tag n'est actuellement spécifié
+    {% endif %}
+    </div>
+    </div>
+    
+    <!-- catalog of images -->
+    {% if trick.media | length > 0 %}
+    <table class="table table-hover">
+        <tr class="table-info">
+            <th>Vignette</td>
+            <th>Intitulé</td>
+            <th>Image principale</td>
+            <th>Voir</td>
+            <th>Supprimer</td>
+        </tr>
+        {% for media in trick.media %}
+        <tr class="table-dark">
+            <td>
+            {% if media.mediaType.type == "image" %}
+            <img src="{{ asset(media.filename) }}" width="240px" />
+            {% elseif media.mediaType.type == "video" %}
+            <img src="{{ asset("/assets/img/broken_image.webp") }}" width="240px" />
+            {% elseif media.mediaType.type == "youtube" %}
+            <img src="https://img.youtube.com/vi/{{ media.filename | slice(-11) }}/hqdefault.jpg" width="240px" />
+            {% endif %}
+            </td>
+            {#<td><input type="text" value="{{ media.filename }}" size="44" /></td>#}
+            <td>{{ media.filename }}</td>
+            <td><a href="{{ asset(media.filename) }}" target="_blank" class="btn btn-primary"><i class="bi bi-see"></i>Voir</a></td>
+            {% if media.filename == trick.image %}
+            <td><a href="" class="btn btn-primary">Image principale</a></td>
+            {% else %}
+            <td><a href="{{ path("edit_trick_img", {id: trick.id, mediaId: media.id }) }}" class="btn btn-warning">En faire l'image principale</a></td>
+            {% endif %}
+            <td><a href="{{ path("del_media", {id: trick.id, mediaId: media.id}) }}" class="btn btn-danger"><i class="bi bi-trash"></i>Supprimer</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</main>
+{% endblock %}
