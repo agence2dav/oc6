@@ -46,6 +46,7 @@ settings.json
 *.sh
 .vscode
 .env.local
+*.env.local
 .php-cs-fixer.cache
 .gitignore
 installer.php
@@ -65,10 +66,10 @@ installer.php
 
 # Cache, session files and logs (Symfony3)
 var
-/var/*
-/var/cache/*
-/var/logs/*
-/var/sessions/*
+var/*
+var/cache/*
+var/logs/*
+var/sessions/*
 !var/cache/.gitkeep
 !var/logs/.gitkeep
 !var/sessions/.gitkeep
