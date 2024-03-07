@@ -29,6 +29,8 @@ class MediaService extends AbstractController
         string $mediaFileName,
     ): void {
         $media = new Media();
+        if ($pos = strpos($mediaFileName, '&'))
+            $mediaFileName = substr($mediaFileName, 0, $pos - 1);
         $media->setFilename($mediaFileName);
         //other types availables but unused: video, avatar, et so on
         $mediaType = strpos($mediaFileName, 'youtube.com') ? 'youtube' : 'image';

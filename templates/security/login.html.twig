@@ -24,10 +24,10 @@
     <!-- success login -->
     {% if app.user %}
         <div class="alert alert-success">
-            <p>Bienvenue {{ app.user.username }}</p>
-            <a class="btn btn-primary" href="{{ path("app_logout") }}">Déconnexion</a>
+            Bienvenue {{ app.user.username }}
         </div>
-
+        <p><a class="btn btn-primary" href="{{ path("app_logout") }}">Déconnexion</a></p>
+        
     {% else %}
     <form action="{{ path('app_login') }}" method="post">
     

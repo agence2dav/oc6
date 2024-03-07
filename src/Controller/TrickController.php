@@ -40,7 +40,7 @@ class TrickController extends AbstractController
 
     //edit
     #[Route('/trick/{id}/edit', name: 'edit_trick')]
-    public function formEdit(Trick $trick = null, Request $request, FileUploader $fileUploader): Response
+    public function formEdit(Trick $trick = null, int $id, Request $request, FileUploader $fileUploader): Response
     {
         $formTrick = $this->createForm(TrickFormType::class, $trick);
         $formTrick->handleRequest($request);
@@ -82,7 +82,8 @@ class TrickController extends AbstractController
         $formTags = $this->createForm(TrickTagsFormType::class);
         $catsModel = $this->catService->getAll();
         $formTags->handleRequest($request);
-        if ($formTags->isSubmitted() && $formTags->isValid()) {
+        $tagId = $formTags->get('tagId')->getData();
+        if ($formTags->isSubmitted() && $formTags->isValid() && $tagId) {
             $this->trickTagsService->saveTrickTag(
                 $trick,
                 $formTags->get('tagId')->getData(),
@@ -92,8 +93,7 @@ class TrickController extends AbstractController
             ]);
         }
         //render
-        $trickModel = $this->trickService->getById($trick->getId());
-        //dd($trickModel);
+        $trickModel = $this->trickService->getById($id);
         return $this->render('home/trickEdit.html.twig', [
             'formTrick' => $formTrick->createView(),
             'formTags' => $formTags->createView(),
