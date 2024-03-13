@@ -89,7 +89,7 @@ class TrickController extends AbstractController
                 $formTags->get('tagId')->getData(),
             );
             return $this->redirectToRoute('edit_trick', [
-                'id' => $trick->getId(),
+                'id' => $id,
             ]);
         }
         //render
